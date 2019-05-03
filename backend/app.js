@@ -26,7 +26,6 @@ app.use(bodyParser.json());
 // app.use(cookieParser());
 
 app.use('/public', express.static('../frontend/public'));
-
 app.use('/api', routes)
 
 // Catch 404 and forward to error handler
