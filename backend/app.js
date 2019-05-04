@@ -4,11 +4,20 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const routes = require('./routes/index');
 const admin = require('firebase-admin');
+const dataTest = require('./data')
+const dataTestUsers = dataTest.users
 
 admin.initializeApp({
   credential: admin.credential.applicationDefault(),
-  databaseURL: 'https://cs554-awesome-final.firebaseio.com'
+  // Using the Cloud firestore, so comment out the database
+  // databaseURL: 'https://cs554-awesome-final.firebaseio.com'
 });
+
+let a = async ()=>{
+  let res = await dataTestUsers.getUsers();
+  console.log(res, 'ss')
+}
+a();
 
 // To setup the API credential
 // !! Don't upload or put the key into the project folder or Git it.
