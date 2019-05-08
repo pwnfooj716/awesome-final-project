@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const routes = require('./routes/index');
 const admin = require('firebase-admin');
-const dataTest = require('./data')
-const dataTestUsers = dataTest.users
+// const dataTest = require('./data')
+// const dataTestUsers = dataTest.users
 
 admin.initializeApp({
   credential: admin.credential.applicationDefault(),
@@ -13,11 +13,11 @@ admin.initializeApp({
   // databaseURL: 'https://cs554-awesome-final.firebaseio.com'
 });
 
-let a = async ()=>{
-  let res = await dataTestUsers.getUsers();
-  console.log(res, 'ss')
-}
-a();
+// let a = async ()=>{
+//   let res = await dataTestUsers.getUsers();
+//   console.log(res, 'ss')
+// }
+// a();
 
 // To setup the API credential
 // !! Don't upload or put the key into the project folder or Git it.
@@ -45,5 +45,5 @@ app.use('/api', routes)
 // })
 
 app.listen(3030, function () {
-    console.log('Server listening on port 3030!');
+  console.log('Server listening on port 3030!');
 })

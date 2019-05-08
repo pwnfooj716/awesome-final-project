@@ -1,8 +1,11 @@
+/* eslint-disable no-console */
 const express = require('express')
 const router = express.Router()
 // const data = require('../data')
 // const taskData = data.tasks
 const admin = require('firebase-admin');
+const data = require('../data')
+const usersData = data.users
 
 // admin.initializeApp({
 //   credential: admin.credential.applicationDefault(),
@@ -20,10 +23,18 @@ module.exports.postLogin = async (request, response, next) => {
   
   // idToken comes from the client app
   admin.auth().verifyIdToken(reqData.idToken)
-  .then(function(decodedToken) {
-    var uid = decodedToken.uid;
+    .then(async function(decodedToken) {
+    var userId = decodedToken.user_id;
     // ...
-    console.log(decodedToken)
+    console.log(decodedToken, "decodedToken")
+
+    // let res = await usersData.getUsers();
+    //console.log(res, 'ss')
+    let isUserExist = await usersData.isUserExist(userId);
+    if (!isUserExist) {
+      await usersData.createUser(decodedToken);
+    }
+
     response.json({
       title: `${decodedToken}`,
     })
