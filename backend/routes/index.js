@@ -3,7 +3,7 @@ const router = express.Router()
 const { catchErrors } = require('../handlers/errorHandlers')
 const { postLogin } = require('./login')
 const { postPost, getTimeline } = require('./posts')
-const { postFellow, postUnfellow, getFellower } = require('./users')
+const { postFellow, postUnfellow, getFellower, getProfile } = require('./users')
 
 // login
 router.post('/login', catchErrors(postLogin));
@@ -15,6 +15,7 @@ router.post('/getTimeline', catchErrors(getTimeline));
 // users
 router.post('/fellow', catchErrors(postFellow));
 router.post('/unfellow', catchErrors(postUnfellow));
-router.get('/getFellower', catchErrors(getFellower));
+router.get('/fellower', catchErrors(getFellower));
+router.get('/profile', catchErrors(getProfile));
 
 module.exports = router

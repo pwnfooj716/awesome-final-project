@@ -15,3 +15,7 @@ module.exports.postUnfellow = async (request, response, next) => {
 module.exports.getFellower = async (request, response, next) => {
 
 }
+
+module.exports.getProfile = async (request, response, next) => {
+
+}
