@@ -8,7 +8,7 @@ const usersData = data.users
 //   databaseURL: 'https://cs554-awesome-final.firebaseio.com'
 // });
 
-module.exports.postLogin = async (request, response, next) => {
+module.exports.postLogin = async (request, response) => {
   const reqData = request.body
   console.log(reqData, '123123')
 

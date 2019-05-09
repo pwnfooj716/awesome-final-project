@@ -3,8 +3,7 @@ const admin = require('firebase-admin');
 const data = require('../data')
 const postsData = data.posts
 
-
-module.exports.postPost = async (request, response, next) => {
+module.exports.postPost = async (request, response) => {
   const { text, image, authorUserId } = request.body;
   let postData = {
     text: text,
@@ -15,11 +14,14 @@ module.exports.postPost = async (request, response, next) => {
   response.json(createdData);
 }
 
-module.exports.getTimeline = async (request, response, next) => {
-
+module.exports.getTimeline = async (request, response) => {
+  
 }
 
-module.exports.deletePost = async (request, response, next) => {
-
+module.exports.deletePost = async (request, response) => {
+  const postId = request.params.postId;
+  let isSuccess = await postsData.deletePost(postId);
+  if (isSuccess) console.log('Delete success!');
+  response.json({postId: postId})
 }
 

@@ -30,6 +30,7 @@ module.exports.createPost = async (postObj) => {
 }
 
 module.exports.deletePost = async (postId) => {
+  console.log(postId, "postId del")
   return postsCollection().then((col) => {
     return col.doc(postId).delete();
   })

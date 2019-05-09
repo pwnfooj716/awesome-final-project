@@ -11,7 +11,7 @@ router.post('/login', catchErrors(postLogin));
 // posts
 router.post('/posts', catchErrors(postPost));
 router.get('/posts/getTimeline', catchErrors(getTimeline));
-router.delete('/posts', catchErrors(deletePost));
+router.delete('/posts/:postId', catchErrors(deletePost));
 
 // users
 router.post('/users/fellow', catchErrors(postFellow));
