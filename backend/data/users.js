@@ -1,8 +1,7 @@
 /* eslint-disable no-console */
-const uuidv4 = require('uuid/v4')
 const admin = require('firebase-admin');
 const firebaseCollections = require('../config/firebaseDBRef')
-const userCollection = firebaseCollections.users
+const userCollection = firebaseCollections.posts
 const moment = require('moment');
 
 module.exports.isUserExist = async (userId) => {
@@ -36,9 +35,9 @@ module.exports.createUser = async (userObj, authToken) => {
   };
   
   return userCollection().then((col) => {
-    return col.doc(userId).set(dataObj).then((snapshot) => {
-      console.log(dataObj, "Create user success.");
-      return true;
+    return col.doc(userId).set(dataObj).then(() => {
+      console.log(dataObj, `Create user success. ${userId}`);
+      return dataObj;
     })
   })
 }
@@ -49,7 +48,6 @@ module.exports.getUsers = async () => {
         snapshot.forEach((doc) => {
           console.log(doc.id, '=>', doc.data());
         });
-        console.log(123)
         return 123;
       })
     }).catch((err) => {
