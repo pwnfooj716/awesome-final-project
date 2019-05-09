@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-const admin = require('firebase-admin');
 const data = require('../data')
 const postsData = data.posts
 
@@ -12,6 +11,12 @@ module.exports.postPost = async (request, response) => {
   } 
   let createdData = await postsData.createPost(postData);
   response.json(createdData);
+}
+
+module.exports.getPost = async (request, response) => {
+  let postId = request.params.postId;
+  let postData = await postsData.getPost(postId);
+  response.json(postData);
 }
 
 module.exports.getTimeline = async (request, response) => {

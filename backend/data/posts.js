@@ -29,9 +29,29 @@ module.exports.createPost = async (postObj) => {
   })
 }
 
+module.exports.getPost = async (postId) => {
+  console.log(postId, "postId del")
+  return postsCollection().then((col) => {
+    return col.doc(postId).get().then((doc) => {
+      if (!doc.exists) {
+        console.log('No such document!', doc.data());
+        return doc.data();
+      } else {
+        console.log('Post data:', doc.data());
+        return doc.data();
+      }
+    })
+  }).catch((err) => {
+    console.log('Error getting documents', err);
+    return null;
+  })
+}
+
 module.exports.deletePost = async (postId) => {
   console.log(postId, "postId del")
   return postsCollection().then((col) => {
     return col.doc(postId).delete();
   })
 }
+
+
