@@ -3,6 +3,7 @@ const uuidv4 = require('uuid/v4')
 const admin = require('firebase-admin');
 const firebaseCollections = require('../config/firebaseDBRef')
 const userCollection = firebaseCollections.users
+const moment = require('moment');
 
 module.exports.isUserExist = async (userId) => {
   return userCollection().then((col) => {
@@ -16,21 +17,22 @@ module.exports.isUserExist = async (userId) => {
   })
 }
 
-module.exports.createUser = async (userObj) => {
+module.exports.createUser = async (userObj, authToken) => {
   let userId = userObj.user_id;
   let email = "";
   if (userObj.email) {
     email = userObj.email;
   }
-  let timestamp = new Date().getTime();
   var dataObj = {
     userId: userId,
     name: userObj.name,
     email: email,
     emailVerified: userObj.email_verified,
-    createTime: timestamp,
+    createTime: admin.firestore.Timestamp.fromMillis(moment().format('x')),
     firebase: userObj.firebase,
-    picture: userObj.picture
+    picture: userObj.picture,
+    authToken: authToken,
+    authTokenExpireTime: admin.firestore.Timestamp.fromMillis(moment().add(1,'months').format('x'))
   };
   
   return userCollection().then((col) => {
@@ -41,7 +43,7 @@ module.exports.createUser = async (userObj) => {
   })
 }
 
-module.exports.getUsers = async () => {
+module.exports.getUsers = async () => { 
   return userCollection().then((col) => {
       return col.get().then((snapshot) => {
         snapshot.forEach((doc) => {

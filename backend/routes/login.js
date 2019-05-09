@@ -1,8 +1,4 @@
 /* eslint-disable no-console */
-const express = require('express')
-const router = express.Router()
-// const data = require('../data')
-// const taskData = data.tasks
 const admin = require('firebase-admin');
 const data = require('../data')
 const usersData = data.users
@@ -32,7 +28,7 @@ module.exports.postLogin = async (request, response, next) => {
     //console.log(res, 'ss')
     let isUserExist = await usersData.isUserExist(userId);
     if (!isUserExist) {
-      await usersData.createUser(decodedToken);
+      await usersData.createUser(decodedToken, reqData.idToken);
     }
 
     response.json({
