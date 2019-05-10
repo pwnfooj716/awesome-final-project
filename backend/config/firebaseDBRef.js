@@ -9,5 +9,6 @@ const getCollection = (collectionName) => {
 
 module.exports = {
   users: getCollection('/users'),
-  posts: getCollection('/posts')
+  posts: getCollection('/posts'),
+  follow: getCollection('/follow')
 }

@@ -48,10 +48,10 @@ module.exports.getUsers = async () => {
         snapshot.forEach((doc) => {
           console.log(doc.id, '=>', doc.data());
         });
-        return 123;
+        return true;
       })
     }).catch((err) => {
       console.log('Error getting documents', err);
-      return 234;
+      return false;
     })
 }
