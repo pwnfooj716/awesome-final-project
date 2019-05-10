@@ -15,7 +15,22 @@ module.exports.postPost = async (request, response) => {
 
 module.exports.getPost = async (request, response) => {
   let postId = request.params.postId;
-  let postData = await postsData.getPost(postId);
+  let postData;
+
+  // TODO: Validate the postId
+
+  let client = request.redis;
+  let cachedData = await client.getAsync(postId);
+  if (cachedData) {
+    postData = JSON.parse(cachedData);
+  } else {
+    postData = await postsData.getPost(postId);
+    await client.setAsync(
+      postId,
+      JSON.stringify(postData)
+    );
+  }
+
   response.json(postData);
 }
 

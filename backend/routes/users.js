@@ -3,7 +3,6 @@ const admin = require('firebase-admin');
 const data = require('../data')
 const usersData = data.users
 
-
 module.exports.postFellow = async (request, response) => {
 
 }
