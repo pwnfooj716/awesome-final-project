@@ -6,6 +6,7 @@ import { Layout } from "antd";
 import "./styles/App.css";
 import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
+import userprofile from './containers/userprofile';
 import {BrowserRouter,Switch,Route} from 'react-router-dom';
 
 class App extends Component {
@@ -17,6 +18,7 @@ class App extends Component {
             <Route exact path='/'component={NewsFeedContainer} />
             <Route path='/signintest' component={SignIn} />
             <Route path='/signuptest' component={SignUp} />
+            <Route path='/userprofile' component={userprofile} />
         </Switch>
       </Layout>
       </BrowserRouter>
