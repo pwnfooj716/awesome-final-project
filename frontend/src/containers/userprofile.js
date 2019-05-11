@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Content } from "antd/lib/layout";
 import "../styles/profile.css";
 class userprofile extends Component {
   constructor(props){
@@ -65,7 +64,7 @@ class userprofile extends Component {
       );
 
     return (
-      <Content style={{ padding: "0 50px", marginTop: 64 }}>
+      <div style={{ padding: "0 50px", marginTop: 64 }}>
         <div style={{ margin: '0 auto', width: '100%' }}>
 
 
@@ -122,7 +121,7 @@ class userprofile extends Component {
         <center class="pTitle">My Posts</center>
         <div>{listPosts}</div>
       </div>
-      </Content>
+      </div>
 
     );
   }

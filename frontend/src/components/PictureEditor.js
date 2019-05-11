@@ -1,47 +1,23 @@
 import React, { Component } from "react";
-import "tui-image-editor/dist/tui-image-editor.css";
-import ImageEditor from "@toast-ui/react-image-editor";
+import ImageEditor from 'react-cropper-image-editor';
 
 class PictureEditor extends Component {
-  state = {
-    input: this.props.image,
-    open: false
-  };
-  editorRef = React.createRef();
-
-  handleClickButton = () => {
-    const editorInstance = this.editorRef.current.getInstance();
-    editorInstance.flipX();
-  };
-
   render() {
     return (
-      <>
+      <div>
         <ImageEditor
-          ref={this.editorRef}
-          includeUI={{
-            loadImage: {
-              path: this.state.input,
-              name: "SampleImage"
-            },
-            menu: ["shape", "filter"],
-            initMenu: "filter",
-            uiSize: {
-              width: "500px",
-              height: "500px"
-            },
-            menuBarPosition: "bottom"
-          }}
-          cssMaxHeight={500}
-          cssMaxWidth={500}
-          selectionStyle={{
-            cornerSize: 20,
-            rotatingPointOffset: 70
-          }}
-          usageStatistics={true}
+          ref='cropper'
+          crossOrigin='true'
+          src={this.props.image}
+          style={{minHeight: 200, minWidth: 400}}
+          aspectRatio={16 / 9}
+          guides={true}
+          rotatable={true}
+          imageName='editedImage'
+          saveImage={this.props.handleEditEvent.bind(this)}
+          responseType='blob/base64'
         />
-        <button onClick={this.handleClickButton}>Flip image by X Axis!</button>
-      </>
+      </div>
     );
   }
 }

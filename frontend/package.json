@@ -13,12 +13,12 @@
     "graphql-tag": "^2.10.1",
     "react": "^16.8.6",
     "react-apollo": "^2.5.4",
+    "react-cropper-image-editor": "^1.0.10",
     "react-dom": "^16.8.6",
     "react-draggable": "^3.3.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
-    "redux": "^4.0.1",
-    "tui-image-editor": "^3.5.2"
+    "redux": "^4.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
