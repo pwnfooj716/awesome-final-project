@@ -81,3 +81,25 @@ module.exports.getFollowingList = async (userId, startIndex=0, limit=20) => {
     });
   });
 }
+
+module.exports.getFollowerNum = async (userId) => {
+  return followerCollection().then((col) => {
+    return col.doc(userId).get().then((doc) => {
+      if (!doc.exists) return 0;
+      let dataObj = doc.data();
+      let allFollower = Object.values(dataObj);
+      return allFollower.length;
+    });
+  });
+}
+
+module.exports.getFollowingNum = async (userId) => {
+  return followingCollection().then((col) => {
+    return col.doc(userId).get().then((doc) => {
+      if (!doc.exists) return 0;
+      let dataObj = doc.data();
+      let allFollower = Object.values(dataObj);
+      return allFollower.length;
+    });
+  });
+}
