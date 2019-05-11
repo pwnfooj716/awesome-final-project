@@ -34,10 +34,6 @@ module.exports.getPost = async (request, response) => {
   response.json(postData);
 }
 
-module.exports.getTimeline = async (request, response) => {
-  
-}
-
 module.exports.deletePost = async (request, response) => {
   const postId = request.params.postId;
   let isSuccess = await postsData.deletePost(postId);
@@ -45,3 +41,15 @@ module.exports.deletePost = async (request, response) => {
   response.json({postId: postId})
 }
 
+module.exports.postComment = async (request, response) => {
+  const { postId, text, authorId } = request.body;
+  let commentId = await postsData.postComment(postId, text, authorId);
+  response.json({commentId: commentId})
+}
+
+module.exports.deleteComment = async (request, response) => {
+  const postId = request.params.postId;
+  const commentId = request.params.commentId;
+  let deletedId = await postsData.deleteComment(postId, commentId);
+  response.json({deletedId: deletedId})
+}

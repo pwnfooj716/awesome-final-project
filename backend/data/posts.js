@@ -1,8 +1,11 @@
 /* eslint-disable no-console */
-const uuidv4 = require('uuid/v4')
+const uuidv4 = require('uuid/v4');
 const admin = require('firebase-admin');
-const firebaseCollections = require('../config/firebaseDBRef')
-const postsCollection = firebaseCollections.posts
+const firebaseCollections = require('../config/firebaseDBRef');
+const postsCollection = firebaseCollections.posts;
+const commentsCollection = firebaseCollections.comments;
+const FieldValue = require('firebase-admin').firestore.FieldValue;
+
 const moment = require('moment');
 
 module.exports.createPost = async (postObj) => {
@@ -48,10 +51,39 @@ module.exports.getPost = async (postId) => {
 }
 
 module.exports.deletePost = async (postId) => {
-  console.log(postId, "postId del")
   return postsCollection().then((col) => {
     return col.doc(postId).delete();
-  })
+  });
 }
 
+module.exports.postComment = async (postId, text, authorId) => {
+  let createTime = admin.firestore.Timestamp.fromMillis(moment().format('x'));
+  let commentId = uuidv4();
+  var commentObj = {
+    commentId: commentId,
+    postId: postId,
+    createTime: createTime,
+    text: text,
+    authorId: authorId,
+    like: 0
+  };
+  console.log(postId);
+  return commentsCollection().then((col) => {
+    return col.doc(postId).set({
+      [`${commentId}`]: commentObj
+      }, {merge: true}).then(()=>{
+        return commentId;
+      });
+  });
+}
+
+module.exports.deleteComment = async (postId, commentId) => {
+  return commentsCollection().then((col) => {
+    return col.doc(postId).update({
+      [`${commentId}`]: FieldValue.delete()
+    }).then(()=>{
+      return commentId;
+    });
+  });
+}
 

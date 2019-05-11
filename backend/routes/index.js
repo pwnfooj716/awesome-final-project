@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { catchErrors } = require('../handlers/errorHandlers')
 const { postLogin } = require('./login')
-const { postPost, getTimeline, deletePost, getPost } = require('./posts')
+const { postPost, getTimeline, deletePost, getPost, postComment, deleteComment } = require('./posts')
 const { postFollow, postUnfollow, getFollower, getFollowing, getProfile } = require('./users')
 
 // login
@@ -13,6 +13,8 @@ router.post('/posts', catchErrors(postPost));
 router.get('/posts/getTimeline', catchErrors(getTimeline));
 router.get('/posts/:postId', catchErrors(getPost));
 router.delete('/posts/:postId', catchErrors(deletePost));
+router.post('/comments', catchErrors(postComment));
+router.delete('/comments/:postId/:commentId', catchErrors(deleteComment));
 
 // users
 router.post('/users/follow', catchErrors(postFollow));
