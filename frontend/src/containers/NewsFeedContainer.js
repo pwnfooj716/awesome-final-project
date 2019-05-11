@@ -9,7 +9,7 @@ const styles = theme => ({
   layput: {
     margin: "80px 0px",
     padding: 24,
-    minHeight: "100vh",
+    minHeight: "100vh"
   },
   userInfo: {
     display: "none",
@@ -24,12 +24,21 @@ class NewsFeedContainer extends Component {
     const { classes } = this.props;
     return (
       <Grid container spacing={24} className={classes.layput}>
-        <Grid item xs={12} sm={12} md={12} lg={8} direction="column">
-          <NewFeed />
-          <NewFeed />
-          <NewFeed />
+        <Grid container xs={12} sm={12} md={12} lg={8}>
+          <Grid container direction="column">
+            <NewFeed />
+            <NewFeed />
+            <NewFeed />
+          </Grid>
         </Grid>
-        <Grid item xs={false} sm={false} md={12} lg={4} className={classes.userInfo} >
+        <Grid
+          item
+          xs={false}
+          sm={false}
+          md={12}
+          lg={4}
+          className={classes.userInfo}
+        >
           <HomeUserInfo />
         </Grid>
       </Grid>

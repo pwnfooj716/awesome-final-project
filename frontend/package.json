@@ -5,7 +5,6 @@
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
-    "antd": "^3.17.0",
     "apollo-cache-inmemory": "^1.5.1",
     "apollo-client": "^2.5.1",
     "apollo-link-http": "^1.5.14",
@@ -15,11 +14,11 @@
     "react": "^16.8.6",
     "react-apollo": "^2.5.4",
     "react-dom": "^16.8.6",
-    "react-flexbox-grid": "^2.1.2",
-    "react-icons": "^3.6.1",
+    "react-draggable": "^3.3.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "tui-image-editor": "^3.5.2"
   },
   "scripts": {
     "start": "react-scripts start",
