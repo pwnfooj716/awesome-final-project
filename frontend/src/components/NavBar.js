@@ -1,49 +1,174 @@
 import React, { Component } from "react";
-import logo from "../resources/logo.svg";
-import { Menu, Icon, Avatar } from "antd";
+import PropTypes from "prop-types";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import logo from "../resources/logo.png";
+import Badge from "@material-ui/core/Badge";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import { withStyles } from "@material-ui/core/styles";
+import PowerOff from "@material-ui/icons/PowerOff";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import Home from "@material-ui/icons/Home";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import MoreIcon from "@material-ui/icons/MoreVert";
+import Tooltip from "@material-ui/core/Tooltip";
+
+const styles = theme => ({
+  root: {
+    width: "100%",
+    backgroundColor: "inherit"
+  },
+  nav: {
+    backgroundColor: "inherit",
+    "box-shadow": "none",
+    [theme.breakpoints.up("sm")]: {
+      marginTop: "6px",
+      height: "57px"
+    }
+  },
+  grow: {
+    flexGrow: 1
+  },
+  title: {
+    height: "51px",
+    display: "block",
+    [theme.breakpoints.up("sm")]: {
+      height: "51px"
+    }
+  },
+  sectionDesktop: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex"
+    }
+  },
+  sectionMobile: {
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none"
+    }
+  }
+});
 
 class NavBar extends Component {
+  state = {
+    anchorEl: null,
+    mobileMoreAnchorEl: null
+  };
+
+  handleMobileMenuOpen = event => {
+    this.setState({ mobileMoreAnchorEl: event.currentTarget });
+  };
+
+  handleMobileMenuClose = () => {
+    this.setState({ mobileMoreAnchorEl: null });
+  };
+
   render() {
-    return (
-      <div
-        style={{
-          background: "#fff",
-          position: "fixed",
-          zIndex: 1,
-          width: "100%"
-        }}
+    const { anchorEl, mobileMoreAnchorEl } = this.state;
+    const { classes } = this.props;
+    const isMenuOpen = Boolean(anchorEl);
+    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    const renderMenu = (
+      <Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        open={isMenuOpen}
+        onClose={this.handleMenuClose}
+      />
+    );
+
+    const renderMobileMenu = (
+      <Menu
+        anchorEl={mobileMoreAnchorEl}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        open={isMobileMenuOpen}
+        onClose={this.handleMenuClose}
       >
-        <img src={logo} className="logo" alt="logo" />
-        <Menu
-          mode="horizontal"
-          defaultSelectedKeys={["home"]}
-          style={{ lineHeight: "64px", width: "100%" }}
-        >
-          <Menu.SubMenu
-            title={
-              <Avatar
-                size="large"
-                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-              />
-            }
-            style={{ float: "right" }}
-          >
-            <Menu.Item key="setting:1">View Profile</Menu.Item>
-            <Menu.Item key="setting:3">Settings</Menu.Item>
-            <Menu.Item key="setting:4">Logout</Menu.Item>
-          </Menu.SubMenu>
-          <Menu.Item key="network" style={{ float: "right" }}>
-            <Icon type="team" />
-            <span className="nav-text">My Network</span>
-          </Menu.Item>
-          <Menu.Item key="home" style={{ float: "right" }}>
-            <Icon type="appstore" />
-            <span className="nav-text">Home</span>
-          </Menu.Item>
-        </Menu>
+        <MenuItem onClick={this.handleMobileMenuClose}>
+          <IconButton color="inherit">
+            <Home />
+          </IconButton>
+          <p>Home</p>
+        </MenuItem>
+        <MenuItem onClick={this.handleMobileMenuClose}>
+          <IconButton color="inherit">
+            <Badge badgeContent={11} color="error">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+          <p>Notifications</p>
+        </MenuItem>
+        <MenuItem onClick={this.handleMobileMenuClose}>
+          <IconButton color="inherit">
+            <AccountCircle />
+          </IconButton>
+          <p>My Profile</p>
+        </MenuItem>
+        <MenuItem onClick={this.handleMobileMenuClose}>
+          <IconButton color="inherit">
+            <PowerOff />
+          </IconButton>
+          <p>Logout</p>
+        </MenuItem>
+      </Menu>
+    );
+
+    return (
+      <div className={classes.root}>
+        <AppBar position="static" className={classes.nav}>
+          <Toolbar>
+            <img src={logo} className={classes.title} alt={'logo'}/>
+            <div className={classes.grow} />
+            <div className={classes.sectionDesktop}>
+              <Tooltip title="Home" placement="bottom">
+                <IconButton color="inherit">
+                  <Home />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Notifications" placement="bottom">
+                <IconButton color="inherit">
+                  <Badge badgeContent={11} color="error">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Profile" placement="bottom">
+                <IconButton color="inherit">
+                  <AccountCircle />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Logout" placement="bottom">
+                <IconButton color="inherit">
+                  <PowerOff />
+                </IconButton>
+              </Tooltip>
+            </div>
+            <div className={classes.sectionMobile}>
+              <IconButton
+                aria-haspopup="true"
+                onClick={this.handleMobileMenuOpen}
+                color="inherit"
+              >
+                <MoreIcon />
+              </IconButton>
+            </div>
+          </Toolbar>
+        </AppBar>
+        {renderMenu}
+        {renderMobileMenu}
       </div>
     );
   }
 }
 
-export default NavBar;
+NavBar.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(NavBar);
