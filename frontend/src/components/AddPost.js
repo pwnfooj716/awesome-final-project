@@ -10,17 +10,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Paper from "@material-ui/core/Paper";
-import Draggable from "react-draggable";
-import PictureEditor from "./PictureEditor"
-
-function PaperComponent(props) {
-  return (
-    <Draggable>
-      <Paper {...props} />
-    </Draggable>
-  );
-}
+import PictureEditor from "./PictureEditor";
 
 class AddPost extends Component {
   state = {
@@ -65,8 +55,11 @@ class AddPost extends Component {
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
-          PaperComponent={PaperComponent}
           aria-labelledby="draggable-dialog-title"
+          modal={true}
+          autoDetectWindowHeight={false}
+          autoScrollBodyContent={false}
+          contentStyle={{ width: "100%", maxWidth: "none" }}
         >
           <DialogTitle id="draggable-dialog-title">
             <IconButton
@@ -79,7 +72,6 @@ class AddPost extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              {/* <img src={this.state.input} alt={"New"} /> */}
               <PictureEditor image={this.state.input}/>
             </DialogContentText>
           </DialogContent>

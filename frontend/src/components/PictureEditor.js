@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import "tui-image-editor/dist/tui-image-editor.css";
-import ImageEditor from "@toast-ui/react-image-editor";
+//import "tui-image-editor/dist/tui-image-editor.css";
+//import ImageEditor from "tui-image-editor";
 
 class PictureEditor extends Component {
   state = {
@@ -17,7 +17,7 @@ class PictureEditor extends Component {
   render() {
     return (
       <>
-        <ImageEditor
+        {/* <ImageEditor
           ref={this.editorRef}
           includeUI={{
             loadImage: {
@@ -27,20 +27,19 @@ class PictureEditor extends Component {
             menu: ["shape", "filter"],
             initMenu: "filter",
             uiSize: {
-              width: "500px",
-              height: "500px"
+              width: "900px",
+              height: "700px"
             },
             menuBarPosition: "bottom"
           }}
-          cssMaxHeight={500}
-          cssMaxWidth={500}
+          cssMaxHeight={700}
+          cssMaxWidth={900}
           selectionStyle={{
             cornerSize: 20,
             rotatingPointOffset: 70
           }}
-          usageStatistics={true}
-        />
-        <button onClick={this.handleClickButton}>Flip image by X Axis!</button>
+          usageStatistics={false}
+        /> */}
       </>
     );
   }
