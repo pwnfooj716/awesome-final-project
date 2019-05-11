@@ -12,8 +12,8 @@ module.exports.isUserExist = async (userId) => {
       } else {
         return false;
       }
-    })
-  })
+    });
+  });
 }
 
 module.exports.createUser = async (userObj, authToken) => {
@@ -44,14 +44,30 @@ module.exports.createUser = async (userObj, authToken) => {
 
 module.exports.getUsers = async () => { 
   return userCollection().then((col) => {
-      return col.get().then((snapshot) => {
-        snapshot.forEach((doc) => {
-          console.log(doc.id, '=>', doc.data());
-        });
-        return true;
-      })
-    }).catch((err) => {
-      console.log('Error getting documents', err);
-      return false;
-    })
+    return col.get().then((snapshot) => {
+      snapshot.forEach((doc) => {
+        console.log(doc.id, '=>', doc.data());
+      });
+      return true;
+    });
+  }).catch((err) => {
+    console.log('Error getting documents', err);
+    return false;
+  });
+}
+
+module.exports.getProfile = async (userId) => {
+  console.log(userId)
+  return userCollection().then((col) => {
+    return col.doc(userId).get().then((doc) => {
+      if (doc.exists) {
+        return doc.data();
+      } else {
+        return 404;
+      }
+    });
+  }).catch((err) => {
+    console.log('Error getting documents', err);
+    return 404;
+  });
 }

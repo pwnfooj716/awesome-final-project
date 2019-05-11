@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 const data = require('../data');
 const followData = data.follow;
+const userData = data.users;
 
 module.exports.postFollow = async (request, response) => {
   const reqData = request.body;
@@ -43,5 +44,7 @@ module.exports.getFollowing = async (request, response) => {
 }
 
 module.exports.getProfile = async (request, response) => {
-  
+  let userId = request.params.userId;
+  let userProfileData = await userData.getProfile(userId);
+  response.json(userProfileData);
 }

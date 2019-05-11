@@ -19,6 +19,6 @@ router.post('/users/follow', catchErrors(postFollow));
 router.post('/users/unfollow', catchErrors(postUnfollow));
 router.get('/users/follower/:userId', catchErrors(getFollower));
 router.get('/users/following/:userId', catchErrors(getFollowing));
-router.get('/users/profile', catchErrors(getProfile));
+router.get('/users/profile/:userId', catchErrors(getProfile));
 
-module.exports = router
+module.exports = router;
