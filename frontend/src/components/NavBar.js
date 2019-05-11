@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link as RouterLink } from "react-router-dom";
+import Link from "@material-ui/core/Link";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -19,6 +21,22 @@ const styles = theme => ({
   root: {
     width: "100%",
     backgroundColor: "inherit"
+  },
+  link: {
+    color: "white",
+    textDecoration: "none",
+    "&:hover": {
+      color: "white",
+      textDecoration: "none"
+    },
+    "&:active": {
+      color: "white",
+      textDecoration: "none"
+    },
+    "&:focus": {
+      color: "white",
+      textDecoration: "none"
+    }
   },
   nav: {
     backgroundColor: "inherit",
@@ -91,10 +109,12 @@ class NavBar extends Component {
         onClose={this.handleMenuClose}
       >
         <MenuItem onClick={this.handleMobileMenuClose}>
-          <IconButton color="inherit">
-            <Home />
-          </IconButton>
-          <p>Home</p>
+          <Link component={RouterLink} to="/" className={classes.link}>
+            <IconButton color="inherit">
+              <Home />
+            </IconButton>
+            <p>Home</p>
+          </Link>
         </MenuItem>
         <MenuItem onClick={this.handleMobileMenuClose}>
           <IconButton color="inherit">
@@ -105,10 +125,16 @@ class NavBar extends Component {
           <p>Notifications</p>
         </MenuItem>
         <MenuItem onClick={this.handleMobileMenuClose}>
-          <IconButton color="inherit">
-            <AccountCircle />
-          </IconButton>
-          <p>My Profile</p>
+          <Link
+            component={RouterLink}
+            to="/userprofile"
+            className={classes.link}
+          >
+            <IconButton color="inherit">
+              <AccountCircle />
+            </IconButton>
+            <p>My Profile</p>
+          </Link>
         </MenuItem>
         <MenuItem onClick={this.handleMobileMenuClose}>
           <IconButton color="inherit">
@@ -123,13 +149,15 @@ class NavBar extends Component {
       <div className={classes.root}>
         <AppBar position="static" className={classes.nav}>
           <Toolbar>
-            <img src={logo} className={classes.title} alt={'logo'}/>
+            <img src={logo} className={classes.title} alt={"logo"} />
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               <Tooltip title="Home" placement="bottom">
-                <IconButton color="inherit">
-                  <Home />
-                </IconButton>
+                <Link component={RouterLink} to="/" className={classes.link}>
+                  <IconButton color="inherit">
+                    <Home />
+                  </IconButton>
+                </Link>
               </Tooltip>
               <Tooltip title="Notifications" placement="bottom">
                 <IconButton color="inherit">
@@ -139,9 +167,15 @@ class NavBar extends Component {
                 </IconButton>
               </Tooltip>
               <Tooltip title="Profile" placement="bottom">
-                <IconButton color="inherit">
-                  <AccountCircle />
-                </IconButton>
+                <Link
+                  component={RouterLink}
+                  to="/userprofile"
+                  className={classes.link}
+                >
+                  <IconButton color="inherit">
+                    <AccountCircle />
+                  </IconButton>
+                </Link>
               </Tooltip>
               <Tooltip title="Logout" placement="bottom">
                 <IconButton color="inherit">
