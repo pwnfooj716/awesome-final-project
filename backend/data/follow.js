@@ -6,7 +6,6 @@ const followerCollection = firebaseCollections.follower;
 const moment = require('moment');
 const FieldValue = require('firebase-admin').firestore.FieldValue;
 
-
 module.exports.follow = async (userId, targetUserId) => {
   let followedTime = admin.firestore.Timestamp.fromMillis(moment().format('x'));
   var followingObj = {
@@ -45,11 +44,40 @@ module.exports.unfollow = async (userId, targetUserId) => {
   });
 }
 
+function getPageList(objList, startIndex, limit) {
+  console.log(objList);
+  objList.sort((a, b) => {
+    let v1 = a.followedTime._seconds;
+    let v2 = b.followedTime._seconds;
+    if (v1 < v2){
+      return -1;
+    }
+    if (v1 > v2){
+      return 1;
+    }
+    return 0;
+  });
+  objList.splice(0, startIndex);
+  objList.splice(startIndex + limit, objList.length);
+  return objList;
+}
+
 module.exports.getFollowerList = async (userId, startIndex=0, limit=20) => {
-  console.log(userId)
   return followerCollection().then((col) => {
-    return col.doc(userId).then(doc => {
-      doc.collection().orderBy('followedTime').startAt(startIndex).limit(limit);
+    return col.doc(userId).get().then((doc) => {
+      let dataObj = doc.data();
+      let allFollower = Object.values(dataObj);
+      return getPageList(allFollower, startIndex, limit);
+    });
+  });
+}
+
+module.exports.getFollowingList = async (userId, startIndex=0, limit=20) => {
+  return followingCollection().then((col) => {
+    return col.doc(userId).get().then((doc) => {
+      let dataObj = doc.data();
+      let allFollower = Object.values(dataObj);
+      return getPageList(allFollower, startIndex, limit);
     });
   });
 }

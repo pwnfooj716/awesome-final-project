@@ -2,7 +2,7 @@
 const data = require('../data');
 const followData = data.follow;
 
-module.exports.postFellow = async (request, response) => {
+module.exports.postFollow = async (request, response) => {
   const reqData = request.body;
   let userId = reqData.userId;
   let targetId = reqData.targetId;
@@ -11,7 +11,7 @@ module.exports.postFellow = async (request, response) => {
   response.json(result);
 }
 
-module.exports.postUnfellow = async (request, response) => {
+module.exports.postUnfollow = async (request, response) => {
   const reqData = request.body;
   let userId = reqData.userId;
   let targetId = reqData.targetId;
@@ -20,7 +20,7 @@ module.exports.postUnfellow = async (request, response) => {
   response.json(result);
 }
 
-module.exports.getFellower = async (request, response) => {
+module.exports.getFollower = async (request, response) => {
   let userId = request.params.userId;
   let startIndex = request.params.startIndex;
   let limit = request.params.limit;
@@ -29,6 +29,17 @@ module.exports.getFellower = async (request, response) => {
 
   let follower = await followData.getFollowerList(userId, startIndex, limit);
   response.json(follower);
+}
+
+module.exports.getFollowing = async (request, response) => {
+  let userId = request.params.userId;
+  let startIndex = request.params.startIndex;
+  let limit = request.params.limit;
+
+  if (limit > 100) limit = 100;
+
+  let following = await followData.getFollowingList(userId, startIndex, limit);
+  response.json(following);
 }
 
 module.exports.getProfile = async (request, response) => {
