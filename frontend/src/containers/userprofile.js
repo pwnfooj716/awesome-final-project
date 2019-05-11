@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import "../styles/profile.css";
+import PictureEditor from "../components/PictureEditor"
 class userprofile extends Component {
   constructor(props){
     super(props)
     this.state = {
-      postPic: null,
+      postPic: this.props.postPic,
+      avatar: this.props.avatar,
+      email: this.props.email,
+      username: this.props.username
     }
   }
   setPic(pic){
@@ -106,11 +110,44 @@ class userprofile extends Component {
       </div>
     </div>
 
+   <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog EditModal cascading-modal modal-avatar modal-sm" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <img src={photo} alt="avatar" class="avatar rounded-circle img-responsive" />
+      </div>
+      <div class="modal-body text-center mb-1">
+
+        <h4 class="mt-1 mb-2">{userName}</h4>
+
+        <div class="md-form ml-0 mr-0">
+         <div>
+          <label for="newUserName">New Name:</label>
+          <input name="newUserName" class="EditModalInput" id="newUserName" />
+         </div>
+         <div>
+          <label for="NewEmail">New Email:</label>
+          <input name="NewEmail" class="EditModalInput" id="NewEmail" />
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button class="btn btn-primary submit">Submit </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
         <header>
-        <img class="userPic" src={photo} alt="Smiley face" />
+        <img class="userPic rounded-circle" src={photo} alt="Smiley face" />
         <div class="userInfo">
         <h1 class="name">{userName}</h1>
-        <button class="editBtn" type="button">Edit Profile</button>
+        <button class="editBtn" type="button" data-toggle="modal" data-target="#EditModal">Edit Profile</button>
         <h2 class="email">{email}</h2>
         <div class= "follow"> <b>{postNumb} </b> <strong>Posts</strong> </div>
         <div class="follow pointer" data-toggle="modal" data-target="#followerModal"> <b>{FollowerNumb} </b> <strong>Following</strong></div>
