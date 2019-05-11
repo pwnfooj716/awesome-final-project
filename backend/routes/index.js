@@ -16,8 +16,8 @@ router.delete('/posts/:postId', catchErrors(deletePost));
 
 // users
 router.post('/users/fellow', catchErrors(postFellow));
-router.post('/users/unfellow/:userId/:targetId', catchErrors(postUnfellow));
-router.get('/users/fellower', catchErrors(getFellower));
+router.post('/users/unfellow', catchErrors(postUnfellow));
+router.get('/users/fellower/:userId', catchErrors(getFellower));
 router.get('/users/profile', catchErrors(getProfile));
 
 module.exports = router

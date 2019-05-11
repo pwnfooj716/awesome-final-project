@@ -9,7 +9,7 @@ const usersData = data.users
 // });
 
 module.exports.postLogin = async (request, response) => {
-  const reqData = request.body
+  const reqData = request.body;
 
   if (!reqData || !reqData.idToken) {
     response.status(400).json({ error: 'You must provide data to create task' })

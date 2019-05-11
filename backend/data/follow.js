@@ -4,6 +4,8 @@ const firebaseCollections = require('../config/firebaseDBRef');
 const followingCollection = firebaseCollections.following;
 const followerCollection = firebaseCollections.follower;
 const moment = require('moment');
+const FieldValue = require('firebase-admin').firestore.FieldValue;
+
 
 module.exports.follow = async (userId, targetUserId) => {
   let followedTime = admin.firestore.Timestamp.fromMillis(moment().format('x'));
@@ -30,19 +32,24 @@ module.exports.follow = async (userId, targetUserId) => {
 }
 
 module.exports.unfollow = async (userId, targetUserId) => {
-  return followCollection().then((col) => {
-    return col.collection(userId).doc(targetUserId).delete().catch((err) => {
-      console.log('Error getting documents', err);
-      return false;
-    })
-  })
+  return followingCollection().then((col) => {
+    return col.doc(userId).update({
+      [`${targetUserId}`]: FieldValue.delete()
+    }).then(()=>{
+      return followerCollection().then((col) => {
+        return col.doc(targetUserId).update({
+          [`${userId}`]: FieldValue.delete()
+        });
+      });
+    });
+  });
 }
 
-module.exports.getFollowerList = async (userId) => {
-  return followCollection().then((col) => {
-    return col.collection(userId).doc(targetUserId).delete().catch((err) => {
-      console.log('Error getting documents', err);
-      return false;
-    })
-  })
+module.exports.getFollowerList = async (userId, startIndex=0, limit=20) => {
+  console.log(userId)
+  return followerCollection().then((col) => {
+    return col.doc(userId).then(doc => {
+      doc.collection().orderBy('followedTime').startAt(startIndex).limit(limit);
+    });
+  });
 }
