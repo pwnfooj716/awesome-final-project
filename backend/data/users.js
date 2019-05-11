@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 const admin = require('firebase-admin');
 const firebaseCollections = require('../config/firebaseDBRef')
-const userCollection = firebaseCollections.posts
+const userCollection = firebaseCollections.users
 const moment = require('moment');
 
 module.exports.isUserExist = async (userId) => {

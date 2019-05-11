@@ -5,8 +5,10 @@ const usersData = data.users;
 const followData = data.follow;
 
 module.exports.postFellow = async (request, response) => {
-  let userId = request.params.userId;
-  let targetId = request.params.targetId;
+  const reqData = request.body;
+  let userId = reqData.userId;
+  let targetId = reqData.targetId;
+  console.log(userId, targetId, 'aaa');
   let result = await followData.follow(userId, targetId);
 
   response.json(result);
