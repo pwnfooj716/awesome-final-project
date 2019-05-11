@@ -57,7 +57,6 @@ module.exports.getUsers = async () => {
 }
 
 module.exports.getProfile = async (userId) => {
-  console.log(userId)
   return userCollection().then((col) => {
     return col.doc(userId).get().then((doc) => {
       if (doc.exists) {

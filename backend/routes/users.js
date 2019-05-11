@@ -46,5 +46,35 @@ module.exports.getFollowing = async (request, response) => {
 module.exports.getProfile = async (request, response) => {
   let userId = request.params.userId;
   let userProfileData = await userData.getProfile(userId);
+
+  userProfileData.followerNum = await followData.getFollowerNum(userId);
+  userProfileData.followingNum = await followData.getFollowingNum(userId);
+
+  // const redisFollowerKey = `${userId}@follower`;
+  // const redisFollowingKey = `${userId}@following`;
+
+  // let client = request.redis;
+  // let followerNum = await client.getAsync(redisFollowerKey);
+  // if (!followerNum) {
+  //   console.log(followData.getFollowerNum);
+  //   followerNum = await followData.getFollowerNum(userId);
+  //   await client.setAsync(
+  //     redisFollowerKey,
+  //     followerNum
+  //   );
+  // }
+  //userProfileData.followerNum = followerNum;
+
+  // let followingNum = await client.getAsync(redisFollowingKey);
+  // if (!followingNum) {
+  //   followingNum = await followData.getFollowingNum(userId);
+  //   await client.setAsync(
+  //     redisFollowingKey,
+  //     followingNum
+  //   );
+  // }
+  //userProfileData.followingNum = followingNum;
+
+
   response.json(userProfileData);
 }
