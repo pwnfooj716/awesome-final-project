@@ -137,10 +137,16 @@ class NavBar extends Component {
           </Link>
         </MenuItem>
         <MenuItem onClick={this.handleMobileMenuClose}>
-          <IconButton color="inherit">
-            <PowerOff />
-          </IconButton>
-          <p>Logout</p>
+          <Link
+            component={RouterLink}
+            to="/signintest"
+            className={classes.link}
+          >
+            <IconButton color="inherit">
+              <PowerOff />
+            </IconButton>
+            <p>Logout</p>
+          </Link>
         </MenuItem>
       </Menu>
     );
@@ -177,11 +183,17 @@ class NavBar extends Component {
                   </IconButton>
                 </Link>
               </Tooltip>
-              <Tooltip title="Logout" placement="bottom">
-                <IconButton color="inherit">
-                  <PowerOff />
-                </IconButton>
-              </Tooltip>
+              <Link
+                component={RouterLink}
+                to="/signintest"
+                className={classes.link}
+              >
+                <Tooltip title="Logout" placement="bottom">
+                  <IconButton color="inherit">
+                    <PowerOff />
+                  </IconButton>
+                </Tooltip>
+              </Link>
             </div>
             <div className={classes.sectionMobile}>
               <IconButton

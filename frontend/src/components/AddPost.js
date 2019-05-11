@@ -14,7 +14,7 @@ import PictureEditor from "./PictureEditor";
 
 class AddPost extends Component {
   state = {
-    input: null,
+    input: this.props.image,
     open: false
   };
 
@@ -36,11 +36,27 @@ class AddPost extends Component {
     };
   };
 
+  handleEditEvent = event => {
+    this.setState({ input: event });
+    this.handleClose();
+  };
+
   handleClose = () => {
     this.setState({ open: false });
   };
 
   render() {
+    let preview = "";
+    if (this.state.input) {
+      preview = (
+        <DialogContent>
+          <DialogContentText>
+            {/* <img src={this.state.input} alt={"New"} /> */}
+            <PictureEditor image={this.state.input} handleEditEvent={this.handleEditEvent}/>
+          </DialogContentText>
+        </DialogContent>
+      );
+    }
     return (
       <div>
         <ListItem>
@@ -56,10 +72,6 @@ class AddPost extends Component {
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="draggable-dialog-title"
-          modal={true}
-          autoDetectWindowHeight={false}
-          autoScrollBodyContent={false}
-          contentStyle={{ width: "100%", maxWidth: "none" }}
         >
           <DialogTitle id="draggable-dialog-title">
             <IconButton
@@ -70,11 +82,7 @@ class AddPost extends Component {
             </IconButton>
             New Post
           </DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              <PictureEditor image={this.state.input}/>
-            </DialogContentText>
-          </DialogContent>
+          {preview}
           <DialogActions>
             <Button color="primary">
               <input type="file" onChange={this.handleUpload.bind(this)} />

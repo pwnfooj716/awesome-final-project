@@ -1,46 +1,23 @@
 import React, { Component } from "react";
-//import "tui-image-editor/dist/tui-image-editor.css";
-//import ImageEditor from "tui-image-editor";
+import ImageEditor from 'react-cropper-image-editor';
 
 class PictureEditor extends Component {
-  state = {
-    input: this.props.image,
-    open: false
-  };
-  editorRef = React.createRef();
-
-  handleClickButton = () => {
-    const editorInstance = this.editorRef.current.getInstance();
-    editorInstance.flipX();
-  };
-
   render() {
     return (
-      <>
-        {/* <ImageEditor
-          ref={this.editorRef}
-          includeUI={{
-            loadImage: {
-              path: this.state.input,
-              name: "SampleImage"
-            },
-            menu: ["shape", "filter"],
-            initMenu: "filter",
-            uiSize: {
-              width: "900px",
-              height: "700px"
-            },
-            menuBarPosition: "bottom"
-          }}
-          cssMaxHeight={700}
-          cssMaxWidth={900}
-          selectionStyle={{
-            cornerSize: 20,
-            rotatingPointOffset: 70
-          }}
-          usageStatistics={false}
-        /> */}
-      </>
+      <div>
+        <ImageEditor
+          ref='cropper'
+          crossOrigin='true'
+          src={this.props.image}
+          style={{minHeight: 200, minWidth: 400}}
+          aspectRatio={16 / 9}
+          guides={true}
+          rotatable={true}
+          imageName='editedImage'
+          saveImage={this.props.handleEditEvent.bind(this)}
+          responseType='blob/base64'
+        />
+      </div>
     );
   }
 }
