@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Layout, { Content } from "antd/lib/layout";
-import profile from "../styles/profile.css";
+import { Content } from "antd/lib/layout";
+import "../styles/profile.css";
 class userprofile extends Component {
   constructor(props){
     super(props)
@@ -16,7 +16,6 @@ class userprofile extends Component {
   render() {
     const photo = 'https://api-cdn.spott.tv/rest/v004/image/images/e91f9cad-a70c-4f75-9db4-6508c37cd3c0?width=587&height=599'
     const userName = 'Harvey Specter'
-    const location = 'New York, USA'
     const email = 'test@email.com'
     const posts = [
       {
@@ -99,7 +98,7 @@ class userprofile extends Component {
             </button>
           </div>
           <div class="modal-body">
-            <img class="postPic" src={this.state.postPic} />
+            <img class="postPic" src={this.state.postPic} alt="Posted Pic"/>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
