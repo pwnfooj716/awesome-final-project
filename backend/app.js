@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 const express = require('express')
 const app = express()
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const routes = require('./routes/index');
 const admin = require('firebase-admin');
@@ -14,10 +15,14 @@ bluebird.promisifyAll(redis.Multi.prototype);
 client.on('connect', function() {
   console.log('Redis client connected');
 });
+const http = require('http').Server(app)
+const io = require('socket.io')(http);
 
 client.on('error', function (err) {
   console.log('Something went wrong ' + err);
 });
+
+app.use(cors());
 
 admin.initializeApp({
   credential: admin.credential.applicationDefault(),
