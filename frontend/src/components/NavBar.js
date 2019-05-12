@@ -15,6 +15,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import Home from "@material-ui/icons/Home";
 import Network from "@material-ui/icons/People";
 import MoreIcon from "@material-ui/icons/MoreVert";
+import { connect } from "react-redux";
 
 const styles = theme => ({
   root: {
@@ -107,7 +108,7 @@ class NavBar extends Component {
     const homeNav = (
       <Link component={RouterLink} to="/home" className={classes.link}>
         <IconButton color="inherit">
-          <Badge badgeContent={1} color="error">
+          <Badge badgeContent={this.props.notificationCount} color="error">
             <Home />
           </Badge>
         </IconButton>
@@ -172,10 +173,9 @@ class NavBar extends Component {
             </Link>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              {homeNav}
-              {networkNav}
-              {profileNav}
-              {logoutNav}
+              {this.props.userId && { homeNav } && { networkNav } && {
+                  profileNav
+                } && { logoutNav }}
             </div>
             <div className={classes.sectionMobile}>
               <IconButton
@@ -188,15 +188,27 @@ class NavBar extends Component {
             </div>
           </Toolbar>
         </AppBar>
-        {renderMenu}
-        {renderMobileMenu}
+        {this.props.userId && { renderMenu } && { renderMobileMenu }}
       </div>
     );
   }
 }
 
 NavBar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  userId: PropTypes.object.isRequired,
+  notificationCount: PropTypes.number.isRequired,
+  dispatch: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(NavBar);
+function mapStateToProps(state) {
+  const { userId, notificationCount } = state;
+  return {
+    userId,
+    notificationCount
+  };
+}
+
+export default withStyles(styles)(
+  connect(mapStateToProps)(connect(mapStateToProps)(NavBar))
+);

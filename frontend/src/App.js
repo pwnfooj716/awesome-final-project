@@ -5,7 +5,8 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
-import userprofile from "./containers/userprofile";
+import Profile from "./containers/userprofile";
+import Network from "./containers/UserContainer";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 
@@ -43,7 +44,8 @@ class App extends Component {
           <Grid item xs={12} sm={10} md={8}>
             <Switch>
               <Route exact path="/home" component={NewsFeedContainer} />
-              <Route path="/userprofile" component={userprofile} />
+              <Route path="/network" component={Network} />
+              <Route path="/userprofile" component={Profile} />
               <Route path="/signin" component={SignIn} />
               <Route path="/" component={SignUp} />
             </Switch>
