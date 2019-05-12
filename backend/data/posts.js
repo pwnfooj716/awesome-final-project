@@ -50,7 +50,7 @@ module.exports.getPost = async (postId) => {
 
 module.exports.getUserPost = async (userId) => {
   return postsCollection().then((col) => {
-    return col.where('authorUserId', '=', userId).orderBy('createTime').get().then(function(querySnapshot) {
+    return col.where('authorUserId', '==', userId).orderBy('createTime').get().then(function(querySnapshot) {
       let postList = [];
       querySnapshot.forEach(function(doc) {
         postList.push(doc.data());

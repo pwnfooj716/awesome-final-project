@@ -2,6 +2,7 @@
 const data = require('../data');
 const postsData = data.posts;
 const followData = data.follow;
+const likeData = data.like;
 
 module.exports.postPost = async (request, response) => {
   const { text, image, authorUserId } = request.body;
@@ -74,4 +75,26 @@ module.exports.getTimeline = async (request, response) => {
   }
   allPosts.slice(startIndex, startIndex + limit);
   response.json({userId: userId, timelinePosts: allPosts});
+}
+
+module.exports.postLikePost = async (request, response) => {
+  const postId = request.params.postId;
+  const { userId } = request.body;
+  let likeObj = await likeData.like(userId, postId);
+  response.json(likeObj);
+}
+
+module.exports.postUnlikePost = async (request, response) => {
+  const postId = request.params.postId
+  const { userId } = request.body;
+  let isSuccess = await likeData.unlike(userId, postId);
+  response.json({isSuccess:isSuccess});
+}
+
+module.exports.getLikeStatus = async (request, response) => {
+  const postId = request.params.postId;
+  const userId  = request.params.userId;
+  let likeObj = await likeData.getLikeStatus(userId, postId);
+  console.log(likeObj, "lkobj");
+  response.json(likeObj);
 }

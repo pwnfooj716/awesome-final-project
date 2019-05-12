@@ -12,5 +12,6 @@ module.exports = {
   posts: getCollection('/posts'),
   following: getCollection('/following'),
   follower: getCollection('/follower'),
-  comments: getCollection('/comments')
+  comments: getCollection('/comments'),
+  like: getCollection('/like')
 }
