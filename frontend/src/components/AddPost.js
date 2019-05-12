@@ -51,8 +51,10 @@ class AddPost extends Component {
       preview = (
         <DialogContent>
           <DialogContentText>
-            {/* <img src={this.state.input} alt={"New"} /> */}
-            <PictureEditor image={this.state.input} handleEditEvent={this.handleEditEvent}/>
+            <PictureEditor
+              image={this.state.input}
+              handleEditEvent={this.handleEditEvent}
+            />
           </DialogContentText>
         </DialogContent>
       );

@@ -3,9 +3,9 @@ import NavBar from "./components/NavBar";
 import NewsFeedContainer from "./containers/NewsFeedContainer";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
-import userprofile from './containers/userprofile';
+import SignIn from "./components/SignIn";
+import SignUp from "./components/SignUp";
+import userprofile from "./containers/userprofile";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 
@@ -22,7 +22,7 @@ const styles = theme => ({
   },
   content: {
     width: "100%",
-    backgroundColor: "#f7f7f7",
+    backgroundColor: "#f7f7f7"
   }
 });
 
@@ -38,14 +38,14 @@ class App extends Component {
           </Grid>
           <Grid item xs={false} sm={1} md={2} />
         </Grid>
-        <Grid container spacing={24}  className={classes.content}>
+        <Grid container spacing={24} className={classes.content}>
           <Grid item xs={false} sm={1} md={2} />
           <Grid item xs={12} sm={10} md={8}>
             <Switch>
               <Route exact path="/" component={NewsFeedContainer} />
               <Route path="/signintest" component={SignIn} />
               <Route path="/signuptest" component={SignUp} />
-              <Route path='/userprofile' component={userprofile} />
+              <Route path="/userprofile" component={userprofile} />
             </Switch>
           </Grid>
           <Grid item xs={false} sm={1} md={2} />

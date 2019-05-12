@@ -1,101 +1,100 @@
-.userPic{
-	max-width:180px;
-	height: 180px;
-	margin-left: 10%;
-	margin-bottom: 10%;
-    display: inline-block;
+.userPic {
+  max-width: 180px;
+  height: 180px;
+  margin-left: 10%;
+  margin-bottom: 10%;
+  display: inline-block;
 }
-.avatar{
-	width: 160px;
-    height: 160px;
-    margin-left: 35%;
+.avatar {
+  width: 160px;
+  height: 160px;
+  margin-left: 35%;
 }
-.post{
-	max-width: 430px;
-	height: 350px;
+.post {
+  max-width: 430px;
+  height: 350px;
 }
-.postContent{
-	font-family:Lucida Console;
-	font-size: 15px;
-	font-weight: bold;
+.postContent {
+  font-family: Lucida Console;
+  font-size: 15px;
+  font-weight: bold;
 }
-.postBlock{
-	display: inline-block;
-	margin-right: 10px;
-	margin-left: 30px;
-	margin-bottom: 50px;
-    width: 400px;
-	height: 350px;
+.postBlock {
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 30px;
+  margin-bottom: 50px;
+  width: 400px;
+  height: 350px;
 }
-.userInfo{
-    display: inline-block;
-    margin-top: 5%;
-    margin-left: 10%;
+.userInfo {
+  display: inline-block;
+  margin-top: 5%;
+  margin-left: 10%;
 }
-.editBtn{
-	border: 1px solid #dbdbdb;
-    color: #262626;
-    border-radius: 4px;
-    position: relative;
-    box-sizing: border-box;
-    cursor: pointer;
-    display: block;
-    font-weight: 600;
-    padding: 5px 9px;
-    text-align: center;
-    text-transform: inherit;
-    text-overflow: ellipsis;
-    background-color: white;
-    display:inline;
-    margin-left:50px;
+.editBtn {
+  border: 1px solid #dbdbdb;
+  color: #262626;
+  border-radius: 4px;
+  position: relative;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  font-weight: 600;
+  padding: 5px 9px;
+  text-align: center;
+  text-transform: inherit;
+  text-overflow: ellipsis;
+  background-color: white;
+  display: inline;
+  margin-left: 50px;
 }
-.name{
-	display:inline;
+.name {
+  display: inline;
 }
-.follow{
-	display:inline;
-	margin-right: 20px; 
+.follow {
+  display: inline;
+  margin-right: 20px;
 }
-.pointer{
-	cursor: pointer;
+.pointer {
+  cursor: pointer;
 }
-.email{
-	margin-top: 20px;
-
+.email {
+  margin-top: 20px;
 }
-.pTitle{
-	color: black;
-	font-size: x-large;
+.pTitle {
+  color: black;
+  font-size: x-large;
 }
-.postbox{
-	background-color: white;
-	width: 100%;
+.postbox {
+  background-color: white;
+  width: 100%;
 }
-.followerImg{
-	width: 70px;
-	height: 70px;
-	margin-left: 30px;
-	margin-top: 20px;
+.followerImg {
+  width: 70px;
+  height: 70px;
+  margin-left: 30px;
+  margin-top: 20px;
 }
-.followerName{
-	display:inline;
-	margin-left: 30px;
+.followerName {
+  display: inline;
+  margin-left: 30px;
 }
-.postPic{
-	max-width: 700px;
-	max-height: 700px;
+.postPic {
+  max-width: 700px;
+  max-height: 700px;
 }
-.modalsize{
-	max-width: 800px;
-	max-height: 800px; 
+.modalsize {
+  max-width: 800px;
+  max-height: 800px;
 }
-.submit{
-	margin-left: 10%;
+.submit {
+  margin-left: 10%;
 }
-.EditModal{
-	max-width: 600px;
-	max-height: 800px;
+.EditModal {
+  max-width: 600px;
+  max-height: 800px;
 }
-.EditModalInput{
-	margin-left: 20px;
+.EditModalInput {
+  margin-left: 20px;
 }

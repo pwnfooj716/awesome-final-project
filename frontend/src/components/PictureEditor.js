@@ -9,7 +9,7 @@ class PictureEditor extends Component {
           ref='cropper'
           crossOrigin='true'
           src={this.props.image}
-          style={{minHeight: 200, minWidth: 400}}
+          style={{minHeight: 400, minWidth: 400}}
           aspectRatio={16 / 9}
           guides={true}
           rotatable={true}
