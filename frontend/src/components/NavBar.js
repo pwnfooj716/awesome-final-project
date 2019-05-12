@@ -13,8 +13,8 @@ import { withStyles } from "@material-ui/core/styles";
 import PowerOff from "@material-ui/icons/PowerSettingsNewOutlined";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Home from "@material-ui/icons/Home";
+import Network from "@material-ui/icons/People";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import Tooltip from "@material-ui/core/Tooltip";
 
 const styles = theme => ({
   root: {
@@ -104,30 +104,38 @@ class NavBar extends Component {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-    const profileNav = (
-        <Link component={RouterLink} to="/userprofile" className={classes.link}>
-          <IconButton color="inherit">
-            <AccountCircle />
-          </IconButton>
-        </Link>
+    const homeNav = (
+      <Link component={RouterLink} to="/home" className={classes.link}>
+        <IconButton color="inherit">
+          <Badge badgeContent={1} color="error">
+            <Home />
+          </Badge>
+        </IconButton>
+      </Link>
     );
 
-    const homeNav = (
-        <Link component={RouterLink} to="/home" className={classes.link}>
-          <IconButton color="inherit">
-            <Badge badgeContent={1} color="error">
-              <Home />
-            </Badge>
-          </IconButton>
-        </Link>
+    const networkNav = (
+      <Link component={RouterLink} to="/network" className={classes.link}>
+        <IconButton color="inherit">
+          <Network />
+        </IconButton>
+      </Link>
+    );
+
+    const profileNav = (
+      <Link component={RouterLink} to="/userprofile" className={classes.link}>
+        <IconButton color="inherit">
+          <AccountCircle />
+        </IconButton>
+      </Link>
     );
 
     const logoutNav = (
-        <Link component={RouterLink} to="/" className={classes.link}>
-          <IconButton color="inherit">
-            <PowerOff />
-          </IconButton>
-        </Link>
+      <Link component={RouterLink} to="/" className={classes.link}>
+        <IconButton color="inherit">
+          <PowerOff />
+        </IconButton>
+      </Link>
     );
 
     const renderMenu = (
@@ -149,6 +157,7 @@ class NavBar extends Component {
         onClose={this.handleMenuClose}
       >
         <MenuItem onClick={this.handleMobileMenuClose}>{homeNav}</MenuItem>
+        <MenuItem onClick={this.handleMobileMenuClose}>{networkNav}</MenuItem>
         <MenuItem onClick={this.handleMobileMenuClose}>{profileNav}</MenuItem>
         <MenuItem onClick={this.handleMobileMenuClose}>{logoutNav}</MenuItem>
       </Menu>
@@ -164,6 +173,7 @@ class NavBar extends Component {
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               {homeNav}
+              {networkNav}
               {profileNav}
               {logoutNav}
             </div>
