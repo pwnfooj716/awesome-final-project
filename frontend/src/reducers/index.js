@@ -8,7 +8,6 @@ import {
   FEEDS,
   OTHER_USERS,
   USER_POSTS,
-  NOTIFICATION_COUNT,
   RECEIVE_FEED
 } from '../actions'
 
@@ -84,19 +83,10 @@ function userPost(state = [], action) {
   }
 }
 
-function notificationCount(state = 0, action) {
-  switch (action.type) {
-    case NOTIFICATION_COUNT:
-      return state.notificationCount + action.notificationCount
-    default:
-      return state
-  }
-}
-
-function receiveFeed(state = 0, action) {
+function receivedNotifications(state = 0, action) {
   switch (action.type) {
     case RECEIVE_FEED:
-      return [...state.feeds, action.feeds]
+      return [...state.receivedFeed, action.receivedFeed]
     default:
       return state
   }
@@ -111,8 +101,7 @@ const rootReducer = combineReducers({
   feeds,
   otherUsers,
   userPost,
-  notificationCount,
-  receiveFeed
+  receivedNotifications
 })
 
 export default rootReducer
