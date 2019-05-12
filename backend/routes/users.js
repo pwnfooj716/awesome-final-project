@@ -43,6 +43,23 @@ module.exports.getFollowing = async (request, response) => {
   response.json(following);
 }
 
+module.exports.patchUser = async (request, response) => {
+  const reqData = request.body;
+  let userId = request.params.userId;
+  let name = reqData.name;
+  let picture = reqData.picture;
+
+  console.log(userId, name, picture);
+
+  if (name) await userData.setUserName(userId, name);
+  if (picture) await userData.setUserPicture(userId, picture);
+
+  let userProfileData = await userData.getProfile(userId);
+  userProfileData.followerNum = await followData.getFollowerNum(userId);
+  userProfileData.followingNum = await followData.getFollowingNum(userId); 
+  response.json(userProfileData);
+}
+
 module.exports.getProfile = async (request, response) => {
   let userId = request.params.userId;
   let userProfileData = await userData.getProfile(userId);

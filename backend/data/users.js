@@ -70,3 +70,19 @@ module.exports.getProfile = async (userId) => {
     return 404;
   });
 }
+
+module.exports.setUserName = async (userId, name) => {
+  return userCollection().then((col) => {
+    return col.doc(userId).update({
+      name: name
+    });
+  });
+}
+
+module.exports.setUserPicture = async (userId, picture) => {
+  return userCollection().then((col) => {
+    return col.doc(userId).update({
+      picture: picture
+    });
+  });
+}
