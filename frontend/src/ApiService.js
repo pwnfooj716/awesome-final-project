@@ -64,7 +64,9 @@ class ApiService {
   async getFollower(userId, startIndex, limit = 20) {
     try {
       const response = axios.get(
-        `${this.apiUrl}/users/follower/${userId}?startIndex=${startIndex}&limit=${limit}`
+        `${
+          this.apiUrl
+        }/users/follower/${userId}?startIndex=${startIndex}&limit=${limit}`
       );
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
@@ -92,7 +94,9 @@ class ApiService {
   async getFollowing(userId, startIndex, limit = 20) {
     try {
       const response = axios.get(
-        `${this.apiUrl}/users/following/${userId}?startIndex=${startIndex}&limit=${limit}`
+        `${
+          this.apiUrl
+        }/users/following/${userId}?startIndex=${startIndex}&limit=${limit}`
       );
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
@@ -148,6 +152,18 @@ class ApiService {
   async deletePost(postId) {
     try {
       const response = axios.delete(`${this.apiUrl}/posts/${postId}`);
+      if (response.status !== 200) {
+        throw new Error(`Request failed ${response}`);
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async getInitialTimeline(userId) {
+    try {
+      const response = axios.get(`${this.apiUrl}/posts/timeline/${userId}`);
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
       }
