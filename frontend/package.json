@@ -13,6 +13,7 @@
     "graphql": "^14.2.1",
     "graphql-tag": "^2.10.1",
     "react": "^16.8.6",
+    "react-alert": "^5.5.0",
     "react-apollo": "^2.5.4",
     "react-cropper-image-editor": "^1.0.10",
     "react-dom": "^16.8.6",
