@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
-const data = require('../data')
-const postsData = data.posts
+const data = require('../data');
+const postsData = data.posts;
+const followData = data.follow;
 
 module.exports.postPost = async (request, response) => {
   const { text, image, authorUserId } = request.body;
@@ -44,12 +45,33 @@ module.exports.deletePost = async (request, response) => {
 module.exports.postComment = async (request, response) => {
   const { postId, text, authorId } = request.body;
   let commentId = await postsData.postComment(postId, text, authorId);
-  response.json({commentId: commentId})
+  response.json({commentId: commentId});
 }
 
 module.exports.deleteComment = async (request, response) => {
   const postId = request.params.postId;
   const commentId = request.params.commentId;
   let deletedId = await postsData.deleteComment(postId, commentId);
-  response.json({deletedId: deletedId})
+  response.json({deletedId: deletedId});
+}
+
+module.exports.getTimeline = async (request, response) => {
+  const userId = request.params.userId;
+  let startIndex = request.params.startIndex;
+  let limit = request.params.limit;
+
+  if (!startIndex) startIndex = 0;
+  if (!limit) limit = 20;
+
+  let followingList = await followData.getFollowingList(userId, 0, 100);
+  console.log(followingList, userId, "followingList");
+
+  let allPosts = [];
+  for (let i = 0; i < followingList.length; i++) {
+    let uid = followingList[i].userId;
+    let userPosts = await postsData.getUserPost(uid);
+    allPosts.concate(userPosts);
+  }
+  let slicedPosts = allPosts.slice(startIndex, startIndex + limit);
+  response.json({userId: userId, timelinePosts: slicedPosts});
 }

@@ -10,7 +10,7 @@ router.post('/login', catchErrors(postLogin));
 
 // posts
 router.post('/posts', catchErrors(postPost));
-router.get('/posts/getTimeline', catchErrors(getTimeline));
+router.get('/posts/getTimeline/:userId', catchErrors(getTimeline));
 router.get('/posts/:postId', catchErrors(getPost));
 router.delete('/posts/:postId', catchErrors(deletePost));
 router.post('/comments', catchErrors(postComment));

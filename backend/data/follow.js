@@ -75,6 +75,8 @@ module.exports.getFollowerList = async (userId, startIndex=0, limit=20) => {
 module.exports.getFollowingList = async (userId, startIndex=0, limit=20) => {
   return followingCollection().then((col) => {
     return col.doc(userId).get().then((doc) => {
+      if (!doc.exists) return [];
+  
       let dataObj = doc.data();
       let allFollower = Object.values(dataObj);
       return getPageList(allFollower, startIndex, limit);

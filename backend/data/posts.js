@@ -22,8 +22,6 @@ module.exports.createPost = async (postObj) => {
     createTime: admin.firestore.Timestamp.fromMillis(moment().format('x'))
   };
 
-  console.log(dataObj, postId)
-  
   return postsCollection().then((col) => {
     return col.doc(postId).set(dataObj).then(() => {
       console.log(dataObj, `Create post success. ${postId}`);
@@ -48,6 +46,17 @@ module.exports.getPost = async (postId) => {
     console.log('Error getting documents', err);
     return null;
   })
+}
+
+module.exports.getUserPost = async (userId) => {
+  return postsCollection().then((col) => {
+    return col.where('authorUserId', '=', userId).orderBy('createTime').get().then(function(querySnapshot) {
+      let postList = [];
+      querySnapshot.forEach(function(doc) {
+        postList.push(doc.data());
+      });
+    });
+  });
 }
 
 module.exports.deletePost = async (postId) => {
@@ -86,4 +95,3 @@ module.exports.deleteComment = async (postId, commentId) => {
     });
   });
 }
-
