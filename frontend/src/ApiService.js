@@ -2,79 +2,159 @@ import axios from "axios";
 
 class ApiService {
   constructor() {
-    this.apiUrl = "http://localhost:3030/";
+    this.apiUrl = "http://localhost:3030/api";
   }
 
   async login(tokenId) {
-    return await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${page * 20}`
-    );
+    try {
+      const response = await axios.post(`${apiUrl}/login`, {
+        tokenId: tokenId
+      });
+      if (response.status !== 200) {
+        throw `Request failed ${response}`;
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async getProfile(userId) {
-    return await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${page * 20}`
-    );
+    try {
+      const response = axios.get(`${apiUrl}/users/profile/?userId=${userId}`);
+      if (response.status !== 200) {
+        throw `Request failed ${response}`;
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async follow(userId, targetId) {
-    let result = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${page * 20}`
-    );
+    try {
+      const response = axios.post(`${apiUrl}/users/follow`, {
+        userId: userId,
+        targetId: targetId
+      });
+      if (response.status !== 200) {
+        throw `Request failed ${response}`;
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async unFollow(userId, targetId) {
-    let result = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${page * 20}`
-    );
+    try {
+      const response = axios.post(`${apiUrl}/users/unfollow`, {
+        userId: userId,
+        targetId: targetId
+      });
+      if (response.status !== 200) {
+        throw `Request failed ${response}`;
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async getFollower(userId, startIndex, limit = 20) {
-    let result = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${page * 20}`
-    );
+    try {
+      const response = axios.get(
+        `${apiUrl}/users/follower/?userId=${userId}&startIndex=${startIndex}&limit=${limit}`
+      );
+      if (response.status !== 200) {
+        throw `Request failed ${response}`;
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async getFollowerCount(userId) {
-    let result = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${page * 20}`
-    );
+    try {
+      const response = axios.get(
+        `${apiUrl}/users/followerCount/?userId=${userId}`
+      );
+      if (response.status !== 200) {
+        throw `Request failed ${response}`;
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async getFollowing(userId, startIndex, limit = 20) {
-    let result = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${page * 20}`
-    );
+    try {
+      const response = axios.get(
+        `${apiUrl}/users/following/?userId=${userId}&startIndex=${startIndex}&limit=${limit}`
+      );
+      if (response.status !== 200) {
+        throw `Request failed ${response}`;
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async getFollowingCount(userId) {
-    let result = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${page * 20}`
-    );
+    try {
+      const response = axios.get(
+        `${apiUrl}/users/followingCount/?userId=${userId}`
+      );
+      if (response.status !== 200) {
+        throw `Request failed ${response}`;
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async addPost(text, image, authorUserId) {
-    let createdData = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${page * 20}`
-    );
+    try {
+      const response = axios.post(`${apiUrl}/posts`, {
+        text: text,
+        image: image,
+        authorUserId: authorUserId
+      });
+      if (response.status !== 200) {
+        throw `Request failed ${response}`;
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async getPost(postId) {
-    let createdData = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${page * 20}`
-    );
+    try {
+      const response = axios.get(`${apiUrl}/posts/?postId=${postId}`);
+      if (response.status !== 200) {
+        throw `Request failed ${response}`;
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async deletePost(postId) {
-    let createdData = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${page * 20}`
-    );
-  }
-
-  async deletePost(postId) {
-    let createdData = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${page * 20}`
-    );
+    try {
+      const response = axios.delete(`${apiUrl}/posts/?postId=${postId}`);
+      if (response.status !== 200) {
+        throw `Request failed ${response}`;
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 
