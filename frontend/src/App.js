@@ -3,8 +3,8 @@ import NavBar from "./components/NavBar";
 import NewsFeedContainer from "./containers/NewsFeedContainer";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import SignIn from "./components/SignIn";
-import SignUp from "./components/SignUp";
+import SignIn from "./components/auth/SignIn";
+import SignUp from "./components/auth/SignUp";
 import userprofile from "./containers/userprofile";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Grid } from "@material-ui/core";
@@ -43,8 +43,8 @@ class App extends Component {
           <Grid item xs={12} sm={10} md={8}>
             <Switch>
               <Route exact path="/" component={NewsFeedContainer} />
-              <Route path="/signintest" component={SignIn} />
-              <Route path="/signuptest" component={SignUp} />
+              <Route path="/signin" component={SignIn} />
+              <Route path="/signup" component={SignUp} />
               <Route path="/userprofile" component={userprofile} />
             </Switch>
           </Grid>
