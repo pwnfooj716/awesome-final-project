@@ -10,10 +10,9 @@ import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { withStyles } from "@material-ui/core/styles";
-import PowerOff from "@material-ui/icons/PowerOff";
+import PowerOff from "@material-ui/icons/PowerSettingsNewOutlined";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Home from "@material-ui/icons/Home";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Tooltip from "@material-ui/core/Tooltip";
 
@@ -23,19 +22,34 @@ const styles = theme => ({
     backgroundColor: "inherit"
   },
   link: {
-    color: "white",
+    color: "#283e4a",
     textDecoration: "none",
     "&:hover": {
-      color: "white",
+      color: "#283e4a",
       textDecoration: "none"
     },
     "&:active": {
-      color: "white",
+      color: "#283e4a",
       textDecoration: "none"
     },
     "&:focus": {
-      color: "white",
+      color: "#283e4a",
       textDecoration: "none"
+    },
+    [theme.breakpoints.up("md")]: {
+      color: "white",
+      "&:hover": {
+        color: "white",
+        textDecoration: "none"
+      },
+      "&:active": {
+        color: "white",
+        textDecoration: "none"
+      },
+      "&:focus": {
+        color: "white",
+        textDecoration: "none"
+      }
     }
   },
   nav: {
@@ -90,6 +104,32 @@ class NavBar extends Component {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+    const profileNav = (
+        <Link component={RouterLink} to="/userprofile" className={classes.link}>
+          <IconButton color="inherit">
+            <AccountCircle />
+          </IconButton>
+        </Link>
+    );
+
+    const homeNav = (
+        <Link component={RouterLink} to="/home" className={classes.link}>
+          <IconButton color="inherit">
+            <Badge badgeContent={1} color="error">
+              <Home />
+            </Badge>
+          </IconButton>
+        </Link>
+    );
+
+    const logoutNav = (
+        <Link component={RouterLink} to="/" className={classes.link}>
+          <IconButton color="inherit">
+            <PowerOff />
+          </IconButton>
+        </Link>
+    );
+
     const renderMenu = (
       <Menu
         anchorEl={anchorEl}
@@ -108,46 +148,9 @@ class NavBar extends Component {
         open={isMobileMenuOpen}
         onClose={this.handleMenuClose}
       >
-        <MenuItem onClick={this.handleMobileMenuClose}>
-          <Link component={RouterLink} to="/" className={classes.link}>
-            <IconButton color="inherit">
-              <Home />
-            </IconButton>
-            <p>Home</p>
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={this.handleMobileMenuClose}>
-          <IconButton color="inherit">
-            <Badge badgeContent={11} color="error">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <p>Notifications</p>
-        </MenuItem>
-        <MenuItem onClick={this.handleMobileMenuClose}>
-          <Link
-            component={RouterLink}
-            to="/userprofile"
-            className={classes.link}
-          >
-            <IconButton color="inherit">
-              <AccountCircle />
-            </IconButton>
-            <p>My Profile</p>
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={this.handleMobileMenuClose}>
-          <Link
-            component={RouterLink}
-            to="/signintest"
-            className={classes.link}
-          >
-            <IconButton color="inherit">
-              <PowerOff />
-            </IconButton>
-            <p>Logout</p>
-          </Link>
-        </MenuItem>
+        <MenuItem onClick={this.handleMobileMenuClose}>{homeNav}</MenuItem>
+        <MenuItem onClick={this.handleMobileMenuClose}>{profileNav}</MenuItem>
+        <MenuItem onClick={this.handleMobileMenuClose}>{logoutNav}</MenuItem>
       </Menu>
     );
 
@@ -155,45 +158,14 @@ class NavBar extends Component {
       <div className={classes.root}>
         <AppBar position="static" className={classes.nav}>
           <Toolbar>
-            <img src={logo} className={classes.title} alt={"logo"} />
+            <Link component={RouterLink} to="/" className={classes.link}>
+              <img src={logo} className={classes.title} alt={"logo"} />
+            </Link>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <Tooltip title="Home" placement="bottom">
-                <Link component={RouterLink} to="/" className={classes.link}>
-                  <IconButton color="inherit">
-                    <Home />
-                  </IconButton>
-                </Link>
-              </Tooltip>
-              <Tooltip title="Notifications" placement="bottom">
-                <IconButton color="inherit">
-                  <Badge badgeContent={11} color="error">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Profile" placement="bottom">
-                <Link
-                  component={RouterLink}
-                  to="/userprofile"
-                  className={classes.link}
-                >
-                  <IconButton color="inherit">
-                    <AccountCircle />
-                  </IconButton>
-                </Link>
-              </Tooltip>
-              <Link
-                component={RouterLink}
-                to="/signintest"
-                className={classes.link}
-              >
-                <Tooltip title="Logout" placement="bottom">
-                  <IconButton color="inherit">
-                    <PowerOff />
-                  </IconButton>
-                </Tooltip>
-              </Link>
+              {homeNav}
+              {profileNav}
+              {logoutNav}
             </div>
             <div className={classes.sectionMobile}>
               <IconButton

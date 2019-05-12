@@ -42,9 +42,9 @@ class App extends Component {
           <Grid item xs={false} sm={1} md={2} />
           <Grid item xs={12} sm={10} md={8}>
             <Switch>
-              <Route exact path="/" component={NewsFeedContainer} />
+              <Route exact path="/home" component={NewsFeedContainer} />
               <Route path="/signin" component={SignIn} />
-              <Route path="/signup" component={SignUp} />
+              <Route path="/" component={SignUp} />
               <Route path="/userprofile" component={userprofile} />
             </Switch>
           </Grid>
