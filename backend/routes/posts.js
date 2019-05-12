@@ -64,14 +64,14 @@ module.exports.getTimeline = async (request, response) => {
   if (!limit) limit = 20;
 
   let followingList = await followData.getFollowingList(userId, 0, 100);
-  console.log(followingList, userId, "followingList");
 
   let allPosts = [];
   for (let i = 0; i < followingList.length; i++) {
     let uid = followingList[i].userId;
+    
     let userPosts = await postsData.getUserPost(uid);
-    allPosts.concate(userPosts);
+    allPosts = allPosts.concat(userPosts);
   }
-  let slicedPosts = allPosts.slice(startIndex, startIndex + limit);
-  response.json({userId: userId, timelinePosts: slicedPosts});
+  allPosts.slice(startIndex, startIndex + limit);
+  response.json({userId: userId, timelinePosts: allPosts});
 }

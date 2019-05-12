@@ -55,6 +55,7 @@ module.exports.getUserPost = async (userId) => {
       querySnapshot.forEach(function(doc) {
         postList.push(doc.data());
       });
+      return postList;
     });
   });
 }
@@ -76,7 +77,6 @@ module.exports.postComment = async (postId, text, authorId) => {
     authorId: authorId,
     like: 0
   };
-  console.log(postId);
   return commentsCollection().then((col) => {
     return col.doc(postId).set({
       [`${commentId}`]: commentObj
