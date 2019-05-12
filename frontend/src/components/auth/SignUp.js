@@ -78,6 +78,7 @@ class SignUp extends Component {
                     
                 })).catch((err) => {
                     console.log(err);
+                    alert(err.message);
                     
                 });
         
