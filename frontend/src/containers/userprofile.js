@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "../styles/profile.css";
 import ChangeAvator from "../components/ChangeAvator";
-import AddPost from "../components/AddPost";
 class userprofile extends Component {
   constructor(props){
     super(props)
