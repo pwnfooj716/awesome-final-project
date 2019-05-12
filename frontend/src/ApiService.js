@@ -7,11 +7,11 @@ class ApiService {
 
   async login(tokenId) {
     try {
-      const response = await axios.post(`${apiUrl}/login`, {
+      const response = await axios.post(`${this.apiUrl}/login`, {
         tokenId: tokenId
       });
       if (response.status !== 200) {
-        throw `Request failed ${response}`;
+        throw new Error(`Request failed ${response}`);
       }
       return response.data;
     } catch (error) {
@@ -21,9 +21,9 @@ class ApiService {
 
   async getProfile(userId) {
     try {
-      const response = axios.get(`${apiUrl}/users/profile/?userId=${userId}`);
+      const response = axios.get(`${this.apiUrl}/users/profile/${userId}`);
       if (response.status !== 200) {
-        throw `Request failed ${response}`;
+        throw new Error(`Request failed ${response}`);
       }
       return response.data;
     } catch (error) {
@@ -33,12 +33,12 @@ class ApiService {
 
   async follow(userId, targetId) {
     try {
-      const response = axios.post(`${apiUrl}/users/follow`, {
+      const response = axios.post(`${this.apiUrl}/users/follow`, {
         userId: userId,
         targetId: targetId
       });
       if (response.status !== 200) {
-        throw `Request failed ${response}`;
+        throw new Error(`Request failed ${response}`);
       }
       return response.data;
     } catch (error) {
@@ -48,12 +48,12 @@ class ApiService {
 
   async unFollow(userId, targetId) {
     try {
-      const response = axios.post(`${apiUrl}/users/unfollow`, {
+      const response = axios.post(`${this.apiUrl}/users/unfollow`, {
         userId: userId,
         targetId: targetId
       });
       if (response.status !== 200) {
-        throw `Request failed ${response}`;
+        throw new Error(`Request failed ${response}`);
       }
       return response.data;
     } catch (error) {
@@ -64,10 +64,10 @@ class ApiService {
   async getFollower(userId, startIndex, limit = 20) {
     try {
       const response = axios.get(
-        `${apiUrl}/users/follower/?userId=${userId}&startIndex=${startIndex}&limit=${limit}`
+        `${this.apiUrl}/users/follower/${userId}?startIndex=${startIndex}&limit=${limit}`
       );
       if (response.status !== 200) {
-        throw `Request failed ${response}`;
+        throw new Error(`Request failed ${response}`);
       }
       return response.data;
     } catch (error) {
@@ -78,10 +78,10 @@ class ApiService {
   async getFollowerCount(userId) {
     try {
       const response = axios.get(
-        `${apiUrl}/users/followerCount/?userId=${userId}`
+        `${this.apiUrl}/users/followerCount/${userId}`
       );
       if (response.status !== 200) {
-        throw `Request failed ${response}`;
+        throw new Error(`Request failed ${response}`);
       }
       return response.data;
     } catch (error) {
@@ -92,10 +92,10 @@ class ApiService {
   async getFollowing(userId, startIndex, limit = 20) {
     try {
       const response = axios.get(
-        `${apiUrl}/users/following/?userId=${userId}&startIndex=${startIndex}&limit=${limit}`
+        `${this.apiUrl}/users/following/${userId}?startIndex=${startIndex}&limit=${limit}`
       );
       if (response.status !== 200) {
-        throw `Request failed ${response}`;
+        throw new Error(`Request failed ${response}`);
       }
       return response.data;
     } catch (error) {
@@ -106,10 +106,10 @@ class ApiService {
   async getFollowingCount(userId) {
     try {
       const response = axios.get(
-        `${apiUrl}/users/followingCount/?userId=${userId}`
+        `${this.apiUrl}/users/followingCount/${userId}`
       );
       if (response.status !== 200) {
-        throw `Request failed ${response}`;
+        throw new Error(`Request failed ${response}`);
       }
       return response.data;
     } catch (error) {
@@ -119,13 +119,13 @@ class ApiService {
 
   async addPost(text, image, authorUserId) {
     try {
-      const response = axios.post(`${apiUrl}/posts`, {
+      const response = axios.post(`${this.apiUrl}/posts`, {
         text: text,
         image: image,
         authorUserId: authorUserId
       });
       if (response.status !== 200) {
-        throw `Request failed ${response}`;
+        throw new Error(`Request failed ${response}`);
       }
       return response.data;
     } catch (error) {
@@ -135,9 +135,9 @@ class ApiService {
 
   async getPost(postId) {
     try {
-      const response = axios.get(`${apiUrl}/posts/?postId=${postId}`);
+      const response = axios.get(`${this.apiUrl}/posts/${postId}`);
       if (response.status !== 200) {
-        throw `Request failed ${response}`;
+        throw new Error(`Request failed ${response}`);
       }
       return response.data;
     } catch (error) {
@@ -147,9 +147,9 @@ class ApiService {
 
   async deletePost(postId) {
     try {
-      const response = axios.delete(`${apiUrl}/posts/?postId=${postId}`);
+      const response = axios.delete(`${this.apiUrl}/posts/${postId}`);
       if (response.status !== 200) {
-        throw `Request failed ${response}`;
+        throw new Error(`Request failed ${response}`);
       }
       return response.data;
     } catch (error) {
