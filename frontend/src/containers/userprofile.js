@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../styles/profile.css";
 import ChangeAvator from "../components/ChangeAvator";
-import rootReducer from "../reducers/index";
+import ApiService from "../ApiService";
 class userprofile extends Component {
   constructor(props){
     super(props)
@@ -18,15 +18,14 @@ class userprofile extends Component {
     })
   }
   setUser(user){
-    this.setPic(user);
-  }
-  componentWillMount(){
     this.setState({
-      username: "username"
+      username: user
     })
   }
+  componentWillMount(){
+    this.setUser(ApiService.getProfile("yzFYGvPN55WPc9IExUHWeOK8loA3"));
+  }
   componentDidMount(){
-     
     console.log(this.state.username);
   }
   render() {
