@@ -51,6 +51,9 @@ module.exports.getSuggestions = async (request, response) => {
   let unfollowedUserList = [];
   for (let i = 0; i < allUserList.length; i++) {
     let followed = false;
+    if(allUserList[i].userId === userId){
+      continue;
+    }
     for (let j = 0; j < followingList.length; j++) {
       if (allUserList[i].userId === followingList[j].userId) {
         followed = true;

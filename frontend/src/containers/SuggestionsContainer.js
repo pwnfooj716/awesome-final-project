@@ -5,7 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { fetchOtherUsersIfNeeded } from "../actions";
+import { fetchOtherUsersIfNeeded, followUser } from "../actions";
 import Empty from "../resources/empty.jpg";
 import Avatar from "@material-ui/core/Avatar";
 
@@ -29,6 +29,11 @@ class SuggestionsContainer extends Component {
     dispatch(fetchOtherUsersIfNeeded());
   }
 
+  handleFollow (id) {
+    const { dispatch } = this.props;
+    dispatch(followUser(id));
+  };
+
   render() {
     const { classes } = this.props;
     const { otherUsers } = this.props;
@@ -38,7 +43,7 @@ class SuggestionsContainer extends Component {
           {!otherUsers.isLoading &&
             otherUsers.items.length !== 0 &&
             otherUsers.items.map(otherUser => {
-              return <SuggestionInfo user={otherUser} />;
+              return <SuggestionInfo user={otherUser} handleFollow={this.handleFollow}/>;
             })}
           {otherUsers.isLoading && <CircularProgress color="secondary" />}
           {!otherUsers.isLoading && otherUsers.items.length === 0 && (

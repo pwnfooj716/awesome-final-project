@@ -203,3 +203,24 @@ function receivePosts(data) {
     type: NO_ACTION
   };
 }
+
+export function followUser() {
+  return (dispatch, getState) => {
+    if (
+      getState().otherUsers.isLoading ||
+      getState().otherUsers.items.length !== 0 ||
+      !getState().userId
+    ) {
+      return {
+        type: NO_ACTION
+      };
+    }
+    dispatch(requestOtherUsers());
+    return api
+      .getOtherUsers(getState().userId)
+      .then(response => dispatch(receiveOtherUsers(response)))
+      .catch(err => {
+        console.log(err.message);
+      });
+  };
+}
