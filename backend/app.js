@@ -7,6 +7,7 @@ const admin = require('firebase-admin');
 const redis = require("redis");
 const client = redis.createClient();
 const bluebird = require("bluebird");
+const cors = require('cors') 
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
@@ -25,6 +26,7 @@ admin.initializeApp({
   // databaseURL: 'https://cs554-awesome-final.firebaseio.com'
 });
 
+app.use(cors());
 // To setup the API credential
 // !! Don't upload or put the key into the project folder or Git it.
 // !! Please Using email or slack to share the key.
