@@ -19,6 +19,7 @@ import Cookies from "universal-cookie";
 import green from "@material-ui/core/colors/green";
 import { connect } from "react-redux";
 import { setUserId } from "../../actions";
+import auth from "../../protected/auth";
 
 const cookies = new Cookies();
 
@@ -94,6 +95,7 @@ class SignIn extends Component {
         let minutes = 100;
         d.setTime(d.getTime() + minutes * 60 * 1000);
         cookies.set("AuthCookie", user, { path: "/", expires: d });
+        auth.login();
         console.log("login success");
         this.props.history.push("/network");
       })

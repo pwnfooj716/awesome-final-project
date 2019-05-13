@@ -9,6 +9,7 @@ import Profile from "./containers/userprofile";
 import Network from "./containers/UserContainer";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Grid } from "@material-ui/core";
+import {ProtectedRoute} from './protected/protectedRoute';
 
 const styles = theme => ({
   header: {
@@ -43,11 +44,12 @@ class App extends Component {
           <Grid item xs={false} sm={1} md={2} />
           <Grid item xs={12} sm={10} md={8}>
             <Switch>
-              <Route exact path="/home" component={NewsFeedContainer} />
-              <Route path="/network" component={Network} />
-              <Route path="/userprofile" component={Profile} />
+              <ProtectedRoute exact path="/home" component={NewsFeedContainer} />
+              <ProtectedRoute path="/network" component={Network} />
+              <ProtectedRoute path="/userprofile" component={Profile} />
               <Route path="/signin" component={SignIn} />
-              <Route path="/" component={SignUp} />
+              <Route exact path="/" component={SignUp} />
+              <Route path="*" component={()=>'404 Page Not Found'} />
             </Switch>
           </Grid>
           <Grid item xs={false} sm={1} md={2} />

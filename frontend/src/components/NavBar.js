@@ -18,6 +18,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import { connect } from "react-redux";
 import { setUserId } from "../actions";
 import Cookies from "universal-cookie";
+import auth from '../protected/auth';
 const cookies = new Cookies();
 
 const styles = theme => ({
@@ -103,6 +104,7 @@ class NavBar extends Component {
 
   handleLogout = () => {
     const { dispatch } = this.props;
+    auth.logout();
     cookies.remove("AuthCookie");
     dispatch(setUserId(null));
   };
