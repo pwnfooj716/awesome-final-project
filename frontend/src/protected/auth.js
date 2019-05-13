@@ -1,3 +1,5 @@
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 class Auth {
     constructor(){
         this.authenticated = false
@@ -15,7 +17,9 @@ class Auth {
     }
 
     isAuthenticated(){
-         return this.authenticated 
+        if(cookies.get('AuthCookie')){return true;}
+        else {return false;}
+         //return this.authenticated 
     }
 
 }
