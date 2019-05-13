@@ -21,6 +21,9 @@ module.exports.postLogin = async (request, response) => {
     .then(async function(decodedToken) {
     var userId = decodedToken.user_id;
     // ...
+    if (reqData.name) {
+      decodedToken.name = reqData.name;
+    }
     console.log(decodedToken, "decodedToken")
 
     // let res = await usersData.getUsers();
@@ -29,10 +32,9 @@ module.exports.postLogin = async (request, response) => {
     if (!isUserExist) {
       await usersData.createUser(decodedToken, reqData.idToken);
     }
-
-    response.json({
-      title: `${decodedToken}`,
-    })
+    let userData = await usersData.getProfile(userId);
+  
+    response.json(userData);
   }).catch(function(error) {
     // Handle error
     console.log(error)
