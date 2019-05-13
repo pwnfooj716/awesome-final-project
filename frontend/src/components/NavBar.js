@@ -16,6 +16,7 @@ import Home from "@material-ui/icons/Home";
 import Network from "@material-ui/icons/People";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { connect } from "react-redux";
+import { setUserId } from "../actions";
 
 const styles = theme => ({
   root: {
@@ -87,7 +88,6 @@ const styles = theme => ({
 
 class NavBar extends Component {
   state = {
-    anchorEl: null,
     mobileMoreAnchorEl: null
   };
 
@@ -99,16 +99,20 @@ class NavBar extends Component {
     this.setState({ mobileMoreAnchorEl: null });
   };
 
+  handleLogout = () => {
+    const { dispatch } = this.props;
+    dispatch(setUserId(null));
+  };
+
   render() {
-    const { anchorEl, mobileMoreAnchorEl } = this.state;
+    const { mobileMoreAnchorEl } = this.state;
     const { classes } = this.props;
-    const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     const homeNav = (
       <Link component={RouterLink} to="/home" className={classes.link}>
         <IconButton color="inherit">
-          <Badge badgeContent={this.props.notificationCount} color="error">
+          <Badge badgeContent={this.props.receivedNotifications.length} color="error">
             <Home />
           </Badge>
         </IconButton>
@@ -133,20 +137,10 @@ class NavBar extends Component {
 
     const logoutNav = (
       <Link component={RouterLink} to="/" className={classes.link}>
-        <IconButton color="inherit">
+        <IconButton color="inherit" onClick={this.handleLogout}>
           <PowerOff />
         </IconButton>
       </Link>
-    );
-
-    const renderMenu = (
-      <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
-        open={isMenuOpen}
-        onClose={this.handleMenuClose}
-      />
     );
 
     const renderMobileMenu = (
@@ -173,9 +167,7 @@ class NavBar extends Component {
             </Link>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              {this.props.userId && { homeNav } && { networkNav } && {
-                  profileNav
-                } && { logoutNav }}
+              {this.props.userId && [homeNav, networkNav , profileNav, logoutNav]}
             </div>
             <div className={classes.sectionMobile}>
               <IconButton
@@ -188,7 +180,7 @@ class NavBar extends Component {
             </div>
           </Toolbar>
         </AppBar>
-        {this.props.userId && { renderMenu } && { renderMobileMenu }}
+        {this.props.userId && [ renderMobileMenu ]}
       </div>
     );
   }
@@ -197,18 +189,16 @@ class NavBar extends Component {
 NavBar.propTypes = {
   classes: PropTypes.object.isRequired,
   userId: PropTypes.object.isRequired,
-  notificationCount: PropTypes.number.isRequired,
+  receivedNotifications: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
-  const { userId, notificationCount } = state;
+  const { userId, receivedNotifications } = state;
   return {
     userId,
-    notificationCount
+    receivedNotifications
   };
 }
 
-export default withStyles(styles)(
-  connect(mapStateToProps)(connect(mapStateToProps)(NavBar))
-);
+export default withStyles(styles)(connect(mapStateToProps)(NavBar));

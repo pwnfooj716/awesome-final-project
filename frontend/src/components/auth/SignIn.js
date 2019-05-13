@@ -17,6 +17,8 @@ import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Cookies from "universal-cookie";
 import green from "@material-ui/core/colors/green";
+import { connect } from "react-redux";
+import { setUserId } from "../../actions";
 
 const cookies = new Cookies();
 
@@ -86,18 +88,17 @@ class SignIn extends Component {
       .auth()
       .signInWithEmailAndPassword(newUser.email, newUser.password)
       .then(resp => {
+        this.handleLogin(resp.user)
         const user = { user: resp.user.email, id: resp.user.uid };
         let d = new Date();
         let minutes = 100;
         d.setTime(d.getTime() + minutes * 60 * 1000);
         cookies.set("AuthCookie", user, { path: "/", expires: d });
         console.log("login success");
-        this.props.history.push("/");
+        this.props.history.push("/network");
       })
       .catch(err => {
-        console.log(err);
-            alert(err.message);
-
+        alert(err.message);
       });
   };
   handleChange = e => {
@@ -108,7 +109,10 @@ class SignIn extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.login(this.state);
-    console.log(this.state);
+  };
+  handleLogin = e => {
+    const { dispatch } = this.props;
+    dispatch(setUserId(e.uid));
   };
   render() {
     const { classes } = this.props;
@@ -171,7 +175,12 @@ class SignIn extends Component {
 }
 
 SignIn.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(SignIn);
+function mapStateToProps(state) {
+  return {};
+}
+
+export default withStyles(styles)(connect(mapStateToProps)(SignIn));

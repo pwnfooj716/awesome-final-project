@@ -1,10 +1,6 @@
 import api from "../ApiService";
 import socketIOClient from "socket.io-client";
 
-const socket = socketIOClient("http://localhost:3030", {
-  transports: ["websocket", "xhr-polling"]
-});
-
 export const USER_ID = "USER_ID";
 export const CURRENT_USER = "CURRENT_USER";
 export const FOLLOWING_LIST = "FOLLOWING_LIST";
@@ -69,9 +65,12 @@ export function fetchFollowingListIfNeeded() {
 export function subscribeToFeedsIfNeeded() {
   return (dispatch, getState) => {
     if (getState().followingList.length !== 0 && getState().userId) {
+      const socket = socketIOClient("http://localhost:3030", {
+        transports: ["websocket", "xhr-polling"]
+      });
       getState().followingList.map(following => {
         return socket.on(`newpost${following.userId}`, data => {
-          return dispatch(receiveNotification(data))
+          return dispatch(receiveNotification(data));
         });
       });
     }
