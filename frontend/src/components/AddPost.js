@@ -68,7 +68,7 @@ class AddPost extends Component {
           >
             <AddAPhoto />
           </IconButton>
-          <ListItemText primary="Add a picture" />
+          <ListItemText primary="Post a picture" />
         </ListItem>
         <Dialog
           open={this.state.open}

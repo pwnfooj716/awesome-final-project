@@ -7,7 +7,9 @@ import {
   FEEDS,
   OTHER_USERS,
   USER_POSTS,
-  RECEIVE_FEED
+  RECEIVE_FEED,
+  LOADING_PROFILE,
+  LOADING_FEEDS
 } from '../actions'
 
 function userId(state = null, action) {
@@ -23,6 +25,24 @@ function currentUser(state = null, action) {
   switch (action.type) {
     case CURRENT_USER:
       return action.currentUser
+    default:
+      return state
+  }
+}
+
+function isLoadingProfile(state = true, action) {
+  switch (action.type) {
+    case LOADING_PROFILE:
+      return action.isLoadingProfile
+    default:
+      return state
+  }
+}
+
+function isLoadingFeeds(state = true, action) {
+  switch (action.type) {
+    case LOADING_FEEDS:
+      return action.isLoadingFeeds
     default:
       return state
   }
@@ -90,7 +110,9 @@ const rootReducer = combineReducers({
   feeds,
   otherUsers,
   userPost,
-  receivedNotifications
+  receivedNotifications,
+  isLoadingProfile,
+  isLoadingFeeds
 })
 
 export default rootReducer

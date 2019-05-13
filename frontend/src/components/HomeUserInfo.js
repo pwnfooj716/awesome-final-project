@@ -6,15 +6,15 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Avatar from "@material-ui/core/Avatar";
-import green from "@material-ui/core/colors/green";
 import { Grid } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import ImageIcon from "@material-ui/icons/Image";
 import Visibility from "@material-ui/icons/VisibilityOutlined";
 import People from "@material-ui/icons/PeopleOutlineOutlined";
 import AddPost from "./AddPost";
+import { connect } from "react-redux";
+import Empty from "../resources/empty.jpg";
 
 const styles = theme => ({
   root: {
@@ -35,7 +35,6 @@ const styles = theme => ({
     display: "flex"
   },
   avatar: {
-    backgroundColor: green[500],
     margin: 10,
     width: 60,
     height: 60
@@ -53,6 +52,8 @@ class HomeUserInfo extends Component {
 
   render() {
     const { classes } = this.props;
+    const { currentUser } = this.props;
+    const imgSrc = currentUser.picture ? currentUser.picture : Empty
     return (
       <Grid
         container
@@ -64,11 +65,9 @@ class HomeUserInfo extends Component {
         <Card className={classes.userCard}>
           <CardHeader
             avatar={
-              <Avatar aria-label="Recipe" className={classes.avatar}>
-                R
-              </Avatar>
+              <Avatar src={imgSrc} className={classes.avatar} />
             }
-            title="Shrimp and Chorizo Paella"
+            title={currentUser.name}
           />
         </Card>
         <br />
@@ -85,19 +84,13 @@ class HomeUserInfo extends Component {
                 <Avatar>
                   <People />
                 </Avatar>
-                <ListItemText primary="Followers" secondary="100" />
+                <ListItemText primary="Followers" secondary={currentUser.followerNum} />
               </ListItem>
               <ListItem>
                 <Avatar>
                   <Visibility />
                 </Avatar>
-                <ListItemText primary="Following" secondary="100" />
-              </ListItem>
-              <ListItem>
-                <Avatar>
-                  <ImageIcon />
-                </Avatar>
-                <ListItemText primary="Posts" secondary="100" />
+                <ListItemText primary="Following" secondary={currentUser.followingNum} />
               </ListItem>
             </List>
           </CardContent>
@@ -108,7 +101,14 @@ class HomeUserInfo extends Component {
 }
 
 HomeUserInfo.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(HomeUserInfo);
+function mapStateToProps(state) {
+  const { currentUser } = state;
+  return { currentUser };
+}
+
+export default withStyles(styles)(connect(mapStateToProps)(HomeUserInfo));
