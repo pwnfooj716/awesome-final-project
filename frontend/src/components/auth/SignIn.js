@@ -19,6 +19,7 @@ import Cookies from "universal-cookie";
 import green from "@material-ui/core/colors/green";
 import { connect } from "react-redux";
 import { setUserId } from "../../actions";
+import apiService from "../../ApiService";
 
 const cookies = new Cookies();
 
@@ -82,8 +83,10 @@ class SignIn extends Component {
       password: ""
     };
   }
-
+  
   login = newUser => {
+    let history = this.props.history;
+    
     firebaseConfig
       .auth()
       .signInWithEmailAndPassword(newUser.email, newUser.password)
@@ -94,8 +97,28 @@ class SignIn extends Component {
         let minutes = 100;
         d.setTime(d.getTime() + minutes * 60 * 1000);
         cookies.set("AuthCookie", user, { path: "/", expires: d });
-        console.log("login success");
-        this.props.history.push("/network");
+
+        firebaseConfig.auth().currentUser.getIdToken(false).then(function(idToken) {
+          // Send token to your backend via HTTPS
+          console.log(idToken);
+          // Login to the server.
+          cookies.set("token", idToken, { path: "/", expires: d });
+          apiService
+          .login(idToken)
+          .then(response => {
+            console.log(response);
+            console.log("login success");
+            history.push("/network");
+            cookies.set("userId", response.userId, { path: "/", expires: d });
+            cookies.set("email", response.email, { path: "/", expires: d });
+            cookies.set("name", response.name, { path: "/", expires: d });
+          }).catch(err => {
+            console.log(err.message);
+          });
+        }).catch(function(error) {
+          // Handle error
+        });
+
       })
       .catch(err => {
         alert(err.message);
