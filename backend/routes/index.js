@@ -5,7 +5,7 @@ const { postLogin } = require('./login')
 const { postPost, getTimeline, deletePost, getPost, postComment,
   postLikePost, postUnlikePost, deleteComment, getLikeStatus } = require('./posts')
 const { postFollow, postUnfollow, getFollower, getFollowing, 
-  getProfile, patchUser } = require('./users')
+  getProfile, patchUser, getSuggestions } = require('./users')
 
 // login
 router.post('/login', catchErrors(postLogin));
@@ -28,5 +28,6 @@ router.get('/users/follower/:userId', catchErrors(getFollower));
 router.get('/users/following/:userId', catchErrors(getFollowing));
 router.get('/users/profile/:userId', catchErrors(getProfile));
 router.patch('/users/:userId', catchErrors(patchUser));
+router.get('/users/suggestions/:userId', catchErrors(getSuggestions));
 
 module.exports = router;

@@ -45,7 +45,6 @@ module.exports.unfollow = async (userId, targetUserId) => {
 }
 
 function getPageList(objList, startIndex, limit) {
-  console.log(objList);
   objList.sort((a, b) => {
     let v1 = a.followedTime._seconds;
     let v2 = b.followedTime._seconds;
@@ -65,6 +64,7 @@ function getPageList(objList, startIndex, limit) {
 module.exports.getFollowerList = async (userId, startIndex=0, limit=20) => {
   return followerCollection().then((col) => {
     return col.doc(userId).get().then((doc) => {
+      if (!doc.exists) return [];
       let dataObj = doc.data();
       let allFollower = Object.values(dataObj);
       return getPageList(allFollower, startIndex, limit);
@@ -76,7 +76,6 @@ module.exports.getFollowingList = async (userId, startIndex=0, limit=20) => {
   return followingCollection().then((col) => {
     return col.doc(userId).get().then((doc) => {
       if (!doc.exists) return [];
-  
       let dataObj = doc.data();
       let allFollower = Object.values(dataObj);
       return getPageList(allFollower, startIndex, limit);
