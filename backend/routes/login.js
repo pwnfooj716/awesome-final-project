@@ -39,3 +39,10 @@ module.exports.postLogin = async (request, response) => {
     response.status(500).json({ error: 'Internal error' })
   });
 }
+
+module.exports.postSignIn = async (request, response) => {
+  const {email, password} = request.body;
+  console.log(email, password, "login");
+  let userData = await usersData.getUserByEmail(email);
+  response.json(userData);
+}

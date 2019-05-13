@@ -43,7 +43,6 @@ module.exports.getLikeStatus = async (userId, targetId) => {
       .get().then((snap) => {
         let resData = null;
         snap.forEach(function(doc) {
-          console.log(doc.data(), "cson");
           resData = doc.data();
         });
         return resData;
