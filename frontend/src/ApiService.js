@@ -21,7 +21,7 @@ class ApiService {
 
   async getProfile(userId) {
     try {
-      const response = axios.get(`${this.apiUrl}/users/profile/${userId}`);
+      const response = await axios.get(`${this.apiUrl}/users/profile/${userId}`);
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
       }
@@ -33,7 +33,7 @@ class ApiService {
 
   async follow(userId, targetId) {
     try {
-      const response = axios.post(`${this.apiUrl}/users/follow`, {
+      const response = await axios.post(`${this.apiUrl}/users/follow`, {
         userId: userId,
         targetId: targetId
       });
@@ -48,7 +48,7 @@ class ApiService {
 
   async unFollow(userId, targetId) {
     try {
-      const response = axios.post(`${this.apiUrl}/users/unfollow`, {
+      const response = await axios.post(`${this.apiUrl}/users/unfollow`, {
         userId: userId,
         targetId: targetId
       });
@@ -63,7 +63,7 @@ class ApiService {
 
   async getFollower(userId, startIndex, limit = 20) {
     try {
-      const response = axios.get(
+      const response = await axios.get(
         `${
           this.apiUrl
         }/users/follower/${userId}?startIndex=${startIndex}&limit=${limit}`
@@ -79,7 +79,7 @@ class ApiService {
 
   async getFollowerCount(userId) {
     try {
-      const response = axios.get(
+      const response = await axios.get(
         `${this.apiUrl}/users/followerCount/${userId}`
       );
       if (response.status !== 200) {
@@ -93,7 +93,7 @@ class ApiService {
 
   async getFollowing(userId, startIndex, limit = 20) {
     try {
-      const response = axios.get(
+      const response = await axios.get(
         `${
           this.apiUrl
         }/users/following/${userId}?startIndex=${startIndex}&limit=${limit}`
@@ -109,7 +109,7 @@ class ApiService {
 
   async getFollowingCount(userId) {
     try {
-      const response = axios.get(
+      const response = await axios.get(
         `${this.apiUrl}/users/followingCount/${userId}`
       );
       if (response.status !== 200) {
@@ -123,7 +123,7 @@ class ApiService {
 
   async addPost(text, image, authorUserId) {
     try {
-      const response = axios.post(`${this.apiUrl}/posts`, {
+      const response = await axios.post(`${this.apiUrl}/posts`, {
         text: text,
         image: image,
         authorUserId: authorUserId
@@ -139,7 +139,7 @@ class ApiService {
 
   async getPost(postId) {
     try {
-      const response = axios.get(`${this.apiUrl}/posts/${postId}`);
+      const response = await axios.get(`${this.apiUrl}/posts/${postId}`);
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
       }
@@ -151,7 +151,7 @@ class ApiService {
 
   async deletePost(postId) {
     try {
-      const response = axios.delete(`${this.apiUrl}/posts/${postId}`);
+      const response = await axios.delete(`${this.apiUrl}/posts/${postId}`);
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
       }
@@ -163,7 +163,7 @@ class ApiService {
 
   async getInitialTimeline(userId) {
     try {
-      const response = axios.get(`${this.apiUrl}/posts/timeline/${userId}`);
+      const response = await axios.get(`${this.apiUrl}/posts/getTimeline/${userId}`);
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
       }

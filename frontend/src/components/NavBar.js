@@ -239,8 +239,8 @@ class NavBar extends Component {
 
 NavBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  userId: PropTypes.object.isRequired,
-  receivedNotifications: PropTypes.number.isRequired,
+  userId: PropTypes.string,
+  receivedNotifications: PropTypes.array,
   dispatch: PropTypes.func.isRequired
 };
 

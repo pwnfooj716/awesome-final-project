@@ -3,7 +3,6 @@ import {
   USER_ID,
   CURRENT_USER,
   FOLLOWING_LIST,
-  FOLLOWING_COUNT,
   FOLLOWER_COUNT,
   FEEDS,
   OTHER_USERS,
@@ -33,15 +32,6 @@ function followingList(state = [], action) {
   switch (action.type) {
     case FOLLOWING_LIST:
       return action.followingList
-    default:
-      return state
-  }
-}
-
-function followingCount(state = null, action) {
-  switch (action.type) {
-    case FOLLOWING_COUNT:
-      return action.followingCount
     default:
       return state
   }
@@ -83,7 +73,7 @@ function userPost(state = [], action) {
   }
 }
 
-function receivedNotifications(state = 0, action) {
+function receivedNotifications(state = [], action) {
   switch (action.type) {
     case RECEIVE_FEED:
       return [...state.receivedFeed, action.receivedFeed]
@@ -96,7 +86,6 @@ const rootReducer = combineReducers({
   userId,
   currentUser,
   followingList,
-  followingCount,
   followerCount,
   feeds,
   otherUsers,

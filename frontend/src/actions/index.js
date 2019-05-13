@@ -4,11 +4,11 @@ import socketIOClient from "socket.io-client";
 export const USER_ID = "USER_ID";
 export const CURRENT_USER = "CURRENT_USER";
 export const FOLLOWING_LIST = "FOLLOWING_LIST";
-export const FOLLOWING_COUNT = "FOLLOWING_COUNT";
 export const FOLLOWER_COUNT = "FOLLOWER_COUNT";
 export const FEEDS = "FEEDS";
 export const OTHER_USERS = "OTHER_USERS";
 export const USER_POSTS = "USER_POSTS";
+export const NO_ACTION = "NO_ACTION";
 
 export const RECEIVE_FEED = "RECEIVE_FEED";
 export const ADD_POST = "ADD_POST";
@@ -34,8 +34,10 @@ export function fetchUserProfileIfNeeded() {
     if (!getState().currentUser && getState().userId) {
       return api
         .getProfile(getState().userId)
-        .then(response => response.json())
-        .then(data => dispatch(setCurrentUser(data)));
+        .then(response => dispatch(setCurrentUser(response)))
+        .catch(err => {
+          console.log(err.message);
+        });
     }
   };
 }
@@ -44,9 +46,12 @@ export function fetchFeedsIfNeeded() {
   return (dispatch, getState) => {
     if (getState().feeds.length === 0 && getState().userId) {
       return api
-        .getInitialTimeline(getState().userId)
-        .then(response => response.json())
-        .then(data => dispatch(setFeeds(data)));
+        .getInitialTimeline(getState().userId)        
+        .then(response => (dispatch(setFeeds(response))))
+        .then(response => (console.log(`Get Feeds : ${response}`)))
+        .catch(err => {
+          console.log(err.message);
+        });
     }
   };
 }
@@ -56,8 +61,10 @@ export function fetchFollowingListIfNeeded() {
     if (getState().followingList.length === 0 && getState().userId) {
       return api
         .getFollowing(getState().userId, 0, -1)
-        .then(response => response.json())
-        .then(data => dispatch(setFollowingList(data)));
+        .then(response => (dispatch(setFollowingList(response))))
+        .catch(err => {
+          console.log(err.message);
+        });
     }
   };
 }
@@ -78,29 +85,49 @@ export function subscribeToFeedsIfNeeded() {
 }
 
 function setCurrentUser(data) {
+  if (data) {
+    return {
+      type: CURRENT_USER,
+      currentUser: data
+    };
+  }
   return {
-    type: CURRENT_USER,
-    currentUser: data.data
-  };
+    type: NO_ACTION
+  }
 }
 
 function setFollowingList(data) {
+  if (data) {
+    return {
+      type: FOLLOWING_LIST,
+      followingList: data
+    };
+  }
   return {
-    type: FOLLOWING_LIST,
-    followingList: data.data
-  };
+    type: NO_ACTION
+  }
 }
 
 function setFeeds(data) {
+  if (data) {
+    return {
+      type: FEEDS,
+      feeds: data.timelinePosts
+    };
+  }
   return {
-    type: FEEDS,
-    feeds: data.data
-  };
+    type: NO_ACTION
+  }
 }
 
 function receiveNotification(data) {
+  if (data) {
+    return {
+      type: RECEIVE_FEED,
+      receivedFeed: data
+    };
+  }
   return {
-    type: RECEIVE_FEED,
-    receivedFeed: data
-  };
+    type: NO_ACTION
+  }
 }

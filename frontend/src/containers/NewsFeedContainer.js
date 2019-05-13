@@ -91,7 +91,7 @@ class NewsFeedContainer extends Component {
 
 NewsFeedContainer.propTypes = {
   classes: PropTypes.object.isRequired,
-  currentUser: PropTypes.object.isRequired,
+  currentUser: PropTypes.object,
   feeds: PropTypes.array,
   followingList: PropTypes.array,
   dispatch: PropTypes.func.isRequired
