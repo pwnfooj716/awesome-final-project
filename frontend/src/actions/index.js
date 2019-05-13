@@ -11,6 +11,7 @@ export const REQUEST_FEEDS = "REQUEST_FEEDS";
 export const RECEIVE_FEEDS = "RECEIVE_FEEDS";
 export const REQUEST_USER_POSTS = "REQUEST_USER_POSTS";
 export const RECEIVE_USER_POSTS = "RECEIVE_USER_POSTS";
+export const REMOVE_OTHER_USERS = "REMOVE_OTHER_USERS";
 const NO_ACTION = "NO_ACTION";
 
 export function setUserId(userId) {
@@ -204,23 +205,39 @@ function receivePosts(data) {
   };
 }
 
-export function followUser() {
+export function followUser(targetId) {
   return (dispatch, getState) => {
-    if (
-      getState().otherUsers.isLoading ||
-      getState().otherUsers.items.length !== 0 ||
-      !getState().userId
-    ) {
-      return {
-        type: NO_ACTION
-      };
-    }
-    dispatch(requestOtherUsers());
     return api
-      .getOtherUsers(getState().userId)
-      .then(response => dispatch(receiveOtherUsers(response)))
+      .follow(getState().userId, targetId)
       .catch(err => {
         console.log(err.message);
       });
+  };
+}
+
+export function postFollowAction(targetId) {
+  return (dispatch, getState) => {
+    dispatch(receiveOtherUsers());
+    return dispatch(removeOtherUsers(targetId));
+  };
+}
+
+function removeOtherUsers(data) {
+  if (data) {
+    return {
+      type: REMOVE_OTHER_USERS,
+      otherUserID: data
+    };
+  }
+  return {
+    type: NO_ACTION
+  };
+}
+
+export function unfollowUser(targetId) {
+  return (dispatch, getState) => {
+    return api.unFollow(getState().userId, targetId).catch(err => {
+      console.log(err.message);
+    });
   };
 }

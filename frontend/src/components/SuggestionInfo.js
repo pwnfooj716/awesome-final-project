@@ -41,7 +41,12 @@ const styles = theme => ({
   }
 });
 
-class SuggestionInfo extends Component {  
+class SuggestionInfo extends Component {
+
+  handleFollow () {
+    this.props.handleFollow(this.props.user.userId)
+  };
+
   render() {
     const { classes } = this.props;
     const imgSrc = this.props.user.picture ? this.props.user.picture : Empty;
@@ -52,7 +57,7 @@ class SuggestionInfo extends Component {
           title={this.props.user.name}
           subheader={this.props.user.email}
           action={
-            <IconButton aria-label="Follow" onClick={this.props.handleFollow.bind(this.props.user.userId)}> 
+            <IconButton aria-label="Follow" onClick={this.handleFollow.bind(this)}> 
               <Add />
             </IconButton>
           }

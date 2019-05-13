@@ -43,7 +43,7 @@ class NewsFeedContainer extends Component {
 
   render() {
     const { classes } = this.props;
-    const { feeds, currentUser } = this.props;
+    const { feeds, currentUser, followingList } = this.props;
     return (
       <Grid container spacing={24} className={classes.layout}>
         <Grid
@@ -75,7 +75,7 @@ class NewsFeedContainer extends Component {
           lg={4}
           className={classes.userInfo}
         >
-          {!currentUser.isLoading && <HomeUserInfo />}
+          {!currentUser.isLoading && <HomeUserInfo followingNum={followingList.items.length} />}
         </Grid>
       </Grid>
     );

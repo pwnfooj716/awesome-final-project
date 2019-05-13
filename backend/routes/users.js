@@ -36,11 +36,21 @@ module.exports.getFollowing = async (request, response) => {
   let userId = request.params.userId;
   let startIndex = request.params.startIndex;
   let limit = request.params.limit;
-
+  console.log(`inside followingList ${userId}`)
   if (limit > 100) limit = 100;
 
   let following = await followData.getFollowingList(userId, startIndex, limit);
-  response.json(following);
+  let followingProfileList = [];
+  for(let i = 0; i < following.length; i++){
+    try{
+      let followingProfile = await userData.getProfile(following[i].userId);
+      followingProfileList.push(followingProfile)
+    } catch {
+      console.log(`Error with userId ${following[i].userId}`)
+    }
+  }
+  console.log(`inside followingList ${followingProfileList}`)
+  response.json(followingProfileList);
 }
 
 module.exports.getSuggestions = async (request, response) => {
@@ -85,7 +95,7 @@ module.exports.patchUser = async (request, response) => {
 module.exports.getProfile = async (request, response) => {
   let userId = request.params.userId;
   let userProfileData = await userData.getProfile(userId);
-
+  
   userProfileData.followerNum = await followData.getFollowerNum(userId);
   userProfileData.followingNum = await followData.getFollowingNum(userId);
 

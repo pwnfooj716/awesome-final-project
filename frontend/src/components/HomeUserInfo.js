@@ -90,7 +90,7 @@ class HomeUserInfo extends Component {
                 <Avatar>
                   <Visibility />
                 </Avatar>
-                <ListItemText primary="Following" secondary={currentUser.items.followingNum} />
+                <ListItemText primary="Following" secondary={this.props.followingNum} />
               </ListItem>
             </List>
           </CardContent>
