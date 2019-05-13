@@ -17,6 +17,8 @@ import Network from "@material-ui/icons/People";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { connect } from "react-redux";
 import { setUserId } from "../actions";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const styles = theme => ({
   root: {
@@ -101,8 +103,25 @@ class NavBar extends Component {
 
   handleLogout = () => {
     const { dispatch } = this.props;
+    cookies.remove("AuthCookie");
     dispatch(setUserId(null));
   };
+
+  handleMobileMenuCloseL = () => {
+    console.log("asd");
+    
+    cookies.remove("AuthCookie");
+    this.setState({ mobileMoreAnchorEl: null });
+  };
+
+  expCookie =()=>{
+    // alert(cookies.get('AuthCookie'));
+
+    cookies.remove("AuthCookie");
+
+   // console.log("123");
+   
+  }
 
   render() {
     const { mobileMoreAnchorEl } = this.state;
@@ -115,6 +134,21 @@ class NavBar extends Component {
           <Badge badgeContent={this.props.receivedNotifications.length} color="error">
             <Home />
           </Badge>
+        </IconButton>
+      </Link>
+    );
+
+    const SignInNav = (
+      <Link component={RouterLink} to="/signin" className={classes.link}>
+        <IconButton color="inherit">
+          Sign In
+        </IconButton>
+      </Link>
+    );
+    const SignUpNav = (
+      <Link component={RouterLink} to="/" className={classes.link}>
+        <IconButton color="inherit">
+          Sign Up
         </IconButton>
       </Link>
     );
@@ -136,7 +170,7 @@ class NavBar extends Component {
     );
 
     const logoutNav = (
-      <Link component={RouterLink} to="/" className={classes.link}>
+      <Link component={RouterLink} to="/signin" className={classes.link}>
         <IconButton color="inherit" onClick={this.handleLogout}>
           <PowerOff />
         </IconButton>
@@ -155,8 +189,24 @@ class NavBar extends Component {
         <MenuItem onClick={this.handleMobileMenuClose}>{networkNav}</MenuItem>
         <MenuItem onClick={this.handleMobileMenuClose}>{profileNav}</MenuItem>
         <MenuItem onClick={this.handleMobileMenuClose}>{logoutNav}</MenuItem>
+        <MenuItem onClick={this.handleMobileMenuClose}>{SignInNav}</MenuItem>
+        <MenuItem onClick={this.handleMobileMenuClose}>{SignUpNav}</MenuItem>
       </Menu>
     );
+
+    const logedin = <div className={classes.sectionDesktop}>
+    {homeNav}
+    {networkNav}
+    {profileNav}
+    {logoutNav}
+  </div>
+  
+    const logedout = <div className={classes.sectionDesktop}>
+    {SignInNav}
+    {SignUpNav} 
+    </div>
+
+    const link = (this.props.userId) ? logedin : logedout;
 
     return (
       <div className={classes.root}>
@@ -166,9 +216,10 @@ class NavBar extends Component {
               <img src={logo} className={classes.title} alt={"logo"} />
             </Link>
             <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
+            {link}
+            {/* <div className={classes.sectionDesktop}>
               {this.props.userId && [homeNav, networkNav , profileNav, logoutNav]}
-            </div>
+            </div> */}
             <div className={classes.sectionMobile}>
               <IconButton
                 aria-haspopup="true"
