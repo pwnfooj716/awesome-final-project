@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../styles/profile.css";
 import ChangeAvator from "../components/ChangeAvator";
+import rootReducer from "../reducers/index";
 class userprofile extends Component {
   constructor(props){
     super(props)
@@ -15,6 +16,18 @@ class userprofile extends Component {
     this.setState({
       postPic: pic
     })
+  }
+  setUser(user){
+    this.setPic(user);
+  }
+  componentWillMount(){
+    this.setState({
+      username: "username"
+    })
+  }
+  componentDidMount(){
+     
+    console.log(this.state.username);
   }
   render() {
     const photo = 'https://api-cdn.spott.tv/rest/v004/image/images/e91f9cad-a70c-4f75-9db4-6508c37cd3c0?width=587&height=599'
@@ -55,15 +68,15 @@ class userprofile extends Component {
     const FollowerNumb = Followers.length;
     const postNumb = posts.length;
     const listPosts = posts.map((post)=>
-      <div class="postBlock">
-        <img class="post" src={post.photo} alt={post.TextContent} onClick={()=>this.setPic(post.photo)} data-toggle="modal" data-target="#postModal" />
-        <center class="postContent" > {post.TextContent} </center>
+      <div className="postBlock">
+        <img className="post" src={post.photo} alt={post.TextContent} onClick={()=>this.setPic(post.photo)} data-toggle="modal" data-target="#postModal" />
+        <center className="postContent" > {post.TextContent} </center>
       </div>
       );
     const listFollowers = Followers.map((follower)=>
       <div>
-        <img class="followerImg" src={follower.photo} alt={follower.name} />
-        <center class="followerName"> {follower.name} </center>
+        <img className="followerImg" src={follower.photo} alt={follower.name} />
+        <center className="followerName"> {follower.name} </center>
       </div>
       );
 
@@ -72,70 +85,70 @@ class userprofile extends Component {
         <div style={{ margin: '0 auto', width: '100%' }}>
 
 
-    <div class="modal fade" id="followerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Follower:</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <div className="modal fade" id="followerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal-dialog" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="exampleModalLabel">Follower:</h5>
+            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div className="modal-body">
             {listFollowers}
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modalsize" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Post:</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <div className="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal-dialog modalsize" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="exampleModalLabel">Post:</h5>
+            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <img class="postPic" src={this.state.postPic} alt="Posted Pic"/>
+          <div className="modal-body">
+            <img className="postPic" src={this.state.postPic} alt="Posted Pic"/>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
     </div>
 
-   <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+   <div className="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog EditModal cascading-modal modal-avatar modal-sm" role="document">
-    <div class="modal-content">
+  <div className="modal-dialog EditModal cascading-modal modal-avatar modal-sm" role="document">
+    <div className="modal-content">
 
-      <div class="modal-header">
-        <img src={photo} alt="avatar" class="avatar rounded-circle img-responsive pointer" data-toggle="modal" data-target="#AvatarModal" />
+      <div className="modal-header">
+        <img src={photo} alt="avatar" className="avatar rounded-circle img-responsive pointer" data-toggle="modal" data-target="#AvatarModal" />
       </div>
-      <div class="modal-body text-center mb-1">
+      <div className="modal-body text-center mb-1">
 
-        <h4 class="mt-1 mb-2">{userName}</h4>
+        <h4 className="mt-1 mb-2">{userName}</h4>
 
-        <div class="md-form ml-0 mr-0">
+        <div className="md-form ml-0 mr-0">
          <div>
           <label for="newUserName">New Name:</label>
-          <input name="newUserName" class="EditModalInput" id="newUserName" />
+          <input name="newUserName" className="EditModalInput" id="newUserName" />
          </div>
          <div>
           <label for="NewEmail">New Email:</label>
-          <input name="NewEmail" class="EditModalInput" id="NewEmail" />
+          <input name="NewEmail" className="EditModalInput" id="NewEmail" />
           </div>
         </div>
 
-        <div class="text-center mt-4">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button class="btn btn-primary submit">Submit </button>
+        <div className="text-center mt-4">
+          <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button className="btn btn-primary submit">Submit </button>
         </div>
       </div>
 
@@ -143,38 +156,38 @@ class userprofile extends Component {
   </div>
 </div>
 
-    <div class="modal fade" id="AvatarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Change Avator:</h5>
+    <div className="modal fade" id="AvatarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal-dialog" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="exampleModalLabel">Change Avator:</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div className="modal-body">
             <ChangeAvator />
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
     </div>
 
         <header>
-        <img class="userPic rounded-circle pointer" src={photo} alt="Smiley face" data-toggle="modal" data-target="#AvatarModal" />
-        <div class="userInfo">
-        <h1 class="name">{userName}</h1>
-        <button class="editBtn" type="button" data-toggle="modal" data-target="#EditModal">Edit Profile</button>
-        <h2 class="email">{email}</h2>
-        <div class= "follow"> <b>{postNumb} </b> <strong>Posts</strong> </div>
-        <div class="follow pointer" data-toggle="modal" data-target="#followerModal"> <b>{FollowerNumb} </b> <strong>Following</strong></div>
+        <img className="userPic rounded-circle pointer" src={photo} alt="Smiley face" data-toggle="modal" data-target="#AvatarModal" />
+        <div className="userInfo">
+        <h1 className="name">{userName}</h1>
+        <button className="editBtn" type="button" data-toggle="modal" data-target="#EditModal">Edit Profile</button>
+        <h2 className="email">{email}</h2>
+        <div className= "follow"> <b>{postNumb} </b> <strong>Posts</strong> </div>
+        <div className="follow pointer" data-toggle="modal" data-target="#followerModal"> <b>{FollowerNumb} </b> <strong>Following</strong></div>
         </div>
         </header>
       </div>
-      <div class="postbox">
-        <center class="pTitle">My Posts</center>
+      <div className="postbox">
+        <center className="pTitle">My Posts</center>
         <div>{listPosts}</div>
       </div>
       </div>
