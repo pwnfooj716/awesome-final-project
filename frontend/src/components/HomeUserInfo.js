@@ -53,7 +53,7 @@ class HomeUserInfo extends Component {
   render() {
     const { classes } = this.props;
     const { currentUser } = this.props;
-    const imgSrc = currentUser.picture ? currentUser.picture : Empty
+    const imgSrc = currentUser.items.picture ? currentUser.items.picture : Empty
     return (
       <Grid
         container
@@ -67,7 +67,7 @@ class HomeUserInfo extends Component {
             avatar={
               <Avatar src={imgSrc} className={classes.avatar} />
             }
-            title={currentUser.name}
+            title={currentUser.items.name}
           />
         </Card>
         <br />
@@ -84,13 +84,13 @@ class HomeUserInfo extends Component {
                 <Avatar>
                   <People />
                 </Avatar>
-                <ListItemText primary="Followers" secondary={currentUser.followerNum} />
+                <ListItemText primary="Followers" secondary={currentUser.items.followerNum} />
               </ListItem>
               <ListItem>
                 <Avatar>
                   <Visibility />
                 </Avatar>
-                <ListItemText primary="Following" secondary={currentUser.followingNum} />
+                <ListItemText primary="Following" secondary={currentUser.items.followingNum} />
               </ListItem>
             </List>
           </CardContent>

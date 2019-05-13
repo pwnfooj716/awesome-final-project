@@ -1,29 +1,19 @@
 import api from "../ApiService";
 import socketIOClient from "socket.io-client";
 
-export const LOADING_PROFILE = "LOADING_PROFILE";
-export const LOADING_FEEDS = "LOADING_FEEDS";
-
 export const USER_ID = "USER_ID";
-export const CURRENT_USER = "CURRENT_USER";
-export const FOLLOWING_LIST = "FOLLOWING_LIST";
-export const FOLLOWER_COUNT = "FOLLOWER_COUNT";
-export const FEEDS = "FEEDS";
-export const OTHER_USERS = "OTHER_USERS";
-export const USER_POSTS = "USER_POSTS";
-export const NO_ACTION = "NO_ACTION";
-
-export const RECEIVE_FEED = "RECEIVE_FEED";
-export const ADD_POST = "ADD_POST";
-export const EDIT_POST = "DELETE_POST";
-export const DELETE_POST = "DELETE_POST";
-export const FOLLOW = "FOLLOW";
-export const UNFOLLOW = "UNFOLLOW";
-export const LIKE = "LIKE";
-export const UNLIKE = "UNLIKE";
-export const ADD_COMMENT = "ADD_COMMENT";
-export const EDIT_COMMENT = "EDIT_COMMENT";
-export const DELETE_COMMENT = "DELETE_COMMENT";
+export const REQUEST_CURRENT_USER = "REQUEST_CURRENT_USER";
+export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
+export const REQUEST_OTHER_USERS = "REQUEST_OTHER_USERS";
+export const RECEIVE_OTHER_USERS = "RECEIVE_OTHER_USERS";
+export const REQUEST_FOLLOWING_LIST = "REQUEST_FOLLOWING_LIST";
+export const RECEIVE_FOLLOWING_LIST = "RECEIVE_FOLLOWING_LIST";
+export const REQUEST_FEEDS = "REQUEST_FEEDS";
+export const RECEIVE_FEEDS = "RECEIVE_FEEDS";
+export const REQUEST_USER_POSTS = "REQUEST_USER_POSTS";
+export const RECEIVE_USER_POSTS = "RECEIVE_USER_POSTS";
+export const RECEIVE_NOTIFICATION = "RECEIVE_NOTIFICATION";
+const NO_ACTION = "NO_ACTION";
 
 export function setUserId(userId) {
   return {
@@ -34,42 +24,111 @@ export function setUserId(userId) {
 
 export function fetchUserProfileIfNeeded() {
   return (dispatch, getState) => {
-    dispatch(loadingProfile(true));
-    if (!getState().currentUser && getState().userId) {
-      return api.getProfile(getState().userId)
-        .then(response => dispatch(setCurrentUser(response)))
-        .catch(err => {
-          console.log(err.message);
-        });
+    if (
+      getState().currentUser.isLoading ||
+      getState().currentUser.items ||
+      getState().currentUser.items === getState().userId ||
+      !getState().userId
+    ) {
+      return {
+        type: NO_ACTION
+      };
     }
-    dispatch(loadingProfile(false));
+    dispatch(requestProfile());
+    return api
+      .getProfile(getState().userId)
+      .then(response => dispatch(receiveProfile(response)))
+      .catch(err => {
+        console.log(err.message);
+      });
+  };
+}
+
+function requestProfile() {
+  return {
+    type: REQUEST_CURRENT_USER
+  };
+}
+
+function receiveProfile(data) {
+  if (data) {
+    return {
+      type: RECEIVE_CURRENT_USER,
+      currentUser: data
+    };
+  }
+  return {
+    type: NO_ACTION
   };
 }
 
 export function fetchFeedsIfNeeded() {
   return (dispatch, getState) => {
-    dispatch(loadingFeeds(true));
-    if (getState().feeds.length === 0 && !getState().isLoadingFeeds && getState().userId) {
-      return api.getInitialTimeline(getState().userId)
-        .then(response => dispatch(setFeeds(response)))
-        .catch(err => {
-          console.log(err.message);
-        });
+    if (getState().feeds.isLoading || !getState().userId) {
+      return {
+        type: NO_ACTION
+      };
     }
-    dispatch(loadingFeeds(false));
+    dispatch(requestFeeds());
+    return api
+      .getInitialTimeline(getState().userId)
+      .then(response => dispatch(receiveFeeds(response)))
+      .catch(err => {
+        console.log(err.message);
+      });
+  };
+}
+
+function requestFeeds() {
+  return {
+    type: REQUEST_FEEDS
+  };
+}
+
+function receiveFeeds(data) {
+  if (data) {
+    return {
+      type: RECEIVE_FEEDS,
+      feeds: data.timelinePosts
+    };
+  }
+  return {
+    type: NO_ACTION
   };
 }
 
 export function fetchFollowingListIfNeeded() {
   return (dispatch, getState) => {
-    if (getState().followingList.length === 0 && getState().userId) {
-      return api
-        .getFollowing(getState().userId, 0, -1)
-        .then(response => dispatch(setFollowingList(response)))
-        .catch(err => {
-          console.log(err.message);
-        });
+    if (getState().followingList.isLoading || !getState().userId) {
+      return {
+        type: NO_ACTION
+      };
     }
+    dispatch(requestFollowingList());
+    return api
+      .getFollowing(getState().userId, 0, -1)
+      .then(response => dispatch(receiveFollowingList(response)))
+      .catch(err => {
+        console.log(err.message);
+      });
+  };
+}
+
+function requestFollowingList() {
+  return {
+    type: REQUEST_FOLLOWING_LIST
+  };
+}
+
+function receiveFollowingList(data) {
+  if (data) {
+    return {
+      type: RECEIVE_FOLLOWING_LIST,
+      followingList: data
+    };
+  }
+  return {
+    type: NO_ACTION
   };
 }
 
@@ -79,7 +138,7 @@ export function subscribeToFeedsIfNeeded() {
       const socket = socketIOClient("http://localhost:3030", {
         transports: ["websocket", "xhr-polling"]
       });
-      getState().followingList.map(following => {
+      getState().followingList.items.map(following => {
         return socket.on(`newpost${following.userId}`, data => {
           return dispatch(receiveNotification(data));
         });
@@ -88,47 +147,38 @@ export function subscribeToFeedsIfNeeded() {
   };
 }
 
-export function fetchUsersIfNeeded() {
+export function fetchOtherUsersIfNeeded() {
   return (dispatch, getState) => {
-    if (getState().otherUsers.length === 0 && getState().userId) {
-      return api.getOtherUsers(getState().userId)
-        .then(response => dispatch(setOtherUsers(response)))
-        .catch(err => {
-          console.log(err.message);
-        });
+    if (
+      getState().otherUsers.isLoading ||
+      getState().otherUsers.items.length !== 0 ||
+      !getState().userId
+    ) {
+      return {
+        type: NO_ACTION
+      };
     }
+    dispatch(requestOtherUsers());
+    return api
+      .getOtherUsers(getState().userId)
+      .then(response => dispatch(receiveOtherUsers(response)))
+      .catch(err => {
+        console.log(err.message);
+      });
   };
 }
 
-function setCurrentUser(data) {
-  if (data) {
-    return {
-      type: CURRENT_USER,
-      currentUser: data
-    };
-  }
+function requestOtherUsers() {
   return {
-    type: NO_ACTION
+    type: REQUEST_OTHER_USERS
   };
 }
 
-function setFollowingList(data) {
+function receiveOtherUsers(data) {
   if (data) {
     return {
-      type: FOLLOWING_LIST,
-      followingList: data
-    };
-  }
-  return {
-    type: NO_ACTION
-  };
-}
-
-function setFeeds(data) {
-  if (data) {
-    return {
-      type: FEEDS,
-      feeds: data.timelinePosts
+      type: RECEIVE_OTHER_USERS,
+      otherUsers: data
     };
   }
   return {
@@ -139,32 +189,11 @@ function setFeeds(data) {
 function receiveNotification(data) {
   if (data) {
     return {
-      type: RECEIVE_FEED,
-      receivedFeed: data
+      type: RECEIVE_NOTIFICATION,
+      receivedNotifications: data
     };
   }
   return {
     type: NO_ACTION
-  };
-}
-
-function loadingProfile(data) {
-  return {
-    type: LOADING_PROFILE,
-    isLoadingProfile: data
-  };
-}
-
-function loadingFeeds(data) {
-  return {
-    type: LOADING_FEEDS,
-    isLoadingFeeds: data
-  };
-}
-
-function setOtherUsers(data) {
-  return {
-    type: OTHER_USERS,
-    otherUsers: data
   };
 }

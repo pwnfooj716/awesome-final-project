@@ -105,8 +105,8 @@ class NavBar extends Component {
   handleLogout = () => {
     const { dispatch } = this.props;
     auth.logout();
-    cookies.remove("AuthCookie");
     dispatch(setUserId(null));
+    cookies.remove("AuthCookie");
   };
 
   handleMobileMenuCloseL = () => {

@@ -6,7 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import Profile from "./containers/userprofile";
-import Network from "./containers/UserContainer";
+import Network from "./containers/SuggestionsContainer";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import {ProtectedRoute} from './protected/protectedRoute';

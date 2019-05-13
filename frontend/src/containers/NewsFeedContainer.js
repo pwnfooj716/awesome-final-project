@@ -40,24 +40,23 @@ class NewsFeedContainer extends Component {
     dispatch(fetchUserProfileIfNeeded());
     dispatch(fetchFeedsIfNeeded());
     dispatch(fetchFollowingListIfNeeded());
-    dispatch(subscribeToFeedsIfNeeded());
+    //dispatch(subscribeToFeedsIfNeeded());
   }
 
   componentDidUpdate(prevProps) {
     if (
-      this.props.currentUser !== prevProps.currentUser ||
-      this.props.feeds.length !== prevProps.feeds.length ||
-      this.props.isLoadingProfile !== prevProps.isLoadingProfile
+      this.props.feeds.isLoadingProfile !== prevProps.feeds.isLoadingProfile ||
+      this.props.feeds.items !== prevProps.feeds.items
     ) {
       const { dispatch } = this.props;
-      dispatch(fetchFeedsIfNeeded());
-      dispatch(subscribeToFeedsIfNeeded());
+      //dispatch(fetchFeedsIfNeeded());
+      //dispatch(subscribeToFeedsIfNeeded());
     }
   }
 
   render() {
     const { classes } = this.props;
-    const { feeds, isLoadingProfile, isLoadingFeeds } = this.props;
+    const { feeds, currentUser } = this.props;
     return (
       <Grid container spacing={24} className={classes.layout}>
         <Grid
@@ -71,13 +70,13 @@ class NewsFeedContainer extends Component {
           direction="column"
           item={true}
         >
-          {!isLoadingFeeds &&
-            feeds.length !== 0 &&
-            feeds.map(feed => {
+          {!currentUser.isLoading &&
+            feeds.items.length !== 0 &&
+            feeds.items.map(feed => {
               return <NewFeed post={feed} />;
             })}
-          {isLoadingFeeds && <CircularProgress color="secondary" />}
-          {(!isLoadingFeeds && feeds.length === 0) && (
+          {currentUser.isLoading && <CircularProgress color="secondary" />}
+          {!currentUser.isLoading && feeds.items.length === 0 && (
             <Avatar className={classes.avatar} alt="Empty" src={Empty} />
           )}
         </Grid>
@@ -89,7 +88,7 @@ class NewsFeedContainer extends Component {
           lg={4}
           className={classes.userInfo}
         >
-          {!isLoadingProfile && <HomeUserInfo />}
+          {!currentUser.isLoading && <HomeUserInfo />}
         </Grid>
       </Grid>
     );
@@ -98,31 +97,19 @@ class NewsFeedContainer extends Component {
 
 NewsFeedContainer.propTypes = {
   classes: PropTypes.object.isRequired,
-  otherUsers: PropTypes.object,
-  feeds: PropTypes.array,
-  followingList: PropTypes.array,
-  dispatch: PropTypes.func.isRequired,
-  isLoadingProfile: PropTypes.bool.isRequired,
-  isLoadingFeeds: PropTypes.bool.isRequired
+  currentUser: PropTypes.object,
+  feeds: PropTypes.object,
+  followingList: PropTypes.object,
+  dispatch: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
-  const {
-    currentUser,
-    followingList,
-    feeds,
-    isLoadingProfile,
-    isLoadingFeeds,
-    isLoadingFollowing
-  } = state;
+  const { currentUser, followingList, feeds } = state;
 
   return {
     currentUser,
     followingList,
-    feeds,
-    isLoadingProfile,
-    isLoadingFeeds,
-    isLoadingFollowing
+    feeds
   };
 }
 

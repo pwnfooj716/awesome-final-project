@@ -18,7 +18,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Cookies from "universal-cookie";
 import green from "@material-ui/core/colors/green";
 import { connect } from "react-redux";
-import { setUserId } from "../../actions";
+import { setUserId, fetchUserProfileIfNeeded } from "../../actions";
 import auth from "../../protected/auth";
 
 const cookies = new Cookies();
@@ -97,7 +97,7 @@ class SignIn extends Component {
         cookies.set("AuthCookie", user, { path: "/", expires: d });
         auth.login();
         console.log("login success");
-        this.props.history.push("/network");
+        this.props.history.push("/home");
       })
       .catch(err => {
         alert(err.message);
@@ -115,6 +115,7 @@ class SignIn extends Component {
   handleLogin = e => {
     const { dispatch } = this.props;
     dispatch(setUserId(e.uid));
+    dispatch(fetchUserProfileIfNeeded());
   };
   render() {
     const { classes } = this.props;

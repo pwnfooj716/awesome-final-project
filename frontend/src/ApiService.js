@@ -175,7 +175,7 @@ class ApiService {
 
   async getOtherUsers(userId) {
     try {
-      const response = await axios.get(`${this.apiUrl}/users/others/${userId}`);
+      const response = await axios.get(`${this.apiUrl}/users/suggestions/${userId}`);
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
       }

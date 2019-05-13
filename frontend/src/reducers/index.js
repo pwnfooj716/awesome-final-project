@@ -1,104 +1,144 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from "redux";
 import {
   USER_ID,
-  CURRENT_USER,
-  FOLLOWING_LIST,
-  FOLLOWER_COUNT,
-  FEEDS,
-  OTHER_USERS,
-  USER_POSTS,
-  RECEIVE_FEED,
-  LOADING_PROFILE,
-  LOADING_FEEDS
-} from '../actions'
+  REQUEST_CURRENT_USER,
+  RECEIVE_CURRENT_USER,
+  REQUEST_OTHER_USERS,
+  RECEIVE_OTHER_USERS,
+  REQUEST_FOLLOWING_LIST,
+  RECEIVE_FOLLOWING_LIST,
+  REQUEST_FEEDS,
+  RECEIVE_FEEDS,
+  REQUEST_USER_POSTS,
+  RECEIVE_USER_POSTS,
+  RECEIVE_NOTIFICATION
+} from "../actions";
 
 function userId(state = null, action) {
   switch (action.type) {
     case USER_ID:
-      return action.userId
+      return action.userId;
     default:
-      return state
+      return state;
   }
 }
 
-function currentUser(state = null, action) {
+function currentUser(
+  state = {
+    isLoading: false,
+    items: null
+  },
+  action
+) {
   switch (action.type) {
-    case CURRENT_USER:
-      return action.currentUser
+    case REQUEST_CURRENT_USER:
+      return Object.assign({}, state, {
+        isLoading: true
+      });
+    case RECEIVE_CURRENT_USER:
+      return Object.assign({}, state, {
+        isLoading: false,
+        items: action.currentUser
+      });
     default:
-      return state
+      return state;
   }
 }
 
-function isLoadingProfile(state = true, action) {
+function otherUsers(
+  state = {
+    isLoading: false,
+    items: []
+  },
+  action
+) {
   switch (action.type) {
-    case LOADING_PROFILE:
-      return action.isLoadingProfile
+    case REQUEST_OTHER_USERS:
+      return Object.assign({}, state, {
+        isLoading: true
+      });
+    case RECEIVE_OTHER_USERS:
+      return Object.assign({}, state, {
+        isLoading: false,
+        items: action.otherUsers
+      });
     default:
-      return state
+      return state;
   }
 }
 
-function isLoadingFeeds(state = true, action) {
+function followingList(
+  state = {
+    isLoading: false,
+    items: []
+  },
+  action
+) {
   switch (action.type) {
-    case LOADING_FEEDS:
-      return action.isLoadingFeeds
+    case REQUEST_FOLLOWING_LIST:
+      return Object.assign({}, state, {
+        isLoading: true
+      });
+    case RECEIVE_FOLLOWING_LIST:
+      return Object.assign({}, state, {
+        isLoading: false,
+        items: action.followingList
+      });
     default:
-      return state
+      return state;
   }
 }
 
-function followingList(state = [], action) {
+function feeds(
+  state = {
+    isLoading: false,
+    items: []
+  },
+  action
+) {
   switch (action.type) {
-    case FOLLOWING_LIST:
-      return action.followingList
+    case REQUEST_FEEDS:
+      return Object.assign({}, state, {
+        isLoading: true
+      });
+    case RECEIVE_FEEDS:
+      return Object.assign({}, state, {
+        isLoading: false,
+        items: action.feeds
+      });
     default:
-      return state
+      return state;
   }
 }
 
-function followerCount(state = null, action) {
+function userPost(
+  state = {
+    isLoading: false,
+    items: []
+  },
+  action
+) {
   switch (action.type) {
-    case FOLLOWER_COUNT:
-      return action.followerCount
+    case REQUEST_USER_POSTS:
+      return Object.assign({}, state, {
+        isLoading: true
+      });
+    case RECEIVE_USER_POSTS:
+      return Object.assign({}, state, {
+        isLoading: false,
+        items: action.userPost
+      });
     default:
-      return state
-  }
-}
-
-function feeds(state = [], action) {
-  switch (action.type) {
-    case FEEDS:
-      return action.feeds
-    default:
-      return state
-  }
-}
-
-function otherUsers(state = [], action) {
-  switch (action.type) {
-    case OTHER_USERS:
-      return action.otherUsers
-    default:
-      return state
-  }
-}
-
-function userPost(state = [], action) {
-  switch (action.type) {
-    case USER_POSTS:
-      return action.userPost
-    default:
-      return state
+      return state;
   }
 }
 
 function receivedNotifications(state = [], action) {
   switch (action.type) {
-    case RECEIVE_FEED:
-      return [...state.receivedFeed, action.receivedFeed]
+    case RECEIVE_NOTIFICATION:
+      return [...state.receivedNotifications, action.receivedNotifications];
     default:
-      return state
+      return state;
   }
 }
 
@@ -106,13 +146,10 @@ const rootReducer = combineReducers({
   userId,
   currentUser,
   followingList,
-  followerCount,
   feeds,
   otherUsers,
   userPost,
-  receivedNotifications,
-  isLoadingProfile,
-  isLoadingFeeds
-})
+  receivedNotifications
+});
 
-export default rootReducer
+export default rootReducer;
