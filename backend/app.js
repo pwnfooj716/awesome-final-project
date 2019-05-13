@@ -8,7 +8,6 @@ const admin = require('firebase-admin');
 const redis = require("redis");
 const client = redis.createClient();
 const bluebird = require("bluebird");
-const cors = require('cors') 
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
