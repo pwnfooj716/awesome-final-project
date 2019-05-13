@@ -7,6 +7,7 @@ import { Grid } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import Empty from "../resources/empty.jpg";
 import { connect } from "react-redux";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import {
   fetchUserProfileIfNeeded,
   fetchFeedsIfNeeded,
@@ -43,7 +44,11 @@ class NewsFeedContainer extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.currentUser !== prevProps.currentUser) {
+    if (
+      this.props.currentUser !== prevProps.currentUser ||
+      this.props.feeds.length !== prevProps.feeds.length ||
+      this.props.isLoadingProfile !== prevProps.isLoadingProfile
+    ) {
       const { dispatch } = this.props;
       dispatch(fetchFeedsIfNeeded());
       dispatch(subscribeToFeedsIfNeeded());
@@ -52,7 +57,7 @@ class NewsFeedContainer extends Component {
 
   render() {
     const { classes } = this.props;
-    const { feeds } = this.props;
+    const { feeds, isLoadingProfile, isLoadingFeeds } = this.props;
     return (
       <Grid container spacing={24} className={classes.layout}>
         <Grid
@@ -66,11 +71,13 @@ class NewsFeedContainer extends Component {
           direction="column"
           item={true}
         >
-          {feeds.length !== 0 &&
+          {!isLoadingFeeds &&
+            feeds.length !== 0 &&
             feeds.map(feed => {
               return <NewFeed post={feed} />;
             })}
-          {feeds.length === 0 && (
+          {isLoadingFeeds && <CircularProgress color="secondary" />}
+          {(!isLoadingFeeds && feeds.length === 0) && (
             <Avatar className={classes.avatar} alt="Empty" src={Empty} />
           )}
         </Grid>
@@ -82,7 +89,7 @@ class NewsFeedContainer extends Component {
           lg={4}
           className={classes.userInfo}
         >
-          <HomeUserInfo />
+          {!isLoadingProfile && <HomeUserInfo />}
         </Grid>
       </Grid>
     );
@@ -91,19 +98,31 @@ class NewsFeedContainer extends Component {
 
 NewsFeedContainer.propTypes = {
   classes: PropTypes.object.isRequired,
-  currentUser: PropTypes.object,
+  otherUsers: PropTypes.object,
   feeds: PropTypes.array,
   followingList: PropTypes.array,
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  isLoadingProfile: PropTypes.bool.isRequired,
+  isLoadingFeeds: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
-  const { currentUser, followingList, feeds } = state;
+  const {
+    currentUser,
+    followingList,
+    feeds,
+    isLoadingProfile,
+    isLoadingFeeds,
+    isLoadingFollowing
+  } = state;
 
   return {
     currentUser,
     followingList,
-    feeds
+    feeds,
+    isLoadingProfile,
+    isLoadingFeeds,
+    isLoadingFollowing
   };
 }
 

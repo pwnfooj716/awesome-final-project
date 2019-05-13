@@ -13,7 +13,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
-import Empty from "../../resources/empty.jpg";
 
 const styles = theme => ({
   main: {
@@ -87,8 +86,7 @@ class SignUp extends Component {
           .doc(resp.user.uid)
           .set({
             email: newUser.email,
-            name: newUser.name,
-            picture: Empty
+            name: newUser.name
           });
       })
       .then(response => {

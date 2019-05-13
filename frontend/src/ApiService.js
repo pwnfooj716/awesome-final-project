@@ -172,6 +172,18 @@ class ApiService {
       console.error(error);
     }
   }
+
+  async getOtherUsers(userId) {
+    try {
+      const response = await axios.get(`${this.apiUrl}/users/others/${userId}`);
+      if (response.status !== 200) {
+        throw new Error(`Request failed ${response}`);
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
 export default new ApiService();

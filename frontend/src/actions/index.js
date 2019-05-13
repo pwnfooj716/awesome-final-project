@@ -1,6 +1,9 @@
 import api from "../ApiService";
 import socketIOClient from "socket.io-client";
 
+export const LOADING_PROFILE = "LOADING_PROFILE";
+export const LOADING_FEEDS = "LOADING_FEEDS";
+
 export const USER_ID = "USER_ID";
 export const CURRENT_USER = "CURRENT_USER";
 export const FOLLOWING_LIST = "FOLLOWING_LIST";
@@ -31,28 +34,29 @@ export function setUserId(userId) {
 
 export function fetchUserProfileIfNeeded() {
   return (dispatch, getState) => {
+    dispatch(loadingProfile(true));
     if (!getState().currentUser && getState().userId) {
-      return api
-        .getProfile(getState().userId)
+      return api.getProfile(getState().userId)
         .then(response => dispatch(setCurrentUser(response)))
         .catch(err => {
           console.log(err.message);
         });
     }
+    dispatch(loadingProfile(false));
   };
 }
 
 export function fetchFeedsIfNeeded() {
   return (dispatch, getState) => {
-    if (getState().feeds.length === 0 && getState().userId) {
-      return api
-        .getInitialTimeline(getState().userId)        
-        .then(response => (dispatch(setFeeds(response))))
-        .then(response => (console.log(`Get Feeds : ${response}`)))
+    dispatch(loadingFeeds(true));
+    if (getState().feeds.length === 0 && !getState().isLoadingFeeds && getState().userId) {
+      return api.getInitialTimeline(getState().userId)
+        .then(response => dispatch(setFeeds(response)))
         .catch(err => {
           console.log(err.message);
         });
     }
+    dispatch(loadingFeeds(false));
   };
 }
 
@@ -61,7 +65,7 @@ export function fetchFollowingListIfNeeded() {
     if (getState().followingList.length === 0 && getState().userId) {
       return api
         .getFollowing(getState().userId, 0, -1)
-        .then(response => (dispatch(setFollowingList(response))))
+        .then(response => dispatch(setFollowingList(response)))
         .catch(err => {
           console.log(err.message);
         });
@@ -84,6 +88,18 @@ export function subscribeToFeedsIfNeeded() {
   };
 }
 
+export function fetchUsersIfNeeded() {
+  return (dispatch, getState) => {
+    if (getState().otherUsers.length === 0 && getState().userId) {
+      return api.getOtherUsers(getState().userId)
+        .then(response => dispatch(setOtherUsers(response)))
+        .catch(err => {
+          console.log(err.message);
+        });
+    }
+  };
+}
+
 function setCurrentUser(data) {
   if (data) {
     return {
@@ -93,7 +109,7 @@ function setCurrentUser(data) {
   }
   return {
     type: NO_ACTION
-  }
+  };
 }
 
 function setFollowingList(data) {
@@ -105,7 +121,7 @@ function setFollowingList(data) {
   }
   return {
     type: NO_ACTION
-  }
+  };
 }
 
 function setFeeds(data) {
@@ -117,7 +133,7 @@ function setFeeds(data) {
   }
   return {
     type: NO_ACTION
-  }
+  };
 }
 
 function receiveNotification(data) {
@@ -129,5 +145,26 @@ function receiveNotification(data) {
   }
   return {
     type: NO_ACTION
-  }
+  };
+}
+
+function loadingProfile(data) {
+  return {
+    type: LOADING_PROFILE,
+    isLoadingProfile: data
+  };
+}
+
+function loadingFeeds(data) {
+  return {
+    type: LOADING_FEEDS,
+    isLoadingFeeds: data
+  };
+}
+
+function setOtherUsers(data) {
+  return {
+    type: OTHER_USERS,
+    otherUsers: data
+  };
 }

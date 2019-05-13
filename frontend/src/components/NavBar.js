@@ -111,19 +111,18 @@ class NavBar extends Component {
 
   handleMobileMenuCloseL = () => {
     console.log("asd");
-    
+
     cookies.remove("AuthCookie");
     this.setState({ mobileMoreAnchorEl: null });
   };
 
-  expCookie =()=>{
+  expCookie = () => {
     // alert(cookies.get('AuthCookie'));
 
     cookies.remove("AuthCookie");
 
-   // console.log("123");
-   
-  }
+    // console.log("123");
+  };
 
   render() {
     const { mobileMoreAnchorEl } = this.state;
@@ -133,24 +132,12 @@ class NavBar extends Component {
     const homeNav = (
       <Link component={RouterLink} to="/home" className={classes.link}>
         <IconButton color="inherit">
-          <Badge badgeContent={this.props.receivedNotifications.length} color="error">
+          <Badge
+            badgeContent={this.props.receivedNotifications.length}
+            color="error"
+          >
             <Home />
           </Badge>
-        </IconButton>
-      </Link>
-    );
-
-    const SignInNav = (
-      <Link component={RouterLink} to="/signin" className={classes.link}>
-        <IconButton color="inherit">
-          Sign In
-        </IconButton>
-      </Link>
-    );
-    const SignUpNav = (
-      <Link component={RouterLink} to="/" className={classes.link}>
-        <IconButton color="inherit">
-          Sign Up
         </IconButton>
       </Link>
     );
@@ -191,24 +178,19 @@ class NavBar extends Component {
         <MenuItem onClick={this.handleMobileMenuClose}>{networkNav}</MenuItem>
         <MenuItem onClick={this.handleMobileMenuClose}>{profileNav}</MenuItem>
         <MenuItem onClick={this.handleMobileMenuClose}>{logoutNav}</MenuItem>
-        <MenuItem onClick={this.handleMobileMenuClose}>{SignInNav}</MenuItem>
-        <MenuItem onClick={this.handleMobileMenuClose}>{SignUpNav}</MenuItem>
       </Menu>
     );
 
-    const logedin = <div className={classes.sectionDesktop}>
-    {homeNav}
-    {networkNav}
-    {profileNav}
-    {logoutNav}
-  </div>
-  
-    const logedout = <div className={classes.sectionDesktop}>
-    {SignInNav}
-    {SignUpNav} 
-    </div>
+    const logedin = (
+      <div className={classes.sectionDesktop}>
+        {homeNav}
+        {networkNav}
+        {profileNav}
+        {logoutNav}
+      </div>
+    );
 
-    const link = (this.props.userId) ? logedin : logedout;
+    const links = this.props.userId ? logedin : "";
 
     return (
       <div className={classes.root}>
@@ -218,10 +200,7 @@ class NavBar extends Component {
               <img src={logo} className={classes.title} alt={"logo"} />
             </Link>
             <div className={classes.grow} />
-            {link}
-            {/* <div className={classes.sectionDesktop}>
-              {this.props.userId && [homeNav, networkNav , profileNav, logoutNav]}
-            </div> */}
+            {links}
             <div className={classes.sectionMobile}>
               <IconButton
                 aria-haspopup="true"
@@ -233,7 +212,7 @@ class NavBar extends Component {
             </div>
           </Toolbar>
         </AppBar>
-        {this.props.userId && [ renderMobileMenu ]}
+        {this.props.userId && [renderMobileMenu]}
       </div>
     );
   }
