@@ -11,8 +11,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import {
   fetchUserProfileIfNeeded,
   fetchFeedsIfNeeded,
-  fetchFollowingListIfNeeded,
-  subscribeToFeedsIfNeeded
+  fetchFollowingListIfNeeded
 } from "../actions";
 
 const styles = theme => ({
@@ -40,18 +39,6 @@ class NewsFeedContainer extends Component {
     dispatch(fetchUserProfileIfNeeded());
     dispatch(fetchFeedsIfNeeded());
     dispatch(fetchFollowingListIfNeeded());
-    //dispatch(subscribeToFeedsIfNeeded());
-  }
-
-  componentDidUpdate(prevProps) {
-    if (
-      this.props.feeds.isLoadingProfile !== prevProps.feeds.isLoadingProfile ||
-      this.props.feeds.items !== prevProps.feeds.items
-    ) {
-      const { dispatch } = this.props;
-      //dispatch(fetchFeedsIfNeeded());
-      //dispatch(subscribeToFeedsIfNeeded());
-    }
   }
 
   render() {

@@ -15,8 +15,6 @@ bluebird.promisifyAll(redis.Multi.prototype);
 client.on('connect', function() {
   console.log('Redis client connected');
 });
-const http = require('http').Server(app)
-const io = require('socket.io')(http);
 
 client.on('error', function (err) {
   console.log('Something went wrong ' + err);

@@ -1,5 +1,4 @@
 import api from "../ApiService";
-import socketIOClient from "socket.io-client";
 
 export const USER_ID = "USER_ID";
 export const REQUEST_CURRENT_USER = "REQUEST_CURRENT_USER";
@@ -12,7 +11,6 @@ export const REQUEST_FEEDS = "REQUEST_FEEDS";
 export const RECEIVE_FEEDS = "RECEIVE_FEEDS";
 export const REQUEST_USER_POSTS = "REQUEST_USER_POSTS";
 export const RECEIVE_USER_POSTS = "RECEIVE_USER_POSTS";
-export const RECEIVE_NOTIFICATION = "RECEIVE_NOTIFICATION";
 const NO_ACTION = "NO_ACTION";
 
 export function setUserId(userId) {
@@ -132,21 +130,6 @@ function receiveFollowingList(data) {
   };
 }
 
-export function subscribeToFeedsIfNeeded() {
-  return (dispatch, getState) => {
-    if (getState().followingList.length !== 0 && getState().userId) {
-      const socket = socketIOClient("http://localhost:3030", {
-        transports: ["websocket", "xhr-polling"]
-      });
-      getState().followingList.items.map(following => {
-        return socket.on(`newpost${following.userId}`, data => {
-          return dispatch(receiveNotification(data));
-        });
-      });
-    }
-  };
-}
-
 export function fetchOtherUsersIfNeeded() {
   return (dispatch, getState) => {
     if (
@@ -186,11 +169,34 @@ function receiveOtherUsers(data) {
   };
 }
 
-function receiveNotification(data) {
+export function fetchUserPostsIfNeeded() {
+  return (dispatch, getState) => {
+    if (getState().userPost.isLoading || !getState().userId) {
+      return {
+        type: NO_ACTION
+      };
+    }
+    dispatch(requestPosts());
+    return api
+      .getProfile(getState().userId)
+      .then(response => dispatch(receivePosts(response)))
+      .catch(err => {
+        console.log(err.message);
+      });
+  };
+}
+
+function requestPosts() {
+  return {
+    type: REQUEST_USER_POSTS
+  };
+}
+
+function receivePosts(data) {
   if (data) {
     return {
-      type: RECEIVE_NOTIFICATION,
-      receivedNotifications: data
+      type: RECEIVE_USER_POSTS,
+      userPost: data
     };
   }
   return {

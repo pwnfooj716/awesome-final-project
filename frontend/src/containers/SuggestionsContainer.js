@@ -10,7 +10,7 @@ import Empty from "../resources/empty.jpg";
 import Avatar from "@material-ui/core/Avatar";
 
 const styles = theme => ({
-  layput: {
+  layout: {
     margin: "80px 0px",
     padding: 24,
     minHeight: "100vh"
@@ -33,7 +33,7 @@ class SuggestionsContainer extends Component {
     const { classes } = this.props;
     const { otherUsers } = this.props;
     return (
-      <Grid container spacing={24} className={classes.layput}>
+      <Grid container spacing={24} className={classes.layout}>
         <Grid container justify="center" alignItems="center" direction="row">
           {!otherUsers.isLoading &&
             otherUsers.items.length !== 0 &&

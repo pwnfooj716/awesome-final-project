@@ -133,7 +133,7 @@ class NavBar extends Component {
       <Link component={RouterLink} to="/home" className={classes.link}>
         <IconButton color="inherit">
           <Badge
-            badgeContent={this.props.receivedNotifications.length}
+            badgeContent={0}
             color="error"
           >
             <Home />
@@ -221,15 +221,13 @@ class NavBar extends Component {
 NavBar.propTypes = {
   classes: PropTypes.object.isRequired,
   userId: PropTypes.string,
-  receivedNotifications: PropTypes.array,
   dispatch: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
-  const { userId, receivedNotifications } = state;
+  const { userId } = state;
   return {
-    userId,
-    receivedNotifications
+    userId
   };
 }
 

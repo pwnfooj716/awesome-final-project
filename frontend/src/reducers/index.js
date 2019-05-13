@@ -10,8 +10,7 @@ import {
   REQUEST_FEEDS,
   RECEIVE_FEEDS,
   REQUEST_USER_POSTS,
-  RECEIVE_USER_POSTS,
-  RECEIVE_NOTIFICATION
+  RECEIVE_USER_POSTS
 } from "../actions";
 
 function userId(state = null, action) {
@@ -133,23 +132,13 @@ function userPost(
   }
 }
 
-function receivedNotifications(state = [], action) {
-  switch (action.type) {
-    case RECEIVE_NOTIFICATION:
-      return [...state.receivedNotifications, action.receivedNotifications];
-    default:
-      return state;
-  }
-}
-
 const rootReducer = combineReducers({
   userId,
   currentUser,
   followingList,
   feeds,
   otherUsers,
-  userPost,
-  receivedNotifications
+  userPost
 });
 
 export default rootReducer;
