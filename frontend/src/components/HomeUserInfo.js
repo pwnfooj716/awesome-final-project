@@ -14,7 +14,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ImageIcon from "@material-ui/icons/Image";
 import Visibility from "@material-ui/icons/VisibilityOutlined";
 import People from "@material-ui/icons/PeopleOutlineOutlined";
-import AddPost from "./AddPost";
+import PostPic from "./PostPic";
 
 const styles = theme => ({
   root: {
@@ -74,7 +74,7 @@ class HomeUserInfo extends Component {
         <br />
         <Card className={classes.infoCard}>
           <CardActions className={classes.actions} disableActionSpacing>
-            <AddPost />
+            <PostPic />
           </CardActions>
         </Card>
         <br />
