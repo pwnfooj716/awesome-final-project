@@ -86,6 +86,18 @@ module.exports.getProfile = async (userId) => {
   });
 }
 
+module.exports.getUserByEmail = async (email) => {
+  return userCollection().then((col) => {
+    return col.where('email', '==', email).get().then(function(snap) {
+      let resData = null;
+      snap.forEach(function(doc) {
+        resData = doc.data();
+      });
+      return resData;
+    });
+  });
+}
+
 module.exports.setUserName = async (userId, name) => {
   return userCollection().then((col) => {
     return col.doc(userId).update({
