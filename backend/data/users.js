@@ -42,13 +42,28 @@ module.exports.createUser = async (userObj, authToken) => {
   })
 }
 
-module.exports.getUsers = async () => { 
+function getUserPublicData(userDBObj) {
+  let userData = {};
+  userData.userId = userDBObj.userId;
+  userData.picture = userDBObj.picture;
+  userData.email = userDBObj.email;
+  userData.name = userDBObj.name;
+  return userData;
+}
+
+module.exports.getUsersList = async () => { 
   return userCollection().then((col) => {
     return col.get().then((snapshot) => {
+      let userList = [];
       snapshot.forEach((doc) => {
-        console.log(doc.id, '=>', doc.data());
+        // console.log(doc.id, '=>', doc.data());
+        if (doc.exists && Object.getOwnPropertyNames(doc).length !== 0) {
+          let userData = doc.data();getUserPublicData
+          userList.push(getUserPublicData(userData));
+        }
       });
-      return true;
+      console.log("userList", userList)
+      return userList;
     });
   }).catch((err) => {
     console.log('Error getting documents', err);

@@ -43,13 +43,32 @@ module.exports.getFollowing = async (request, response) => {
   response.json(following);
 }
 
+module.exports.getSuggestions = async (request, response) => {
+  let userId = request.params.userId;
+  let allUserList = await userData.getUsersList(userId);
+  let followingList = await followData.getFollowingList(userId);
+
+  let unfollowedUserList = [];
+  for (let i = 0; i < allUserList.length; i++) {
+    let followed = false;
+    for (let j = 0; j < followingList.length; j++) {
+      if (allUserList[i].userId === followingList[j].userId) {
+        followed = true;
+        break;
+      }
+    }
+    if (!followed)
+      unfollowedUserList.push(allUserList[i]);
+  }
+
+  response.json(unfollowedUserList);
+}
+
 module.exports.patchUser = async (request, response) => {
   const reqData = request.body;
   let userId = request.params.userId;
   let name = reqData.name;
   let picture = reqData.picture;
-
-  console.log(userId, name, picture);
 
   if (name) await userData.setUserName(userId, name);
   if (picture) await userData.setUserPicture(userId, picture);
