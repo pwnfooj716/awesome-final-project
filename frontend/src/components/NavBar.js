@@ -10,12 +10,15 @@ import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { withStyles } from "@material-ui/core/styles";
-import PowerOff from "@material-ui/icons/PowerOff";
+import PowerOff from "@material-ui/icons/PowerSettingsNewOutlined";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Home from "@material-ui/icons/Home";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import Network from "@material-ui/icons/People";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import Tooltip from "@material-ui/core/Tooltip";
+import { connect } from "react-redux";
+import { setUserId } from "../actions";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const styles = theme => ({
   root: {
@@ -23,19 +26,34 @@ const styles = theme => ({
     backgroundColor: "inherit"
   },
   link: {
-    color: "white",
+    color: "#283e4a",
     textDecoration: "none",
     "&:hover": {
-      color: "white",
+      color: "#283e4a",
       textDecoration: "none"
     },
     "&:active": {
-      color: "white",
+      color: "#283e4a",
       textDecoration: "none"
     },
     "&:focus": {
-      color: "white",
+      color: "#283e4a",
       textDecoration: "none"
+    },
+    [theme.breakpoints.up("md")]: {
+      color: "white",
+      "&:hover": {
+        color: "white",
+        textDecoration: "none"
+      },
+      "&:active": {
+        color: "white",
+        textDecoration: "none"
+      },
+      "&:focus": {
+        color: "white",
+        textDecoration: "none"
+      }
     }
   },
   nav: {
@@ -72,7 +90,6 @@ const styles = theme => ({
 
 class NavBar extends Component {
   state = {
-    anchorEl: null,
     mobileMoreAnchorEl: null
   };
 
@@ -84,20 +101,80 @@ class NavBar extends Component {
     this.setState({ mobileMoreAnchorEl: null });
   };
 
+  handleLogout = () => {
+    const { dispatch } = this.props;
+    cookies.remove("AuthCookie");
+    dispatch(setUserId(null));
+  };
+
+  handleMobileMenuCloseL = () => {
+    console.log("asd");
+    
+    cookies.remove("AuthCookie");
+    this.setState({ mobileMoreAnchorEl: null });
+  };
+
+  expCookie =()=>{
+    // alert(cookies.get('AuthCookie'));
+
+    cookies.remove("AuthCookie");
+
+   // console.log("123");
+   
+  }
+
   render() {
-    const { anchorEl, mobileMoreAnchorEl } = this.state;
+    const { mobileMoreAnchorEl } = this.state;
     const { classes } = this.props;
-    const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-    const renderMenu = (
-      <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
-        open={isMenuOpen}
-        onClose={this.handleMenuClose}
-      />
+    const homeNav = (
+      <Link component={RouterLink} to="/home" className={classes.link}>
+        <IconButton color="inherit">
+          <Badge badgeContent={this.props.receivedNotifications.length} color="error">
+            <Home />
+          </Badge>
+        </IconButton>
+      </Link>
+    );
+
+    const SignInNav = (
+      <Link component={RouterLink} to="/signin" className={classes.link}>
+        <IconButton color="inherit">
+          Sign In
+        </IconButton>
+      </Link>
+    );
+    const SignUpNav = (
+      <Link component={RouterLink} to="/" className={classes.link}>
+        <IconButton color="inherit">
+          Sign Up
+        </IconButton>
+      </Link>
+    );
+
+    const networkNav = (
+      <Link component={RouterLink} to="/network" className={classes.link}>
+        <IconButton color="inherit">
+          <Network />
+        </IconButton>
+      </Link>
+    );
+
+    const profileNav = (
+      <Link component={RouterLink} to="/userprofile" className={classes.link}>
+        <IconButton color="inherit">
+          <AccountCircle />
+        </IconButton>
+      </Link>
+    );
+
+    const logoutNav = (
+      <Link component={RouterLink} to="/signin" className={classes.link}>
+        <IconButton color="inherit" onClick={this.handleLogout}>
+          <PowerOff />
+        </IconButton>
+      </Link>
     );
 
     const renderMobileMenu = (
@@ -108,93 +185,41 @@ class NavBar extends Component {
         open={isMobileMenuOpen}
         onClose={this.handleMenuClose}
       >
-        <MenuItem onClick={this.handleMobileMenuClose}>
-          <Link component={RouterLink} to="/" className={classes.link}>
-            <IconButton color="inherit">
-              <Home />
-            </IconButton>
-            <p>Home</p>
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={this.handleMobileMenuClose}>
-          <IconButton color="inherit">
-            <Badge badgeContent={11} color="error">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <p>Notifications</p>
-        </MenuItem>
-        <MenuItem onClick={this.handleMobileMenuClose}>
-          <Link
-            component={RouterLink}
-            to="/userprofile"
-            className={classes.link}
-          >
-            <IconButton color="inherit">
-              <AccountCircle />
-            </IconButton>
-            <p>My Profile</p>
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={this.handleMobileMenuClose}>
-          <Link
-            component={RouterLink}
-            to="/signintest"
-            className={classes.link}
-          >
-            <IconButton color="inherit">
-              <PowerOff />
-            </IconButton>
-            <p>Logout</p>
-          </Link>
-        </MenuItem>
+        <MenuItem onClick={this.handleMobileMenuClose}>{homeNav}</MenuItem>
+        <MenuItem onClick={this.handleMobileMenuClose}>{networkNav}</MenuItem>
+        <MenuItem onClick={this.handleMobileMenuClose}>{profileNav}</MenuItem>
+        <MenuItem onClick={this.handleMobileMenuClose}>{logoutNav}</MenuItem>
+        <MenuItem onClick={this.handleMobileMenuClose}>{SignInNav}</MenuItem>
+        <MenuItem onClick={this.handleMobileMenuClose}>{SignUpNav}</MenuItem>
       </Menu>
     );
+
+    const logedin = <div className={classes.sectionDesktop}>
+    {homeNav}
+    {networkNav}
+    {profileNav}
+    {logoutNav}
+  </div>
+  
+    const logedout = <div className={classes.sectionDesktop}>
+    {SignInNav}
+    {SignUpNav} 
+    </div>
+
+    const link = (this.props.userId) ? logedin : logedout;
 
     return (
       <div className={classes.root}>
         <AppBar position="static" className={classes.nav}>
           <Toolbar>
-            <img src={logo} className={classes.title} alt={"logo"} />
+            <Link component={RouterLink} to="/home" className={classes.link}>
+              <img src={logo} className={classes.title} alt={"logo"} />
+            </Link>
             <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              <Tooltip title="Home" placement="bottom">
-                <Link component={RouterLink} to="/" className={classes.link}>
-                  <IconButton color="inherit">
-                    <Home />
-                  </IconButton>
-                </Link>
-              </Tooltip>
-              <Tooltip title="Notifications" placement="bottom">
-                <IconButton color="inherit">
-                  <Badge badgeContent={11} color="error">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Profile" placement="bottom">
-                <Link
-                  component={RouterLink}
-                  to="/userprofile"
-                  className={classes.link}
-                >
-                  <IconButton color="inherit">
-                    <AccountCircle />
-                  </IconButton>
-                </Link>
-              </Tooltip>
-              <Link
-                component={RouterLink}
-                to="/signintest"
-                className={classes.link}
-              >
-                <Tooltip title="Logout" placement="bottom">
-                  <IconButton color="inherit">
-                    <PowerOff />
-                  </IconButton>
-                </Tooltip>
-              </Link>
-            </div>
+            {link}
+            {/* <div className={classes.sectionDesktop}>
+              {this.props.userId && [homeNav, networkNav , profileNav, logoutNav]}
+            </div> */}
             <div className={classes.sectionMobile}>
               <IconButton
                 aria-haspopup="true"
@@ -206,15 +231,25 @@ class NavBar extends Component {
             </div>
           </Toolbar>
         </AppBar>
-        {renderMenu}
-        {renderMobileMenu}
+        {this.props.userId && [ renderMobileMenu ]}
       </div>
     );
   }
 }
 
 NavBar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  userId: PropTypes.string,
+  receivedNotifications: PropTypes.array,
+  dispatch: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(NavBar);
+function mapStateToProps(state) {
+  const { userId, receivedNotifications } = state;
+  return {
+    userId,
+    receivedNotifications
+  };
+}
+
+export default withStyles(styles)(connect(mapStateToProps)(NavBar));

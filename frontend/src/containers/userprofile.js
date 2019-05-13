@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../styles/profile.css";
-import PictureEditor from "../components/PictureEditor"
+import ChangeAvator from "../components/ChangeAvator";
 class userprofile extends Component {
   constructor(props){
     super(props)
@@ -116,7 +116,7 @@ class userprofile extends Component {
     <div class="modal-content">
 
       <div class="modal-header">
-        <img src={photo} alt="avatar" class="avatar rounded-circle img-responsive" />
+        <img src={photo} alt="avatar" class="avatar rounded-circle img-responsive pointer" data-toggle="modal" data-target="#AvatarModal" />
       </div>
       <div class="modal-body text-center mb-1">
 
@@ -143,8 +143,27 @@ class userprofile extends Component {
   </div>
 </div>
 
+    <div class="modal fade" id="AvatarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Change Avator:</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <ChangeAvator />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
         <header>
-        <img class="userPic rounded-circle" src={photo} alt="Smiley face" />
+        <img class="userPic rounded-circle pointer" src={photo} alt="Smiley face" data-toggle="modal" data-target="#AvatarModal" />
         <div class="userInfo">
         <h1 class="name">{userName}</h1>
         <button class="editBtn" type="button" data-toggle="modal" data-target="#EditModal">Edit Profile</button>
