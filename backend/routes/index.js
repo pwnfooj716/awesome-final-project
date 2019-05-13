@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { catchErrors } = require('../handlers/errorHandlers')
-const { postLogin } = require('./login')
+const { postLogin, postSignIn } = require('./login')
 const { postPost, getTimeline, deletePost, getPost, postComment,
   postLikePost, postUnlikePost, deleteComment, getLikeStatus } = require('./posts')
 const { postFollow, postUnfollow, getFollower, getFollowing, 
@@ -9,6 +9,7 @@ const { postFollow, postUnfollow, getFollower, getFollowing,
 
 // login
 router.post('/login', catchErrors(postLogin));
+router.post('/signin', catchErrors(postSignIn));
 
 // posts
 router.post('/posts', catchErrors(postPost));
