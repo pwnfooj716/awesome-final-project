@@ -221,7 +221,7 @@ class UserProfile extends Component {
     </div>
 
         <header>
-        <img className="userPic rounded-circle pointer" src={photo} alt="Smiley face" data-toggle="modal" data-target="#AvatarModal" />
+        <img className="userPic rounded-circle pointer" src={photo} alt={"img of "+currentUser.items.name} data-toggle="modal" data-target="#AvatarModal" />
         <div className="userInfo">
         <h1 className="name">{currentUser.items.name}</h1>
         <button className="editBtn" type="button" data-toggle="modal" data-target="#EditModal">Edit Profile</button>
