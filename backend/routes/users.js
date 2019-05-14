@@ -29,6 +29,11 @@ module.exports.getFollower = async (request, response) => {
   if (limit > 100) limit = 100;
 
   let follower = await followData.getFollowerList(userId, startIndex, limit);
+  for (let i = 0; i < follower.length; i++) {
+    let f = follower[i];
+    let ud = await userData.getProfile(f.userId);
+    f.userData = ud;
+  }
   response.json(follower);
 }
 
@@ -40,17 +45,12 @@ module.exports.getFollowing = async (request, response) => {
   if (limit > 100) limit = 100;
 
   let following = await followData.getFollowingList(userId, startIndex, limit);
-  let followingProfileList = [];
-  for(let i = 0; i < following.length; i++){
-    try{
-      let followingProfile = await userData.getProfile(following[i].userId);
-      followingProfileList.push(followingProfile)
-    } catch {
-      console.log(`Error with userId ${following[i].userId}`)
-    }
+  for (let i = 0; i < following.length; i++) {
+    let f = following[i];
+    let ud = await userData.getProfile(f.userId);
+    f.userData = ud;
   }
-  console.log(`inside followingList ${followingProfileList}`)
-  response.json(followingProfileList);
+  response.json(following);
 }
 
 module.exports.getSuggestions = async (request, response) => {
