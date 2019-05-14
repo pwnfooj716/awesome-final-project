@@ -12,7 +12,8 @@ import {
   refreshUserId,
   fetchUserProfileIfNeeded,
   fetchFeedsIfNeeded,
-  fetchFollowingListIfNeeded
+  fetchFollowingListIfNeeded,
+  fetchFollowerListIfNeeded
 } from "../actions";
 
 const styles = theme => ({
@@ -44,11 +45,12 @@ class NewsFeedContainer extends Component {
     dispatch(fetchFollowingListIfNeeded());
     dispatch(fetchUserProfileIfNeeded());
     dispatch(fetchFeedsIfNeeded());
+    dispatch(fetchFollowerListIfNeeded());
   }
 
   render() {
     const { classes } = this.props;
-    const { feeds, currentUser, followingList } = this.props;
+    const { feeds, currentUser, followingList, followerList } = this.props;
     let dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return (
       <Grid container spacing={24} className={classes.layout}>
@@ -102,8 +104,8 @@ class NewsFeedContainer extends Component {
         >
           {!currentUser.isLoading &&
             currentUser.items &&
-            !followingList.isLoading && (
-              <HomeUserInfo folCount={followingList.items.length} />
+            !followingList.isLoading && !followerList.isLoading && (
+              <HomeUserInfo folCount={followingList.items.length} fowCount={followerList.items.length}/>
             )}
         </Grid>
       </Grid>
@@ -119,12 +121,13 @@ NewsFeedContainer.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { currentUser, feeds, followingList } = state;
+  const { currentUser, feeds, followingList, followerList } = state;
 
   return {
     currentUser,
     feeds,
-    followingList
+    followingList,
+    followerList
   };
 }
 

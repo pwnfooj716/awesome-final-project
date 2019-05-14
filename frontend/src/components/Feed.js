@@ -21,7 +21,7 @@ const styles = theme => ({
     marginBottom: "40px"
   },
   header: {
-    //backgroundColor: "#283e4a",
+    backgroundColor: "#f7f7f7",
   },
   media: {
     paddingTop: "56.25%" // 16:9

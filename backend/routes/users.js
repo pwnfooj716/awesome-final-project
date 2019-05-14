@@ -7,9 +7,7 @@ module.exports.postFollow = async (request, response) => {
   const reqData = request.body;
   let userId = reqData.userId;
   let targetId = reqData.targetId;
-  console.log(`Inside follow${userId}---${targetId}`)
   let result = await followData.follow(userId, targetId);
-  console.log(`Inside follow${result}`)
   response.json(result);
 }
 
@@ -17,9 +15,7 @@ module.exports.postUnfollow = async (request, response) => {
   const reqData = request.body;
   let userId = reqData.userId;
   let targetId = reqData.targetId;
-  console.log(`Inside unfollow${userId}---${targetId}`)
   let result = await followData.unfollow(userId, targetId);
-  console.log(`Inside unfollow${result}`)
   response.json(result);
 }
 
@@ -34,7 +30,7 @@ module.exports.getFollower = async (request, response) => {
   let enrichedList = [];
   for (let i = 0; i < follower.length; i++) {
     try{
-      let f = following[i];
+      let f = follower[i];
       let ud = await userData.getProfile(f.userId);
       if(ud === 404){
         await followData.unfollow(f.userId, userId)

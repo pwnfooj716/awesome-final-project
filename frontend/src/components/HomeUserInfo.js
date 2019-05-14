@@ -79,7 +79,7 @@ class HomeUserInfo extends Component {
                 <Avatar className={classes.foAvatar}>
                   <People />
                 </Avatar >
-                <ListItemText primary="Followers" secondary={currentUser.items.followerNum} />
+                <ListItemText primary="Followers" secondary={this.props.fowCount} />
               </ListItem>
               <ListItem>
                 <Avatar className={classes.fwAvatar}>
