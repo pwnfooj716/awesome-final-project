@@ -186,6 +186,7 @@ class ApiService {
       console.error(error);
     }
   }
+  
 
   async getOtherUsers(userId) {
     try {

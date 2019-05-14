@@ -42,12 +42,12 @@ class NewsFeedContainer extends Component {
   }
   handleLike (id) {
     const { dispatch } = this.props;
-    dispatch(likePost(id));
+  //  dispatch(likePost(id));
     //dispatch(postFollowAction());
   };
   handleUnLike (id) {
     const { dispatch } = this.props;
-    dispatch(unfollowUser(id));
+  //  dispatch(unfollowUser(id));
   };
 
   render() {
