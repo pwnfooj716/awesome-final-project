@@ -53,7 +53,10 @@ class HomeUserInfo extends Component {
   render() {
     const { classes } = this.props;
     const { currentUser } = this.props;
-    const imgSrc = currentUser.items.picture ? currentUser.items.picture : Empty
+    const imgSrc = Empty;
+    if (currentUser && currentUser.items && currentUser.items.picture) {
+      imgSrc = currentUser.items.picture;
+    }
     return (
       <Grid
         container
