@@ -180,7 +180,22 @@ class ApiService {
       console.error(error);
     }
   }
-
+  
+  async updateUser(text, userId) {
+    try {
+      const response = await axios.patch(`${this.apiUrl}/users/${userId}`, {
+        name: text
+      });
+      if (response.status !== 200) {
+        throw new Error(`Request failed ${response}`);
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
+  
   async getLikeStatus(userId, targetId) {
     try {
       const response = await axios.get(`${this.apiUrl}/posts/${targetId}/${userId}/like`);
