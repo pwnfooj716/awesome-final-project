@@ -49,6 +49,7 @@ class NewsFeedContainer extends Component {
   render() {
     const { classes } = this.props;
     const { feeds, currentUser, followingList } = this.props;
+    let dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return (
       <Grid container spacing={24} className={classes.layout}>
         <Grid
@@ -78,6 +79,7 @@ class NewsFeedContainer extends Component {
                     post={feed}
                     author={author.userData}
                     userId={currentUser.userId}
+                    dateOptions={dateOptions}
                   />
               );
             })}
