@@ -64,7 +64,7 @@ module.exports.getUsersList = async () => {
       snapshot.forEach((doc) => {
         // console.log(doc.id, '=>', doc.data());
         if (doc.exists && Object.getOwnPropertyNames(doc).length !== 0) {
-          let userData = doc.data();getUserPublicData
+          let userData = doc.data();
           userList.push(getUserPublicData(userData));
         }
       });
