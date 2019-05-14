@@ -53,7 +53,7 @@ class HomeUserInfo extends Component {
   render() {
     const { classes } = this.props;
     const { currentUser } = this.props;
-    const imgSrc = Empty;
+    let imgSrc = Empty;
     if (currentUser && currentUser.items && currentUser.items.picture) {
       imgSrc = currentUser.items.picture;
     }
