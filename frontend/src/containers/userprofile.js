@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import { Redirect } from 'react-router';
 import ApiService from "../ApiService";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
+
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -24,7 +24,7 @@ class UserProfile extends Component {
     }
   }
   setAvatar(avatar){
-    if(this.state.user_avatar==undefined){
+    if(this.state.user_avatar===undefined){
     this.setState({
       user_avatar: avatar
     })
@@ -37,7 +37,7 @@ class UserProfile extends Component {
     })
   }
   setUser(user){
-    if(this.state.username==undefined){
+    if(this.state.username===undefined){
     this.setState({
       username: user
     })
@@ -54,7 +54,7 @@ class UserProfile extends Component {
   }
 
   setUserId(id){
-    if(this.state.userId==undefined){
+    if(this.state.userId===undefined){
     this.setState({
       userId: id
     })
@@ -135,7 +135,6 @@ class UserProfile extends Component {
       const FollowingNumb = followingList.items.length;
       
     const postNumb = userPost.items.length;
-    const photo = userPost.items.picture;
 
     const followings = followingList.items;
     const followers = followerList.items;
