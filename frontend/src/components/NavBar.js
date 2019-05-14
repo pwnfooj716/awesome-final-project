@@ -19,6 +19,7 @@ import Cookies from "universal-cookie";
 import auth from "../protected/auth";
 import { connect } from "react-redux";
 import { refreshUserId } from "../actions";
+import PostPic from "./PostPic";
 const cookies = new Cookies();
 
 const styles = theme => ({
@@ -56,6 +57,9 @@ const styles = theme => ({
         textDecoration: "none"
       }
     }
+  },
+  fab: {
+    margin: theme.spacing.unit,
   },
   nav: {
     backgroundColor: "inherit",
@@ -186,6 +190,7 @@ class NavBar extends Component {
               <img src={logo} className={classes.title} alt={"logo"} />
             </Link>
             <div className={classes.grow} />
+            {this.props.userId && <PostPic />}
             {links}
             <div className={classes.sectionMobile}>
               <IconButton

@@ -18,6 +18,7 @@ module.exports.postPost = async (request, response) => {
 module.exports.getUserPosts = async (request, response) => {
   let userId = request.params.userId;
   let posts = await postsData.getUserPost(userId);
+  console.log(`get Posts---${userId}---${posts}`)
   response.json(posts);
 }
 
@@ -78,7 +79,6 @@ module.exports.getTimeline = async (request, response) => {
     let userPosts = await postsData.getUserPost(uid);
     allPosts = allPosts.concat(userPosts);
   }
-  console.log("timelinePosts", allPosts)
   allPosts.slice(startIndex, allPosts);
   response.json({userId: userId, timelinePosts: allPosts});
 }
@@ -101,10 +101,15 @@ module.exports.getLikeStatus = async (request, response) => {
   const postId = request.params.postId;
   const userId  = request.params.userId;
   let likeObj = await likeData.getLikeStatus(userId, postId);
-  response.json(likeObj);
+  if(likeObj){
+    response.json(true);
+  } else {
+    response.json(false);
+  }
 }
 
 module.exports.getUserPosts = async (request, response) => {
   let userId = request.params.userId;
-  return await postsData.getUserPost(userId);
+  let userPosts = await postsData.getUserPost(userId);
+  response.json(userPosts);
 }

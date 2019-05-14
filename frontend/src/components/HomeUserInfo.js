@@ -4,7 +4,6 @@ import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
 import Avatar from "@material-ui/core/Avatar";
 import { Grid } from "@material-ui/core";
 import List from "@material-ui/core/List";
@@ -14,7 +13,8 @@ import Visibility from "@material-ui/icons/VisibilityOutlined";
 import People from "@material-ui/icons/PeopleOutlineOutlined";
 import { connect } from "react-redux";
 import Empty from "../resources/empty.jpg";
-import PostPic from "./PostPic";
+import indigo from '@material-ui/core/colors/indigo';
+import green from '@material-ui/core/colors/green';
 
 const styles = theme => ({
   root: {
@@ -31,13 +31,20 @@ const styles = theme => ({
     width: "100%",
     marginLeft: "10px"
   },
-  actions: {
-    display: "flex"
+  foAvatar: {
+    margin: 10,
+    color: '#fff',
+    backgroundColor: green[500],
+  },
+  fwAvatar: {
+    margin: 10,
+    color: '#fff',
+    backgroundColor: indigo[500],
   },
   avatar: {
     margin: 10,
-    width: 60,
-    height: 60
+    width: 100,
+    height: 100
   }
 });
 
@@ -65,24 +72,17 @@ class HomeUserInfo extends Component {
             title={currentUser.items.name}
           />
         </Card>
-        <br />
-        <Card className={classes.infoCard}>
-          <CardActions className={classes.actions} disableActionSpacing>
-            <PostPic />
-          </CardActions>
-        </Card>
-        <br />
         <Card className={classes.infoCard}>
           <CardContent>
             <List>
               <ListItem>
-                <Avatar>
+                <Avatar className={classes.foAvatar}>
                   <People />
-                </Avatar>
+                </Avatar >
                 <ListItemText primary="Followers" secondary={currentUser.items.followerNum} />
               </ListItem>
               <ListItem>
-                <Avatar>
+                <Avatar className={classes.fwAvatar}>
                   <Visibility />
                 </Avatar>
                 <ListItemText primary="Following" secondary={this.props.folCount} />

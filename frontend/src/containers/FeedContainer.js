@@ -3,7 +3,7 @@ import HomeUserInfo from "../components/HomeUserInfo";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
-import Empty from "../resources/empty.jpg";
+import Empty from "../resources/emptyFeeds.svg";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Avatar from "@material-ui/core/Avatar";
@@ -31,6 +31,9 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     width: 150,
     height: 150
+  },
+  actions: {
+    display: "flex"
   }
 });
 
@@ -67,8 +70,15 @@ class NewsFeedContainer extends Component {
               let author = followingList.items.find(
                 following => (following.userData.userId = feed.authorUserId)
               );
+              if(!author){
+                return "";
+              }
               return (
-                <Feed post={feed} author={author.userData} userId={currentUser.userId}/>
+                  <Feed
+                    post={feed}
+                    author={author.userData}
+                    userId={currentUser.userId}
+                  />
               );
             })}
           {(currentUser.isLoading ||

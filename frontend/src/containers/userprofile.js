@@ -6,6 +6,11 @@ import { fetchUserProfileIfNeeded, fetchUserPostsIfNeeded, fetchFollowingListIfN
 import PropTypes from "prop-types";
 import { Redirect } from 'react-router';
 import ApiService from "../ApiService";
+import Button from "@material-ui/core/Button";
+
+import FormControl from "@material-ui/core/FormControl";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
 
 class UserProfile extends Component {
   constructor(props){
@@ -13,9 +18,18 @@ class UserProfile extends Component {
     this.state = {
       postPic: this.props.postPic,
       avatar: this.props.avatar,
-      email: this.props.email,
-      username: this.props.username
+      userId: this.props.userId,
+      username: this.props.username,
+      user_avatar:this.props.user_avatar
     }
+  }
+  setAvatar(avatar){
+    if(this.state.user_avatar===undefined){
+    this.setState({
+      user_avatar: avatar
+    })
+    console.log("change to: " + this.state.user_avatar);
+  }
   }
   setPic(pic){
     this.setState({
@@ -23,7 +37,7 @@ class UserProfile extends Component {
     })
   }
   setUser(user){
-    if(this.state.username==undefined){
+    if(this.state.username===undefined){
     this.setState({
       username: user
     })
@@ -39,6 +53,14 @@ class UserProfile extends Component {
   
   }
 
+  setUserId(id){
+    if(this.state.userId===undefined){
+    this.setState({
+      userId: id
+    })
+  }
+  }
+
   updataName(text,userid){
         ApiService
         .updateUser(text,userid)
@@ -46,6 +68,18 @@ class UserProfile extends Component {
         console.log(err.message);
     });
   }
+
+  handleChange = e => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+  }
+  handleSubmit = e => {
+    e.preventDefault();
+    this.updataName(this.state.username,this.state.userId);
+    alert("update success!");
+  }
+
   componentWillMount(){
     
   }
@@ -57,6 +91,8 @@ class UserProfile extends Component {
     dispatch(fetchFollowerListIfNeeded());
     
   }
+
+
   render() {
     // const photo = 'https://api-cdn.spott.tv/rest/v004/image/images/e91f9cad-a70c-4f75-9db4-6508c37cd3c0?width=587&height=599'
     // const userName = 'Harvey Specter'
@@ -95,37 +131,34 @@ class UserProfile extends Component {
     // ]
     const { userPost, currentUser, followingList, followerList } = this.props;
     try{
-      const FollowerNumb = currentUser.items.followerNum;
-      const FollowingNumb = currentUser.items.followingNum;
+      const FollowerNumb = followerList.items.length;
+      const FollowingNumb = followingList.items.length;
       
     const postNumb = userPost.items.length;
-    const photo = userPost.items.picture;
-    // const listPosts = userPost.items.map((post)=>
-    //   <div className="postBlock">
-    //     <img className="post" src={post.photo} alt={post.TextContent} onClick={()=>this.setPic(post.photo)} data-toggle="modal" data-target="#postModal" />
-    //     <center className="postContent" > {post.TextContent} </center>
-    //   </div>
-    //   );
-    // const listFollowers = Followers.map((follower)=>
-    //   <div>
-    //     <img className="followerImg" src={follower.photo} alt={follower.name} />
-    //     <center className="followerName"> {follower.name} </center>
-    //   </div>
-    //   );
 
     const followings = followingList.items;
     const followers = followerList.items;
     this.setUser(currentUser.items.name);
+    this.setUserId(currentUser.items.userId);
+    this.setAvatar(currentUser.items.picture);
     const listFollowing = followings.map((following)=>
       <div>
-        <img className="followerImg" scr = {following.userData.picture} alt={following.userData.name} />
+        <img className="followerImg" src = {following.userData.picture} alt={following.userData.name} />
         <center className="followerName">{following.userData.name} </center>
       </div>
       );
     const listFollowers = followers.map((follower)=>
       <div>
-        <img className="followerImg" scr = {follower.userData.picture} alt={follower.userData.name} />
+        <img className="followerImg" src = {follower.userData.picture} alt={follower.userData.name} />
         <center className="followerName">{follower.userData.name} </center>
+      </div>
+      );
+    
+    const userPosts = userPost.items;
+    const listPosts = userPosts.map((post)=>
+      <div className="postBlock">
+        <img className="post" src={post.postImage} alt={post.postTextContent} onClick={()=>this.setPic(post.postImage)} data-toggle="modal" data-target="#postModal" />
+        <center className="postTextContent" > {post.postTextContent} </center>
       </div>
       );
     
@@ -197,27 +230,37 @@ class UserProfile extends Component {
     <div className="modal-content">
 
       <div className="modal-header">
-        <img src={photo} alt="avatar" className="avatar rounded-circle img-responsive pointer" data-toggle="modal" data-target="#AvatarModal" />
+        <img src={this.state.user_avatar} alt="avatar" className="avatar rounded-circle img-responsive pointer" data-toggle="modal" data-target="#AvatarModal" />
       </div>
       <div className="modal-body text-center mb-1">
 
-        <h4 className="mt-1 mb-2">{currentUser.items.name}</h4>
+        <h4 className="mt-1 mb-2">Update Name</h4>
 
-        <div className="md-form ml-0 mr-0">
-         <div>
-          <label for="newUserName">New Name:</label>
-          <input name="newUserName" className="EditModalInput" id="newUserName" />
-         </div>
-         <div>
-          <label for="NewEmail">New Email:</label>
-          <input name="NewEmail" className="EditModalInput" id="NewEmail" />
-          </div>
+          <form onSubmit={this.handleSubmit}>
+            <FormControl margin="normal" required>
+              <InputLabel htmlFor="NewName">New name:</InputLabel>
+              <Input
+                id="username"
+                name="username"
+                autoComplete="username"
+                value={this.state.username}
+                onChange={this.handleChange}
+                autoFocus
+              />
+            </FormControl>
+            <div className="text-center mt-4">
+          <button type="button" className="btn btn-secondary EditModalInput" data-dismiss="modal">Close</button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className="btn btn-primary submit EditModalInput"
+            >
+              submit
+            </Button>
         </div>
+          </form>
 
-        <div className="text-center mt-4">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button className="btn btn-primary submit" onClick={()=>this.updataName("the shy","Q7dj2BsyESh7LJVR1FeUSwkNWLt2")}>Submit </button>
-        </div>
       </div>
 
     </div>
@@ -233,6 +276,7 @@ class UserProfile extends Component {
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+
           <div className="modal-body">
             <ChangeAvator />
           </div>
@@ -244,7 +288,7 @@ class UserProfile extends Component {
     </div>
 
         <header>
-        <img className="userPic rounded-circle pointer" src={photo} alt={"img of "+currentUser.items.name} data-toggle="modal" data-target="#AvatarModal" />
+        <img className="userPic rounded-circle pointer" src={this.state.user_avatar} alt={"img of "+currentUser.items.name} data-toggle="modal" data-target="#AvatarModal" />
         <div className="userInfo">
         
         <h1 className="name">{this.state.username}</h1>
@@ -258,7 +302,7 @@ class UserProfile extends Component {
       </div>
       <div className="postbox">
         <center className="pTitle">My Posts</center>
-        <div>listPosts</div>
+        <div>{listPosts}</div>
       </div>
       </div>
 

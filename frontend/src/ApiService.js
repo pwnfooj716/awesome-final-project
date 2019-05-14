@@ -155,8 +155,7 @@ class ApiService {
   async like(userId, targetId) {
     try {
       const response = await axios.post(`${this.apiUrl}/posts/${targetId}/like`, {
-        userId: userId,
-        targetId: targetId
+        userId
       });
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
@@ -170,8 +169,7 @@ class ApiService {
   async unlike(userId, targetId) {
     try {
       const response = await axios.post(`${this.apiUrl}/posts/${targetId}/unlike`, {
-        userId: userId,
-        targetId: targetId
+        userId
       });
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
@@ -208,8 +206,6 @@ class ApiService {
       console.error(error);
     }
   }
-
-
 
   async getPost(postId) {
     try {
@@ -257,6 +253,21 @@ class ApiService {
       const response = await axios.get(
         `${this.apiUrl}/users/suggestions/${userId}`
       );
+      if (response.status !== 200) {
+        throw new Error(`Request failed ${response}`);
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async patchUser(userId, name, picture) {
+    try {
+      const response = await axios.patch(`${this.apiUrl}/users/${userId}`, {
+        name: name,
+        picture: picture
+      });
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
       }

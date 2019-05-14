@@ -101,6 +101,8 @@ class SignIn extends Component {
           .login(idToken)
           .then(response => {
             auth.login();
+            console.log(response);
+            console.log("login success");
             cookies.set("userId", response.userId, { path: "/", expires: d });
             cookies.set("email", response.email, { path: "/", expires: d });
             cookies.set("name", response.name, { path: "/", expires: d });
