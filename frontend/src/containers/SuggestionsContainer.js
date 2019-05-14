@@ -15,6 +15,8 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import IconButton from "@material-ui/core/IconButton";
 import api from "../ApiService";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const styles = theme => ({
   layout: {
@@ -45,15 +47,17 @@ class SuggestionsContainer extends Component {
   }
 
   async handleFollow (targetId) {
+    let uid = cookies.get("userId");
     const { dispatch } = this.props;
-    await api.follow(this.props.userId, targetId)
+    await api.follow(uid, targetId)
     dispatch(fetchOtherUsersIfNeeded());
     dispatch(fetchFollowingListIfNeeded());
   };
 
   async handleUnFollow (targetId) {
+    let uid = cookies.get("userId");
     const { dispatch } = this.props;
-    await api.unFollow(this.props.userId, targetId);
+    await api.unFollow(uid, targetId);
     dispatch(fetchOtherUsersIfNeeded());
     dispatch(fetchFollowingListIfNeeded());
   };
@@ -87,7 +91,7 @@ class SuggestionsContainer extends Component {
                 actionIcon={
                   <IconButton
                     className={classes.icon}
-                    onClick={this.handleFollow(otherUser.userId)}
+                    onClick={this.handleFollow.bind(otherUser.userId)}
                   >
                     <Add />
                   </IconButton>

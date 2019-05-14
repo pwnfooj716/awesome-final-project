@@ -10,7 +10,6 @@ import {
   RECEIVE_FEEDS,
   REQUEST_USER_POSTS,
   RECEIVE_USER_POSTS,
-  REMOVE_OTHER_USERS,
   RECEIVE_FOLLOWER_LIST,
   REQUEST_FOLLOWER_LIST,
   USER_ID
@@ -63,14 +62,6 @@ function otherUsers(
       return Object.assign({}, state, {
         isLoading: false,
         items: action.otherUsers
-      });
-    case REMOVE_OTHER_USERS:
-      let updatedList = state.items.filter(
-        item => item.userId !== action.otherUserID
-      );
-      return Object.assign({}, state, {
-        isLoading: false,
-        items: updatedList
       });
     default:
       return state;
