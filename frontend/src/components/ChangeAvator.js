@@ -1,22 +1,23 @@
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import AddAPhoto from "@material-ui/icons/AddAPhotoOutlined";
-import AddToPhoto from "@material-ui/icons/AddToPhotosRounded";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import AvatorEditor from "./AvatorEditor";
+import firebase from "../config/firebaseConfig";
+import uuidv4 from "uuidv4"
+import apiService from "../ApiService";
+import Cookies from "universal-cookie";
+import { browserHistory } from 'react-router';
+
+const cookies = new Cookies();
 
 class ChangeAvator extends Component {
-  state = {
-    input: this.props.image,
-    open: false
-  };
+
+  constructor(props){
+    super(props);
+    console.log(props, props.handleRefresh, "change avatar");
+    this.state = {
+      input: this.props.image,
+      open: false
+    };
+  }
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -45,55 +46,65 @@ class ChangeAvator extends Component {
     this.setState({ open: false });
   };
 
+  handlePost = event=> {
+    const file = this.state.file;
+    const storageRef = firebase.storage().ref();
+    const imgRef = storageRef.child('images');
+    const newImgRef = imgRef.child(uuidv4());
+    const blob = new Blob([file]);
+
+    const thisPopup = this;
+
+    newImgRef.put(blob).then(function(snapshot) {
+      snapshot.ref.getDownloadURL().then(downloadUrl=>{
+        console.log("downloadUrl", downloadUrl);
+
+        const userId = cookies.get("userId");
+        apiService
+        .patchUser(userId, downloadUrl)
+        .then(response => {
+          console.log(response)
+          // Parent componet using div modal. I can't find a way to close that modal.
+          thisPopup.props.handleRefresh();
+          console.log("refresh");
+        }).catch(err => {
+          console.log(err.message);
+        });
+      });
+    });
+  }
+
+  handleFileSelected = event => {
+    var file = event.target.files[0];
+    let reader = new FileReader();
+    
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.setState({
+        input: reader.result,
+        file: file,
+        imgFile: URL.createObjectURL(file),
+        caption: ""
+      });
+    };
+    reader.onerror = function(error) {
+      console.log("Error: ", error);
+    };
+  };
+
   render() {
-    let preview = "";
-    if (this.state.input) {
-      preview = (
-        <DialogContent>
-          <DialogContentText>
-            <AvatorEditor
-              image={this.state.input}
-              handleEditEvent={this.handleEditEvent}
-            />
-          </DialogContentText>
-        </DialogContent>
-      );
-    }
     return (
       <div>
-        <ListItem>
-          <IconButton
-            aria-label="Add to favorites"
-            onClick={this.handleClickOpen}
-          >
-            <AddAPhoto />
-          </IconButton>
-          <ListItemText primary="Upload New Avator Image" />
-        </ListItem>
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="draggable-dialog-title"
-        >
-          <DialogTitle id="draggable-dialog-title">
-            <IconButton
-              aria-label="Add to favorites"
-              onClick={this.handleClickOpen}
-            >
-              <AddToPhoto color="secondary" />
-            </IconButton>
-            Upload Image
-          </DialogTitle>
-          {preview}
-          <DialogActions>
-            <Button color="primary">
-              <input type="file" onChange={this.handleUpload.bind(this)} />
-            </Button>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <img src={this.state.imgFile} alt="Select a piecture" width="100%" height="100%" min-height={500}/>
+        <br/>
+        <Button color="primary">
+          <input type="file" onChange={this.handleFileSelected.bind(this)} />
+        </Button>
+        <br/>
+        <br/>
+        <Button onClick={this.handlePost} color="primary" variant="contained">
+          SAVE
+        </Button>
       </div>
     );
   }
