@@ -71,7 +71,7 @@ class NewsFeedContainer extends Component {
                 following => (following.userData.userId = feed.authorUserId)
               );
               if(!author){
-                return;
+                return "";
               }
               return (
                   <Feed

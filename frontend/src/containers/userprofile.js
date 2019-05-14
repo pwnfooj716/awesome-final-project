@@ -255,7 +255,6 @@ class UserProfile extends Component {
               variant="contained"
               color="primary"
               className="btn btn-primary submit EditModalInput"
-              
             >
               submit
             </Button>

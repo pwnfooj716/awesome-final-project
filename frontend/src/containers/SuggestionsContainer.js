@@ -30,7 +30,7 @@ const cookies = new Cookies();
 
 function TabContainer(props) {
   return (
-    <Typography align="center" style={{ padding: 8 * 3 }}>
+    <Typography align="center" component="div" style={{ padding: 8 * 3 }}>
       {props.children}
     </Typography>
   );
