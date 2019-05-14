@@ -190,7 +190,7 @@ class NavBar extends Component {
               <img src={logo} className={classes.title} alt={"logo"} />
             </Link>
             <div className={classes.grow} />
-            <PostPic />
+            {this.props.userId && <PostPic />}
             {links}
             <div className={classes.sectionMobile}>
               <IconButton

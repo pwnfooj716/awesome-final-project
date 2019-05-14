@@ -7,8 +7,9 @@ module.exports.postFollow = async (request, response) => {
   const reqData = request.body;
   let userId = reqData.userId;
   let targetId = reqData.targetId;
+  console.log(`Inside follow${userId}---${targetId}`)
   let result = await followData.follow(userId, targetId);
-
+  console.log(`Inside follow${result}`)
   response.json(result);
 }
 
@@ -16,8 +17,9 @@ module.exports.postUnfollow = async (request, response) => {
   const reqData = request.body;
   let userId = reqData.userId;
   let targetId = reqData.targetId;
+  console.log(`Inside unfollow${userId}---${targetId}`)
   let result = await followData.unfollow(userId, targetId);
-
+  console.log(`Inside unfollow${result}`)
   response.json(result);
 }
 

@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { fetchOtherUsersIfNeeded, fetchFollowingListIfNeeded } from "../actions";
+import { refreshUserId, fetchOtherUsersIfNeeded, fetchFollowingListIfNeeded } from "../actions";
 import Empty from "../resources/empty.jpg";
 import Avatar from "@material-ui/core/Avatar";
 import Add from "@material-ui/icons/PersonAddRounded";
@@ -42,6 +42,7 @@ const styles = theme => ({
 class SuggestionsContainer extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
+    dispatch(refreshUserId());
     dispatch(fetchOtherUsersIfNeeded());
     dispatch(fetchFollowingListIfNeeded());
   }
@@ -50,6 +51,7 @@ class SuggestionsContainer extends Component {
     let uid = cookies.get("userId");
     const { dispatch } = this.props;
     await api.follow(uid, targetId)
+    console.log(`insid follow---${uid}---${targetId}`)
     dispatch(fetchOtherUsersIfNeeded());
     dispatch(fetchFollowingListIfNeeded());
   };
@@ -66,6 +68,7 @@ class SuggestionsContainer extends Component {
     const { classes } = this.props;
     const { otherUsers, followingList } = this.props;
     return (
+      <Grid>
       <Grid
         container
         spacing={24}
@@ -73,7 +76,7 @@ class SuggestionsContainer extends Component {
         direction="row"
         className={classes.layout}
       >
-      <GridList cellHeight={180} className={classes.gridList}>
+      <GridList cellHeight={300} className={classes.gridList}>
           <GridListTile key="Subheader" cols={2} style={{ height: "auto" }}>
             <ListSubheader component="div">Suggestions</ListSubheader>
           </GridListTile>
@@ -91,7 +94,7 @@ class SuggestionsContainer extends Component {
                 actionIcon={
                   <IconButton
                     className={classes.icon}
-                    onClick={this.handleFollow.bind(otherUser.userId)}
+                    onClick={() => this.handleFollow(otherUser.userId)}
                   >
                     <Add />
                   </IconButton>
@@ -100,9 +103,15 @@ class SuggestionsContainer extends Component {
             </GridListTile>
           ))}
         </GridList>
-        <br />
-        <br />
-        <GridList cellHeight={180} className={classes.gridList}>
+        </Grid>
+        <Grid
+        container
+        spacing={24}
+        justify="center"
+        direction="row"
+        className={classes.layout}
+      >
+      <GridList cellHeight={180} className={classes.gridList}>
           <GridListTile key="Subheader" cols={2} style={{ height: "auto" }}>
             <ListSubheader component="div">Currently Following</ListSubheader>
           </GridListTile>
@@ -120,7 +129,7 @@ class SuggestionsContainer extends Component {
                 actionIcon={
                   <IconButton
                     className={classes.icon}
-                    onClick={this.handleUnFollow(following.userId)}
+                    onClick={() => this.handleUnFollow(following.userId)}
                   >
                     <Remove />
                   </IconButton>
@@ -129,6 +138,7 @@ class SuggestionsContainer extends Component {
             </GridListTile>
           ))}
         </GridList>
+        </Grid>
         </Grid>
     );
   }
