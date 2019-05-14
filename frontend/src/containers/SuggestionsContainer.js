@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { fetchOtherUsersIfNeeded, followUser, postFollowAction, unfollowUser } from "../actions";
+import { fetchOtherUsersIfNeeded, fetchFollowingListIfNeeded } from "../actions";
 import Empty from "../resources/empty.jpg";
 import Avatar from "@material-ui/core/Avatar";
 import Add from "@material-ui/icons/PersonAddRounded";
@@ -14,6 +14,7 @@ import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import IconButton from "@material-ui/core/IconButton";
+import api from "../ApiService";
 
 const styles = theme => ({
   layout: {
@@ -40,17 +41,21 @@ class SuggestionsContainer extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchOtherUsersIfNeeded());
+    dispatch(fetchFollowingListIfNeeded());
   }
 
-  handleFollow (id) {
+  async handleFollow (targetId) {
     const { dispatch } = this.props;
-    dispatch(followUser(id));
-    dispatch(postFollowAction());
+    await api.follow(this.props.userId, targetId)
+    dispatch(fetchOtherUsersIfNeeded());
+    dispatch(fetchFollowingListIfNeeded());
   };
 
-  handleUnFollow (id) {
+  async handleUnFollow (targetId) {
     const { dispatch } = this.props;
-    dispatch(unfollowUser(id));
+    await api.unFollow(this.props.userId, targetId);
+    dispatch(fetchOtherUsersIfNeeded());
+    dispatch(fetchFollowingListIfNeeded());
   };
 
   render() {

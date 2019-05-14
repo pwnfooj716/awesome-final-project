@@ -13,7 +13,6 @@ import red from "@material-ui/core/colors/red";
 import FavoriteIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import FavoriteFilledIcon from "@material-ui/icons/FavoriteBorderRounded";
 import api from "../ApiService";
-import Empty from "../resources/empty.jpg";
 
 const styles = theme => ({
   card: {
@@ -92,7 +91,7 @@ class Feed extends Component {
     return (
       <Card className={classes.card} key={this.props.post.postId}>
         <CardHeader
-          avatar={defaultAvatar}
+          avatar={avatar}
           className={classes.header}
           title={author.name}
           // subheader={postDate}

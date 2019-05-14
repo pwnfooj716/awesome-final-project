@@ -27,10 +27,19 @@ const styles = theme => ({
       display: "block"
     }
   },
+  addCard: {
+    display: "block",
+    [theme.breakpoints.up("lg")]: {
+      display: "none"
+    }
+  },
   avatar: {
     margin: theme.spacing.unit,
     width: 150,
     height: 150
+  },
+  actions: {
+    display: "flex"
   }
 });
 
@@ -68,7 +77,13 @@ class NewsFeedContainer extends Component {
                 following => (following.userData.userId = feed.authorUserId)
               );
               return (
-                <Feed post={feed} author={author.userData} userId={currentUser.userId}/>
+                <div>
+                  <Feed
+                    post={feed}
+                    author={author.userData}
+                    userId={currentUser.userId}
+                  />
+                </div>
               );
             })}
           {(currentUser.isLoading ||
