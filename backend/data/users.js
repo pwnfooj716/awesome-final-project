@@ -23,10 +23,11 @@ module.exports.createUser = async (userObj, authToken) => {
   if (userObj.email) {
     email = userObj.email;
   }
-  let picture = "";
+  // Default image. http://chittagongit.com/icon/avatar-icon-png-8.html , CC0 Public Domain Licence
+  let picture = "https://firebasestorage.googleapis.com/v0/b/cs554-awesome-final.appspot.com/o/assets%2Favatar-icon-png-8.jpg?alt=media&token=49c1c6f4-37bc-4626-93a5-e2344f8e033a";
   if (userObj.picture) {
     picture = userObj.picture;
-  }
+  } 
   if (!userObj.name) {
     userObj.name = uuidv4();
   }
