@@ -16,6 +16,9 @@ import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import uuidv4 from "uuidv4"
 import apiService from "../ApiService";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 const styles = theme => ({
   postPopup: {
@@ -28,7 +31,7 @@ class postPicture extends Component {
   state = {
     input: this.props.image,
     open: false,
-    imgFile: this.props.image
+    imgFile: ""
   };
 
   handleClickOpen = () => {
@@ -68,37 +71,20 @@ class postPicture extends Component {
     const newImgRef = imgRef.child(uuidv4());
     const blob = new Blob([file]);
 
+    const thisDialog = this;
     newImgRef.put(blob).then(function(snapshot) {
       snapshot.ref.getDownloadURL().then(downloadUrl=>{
         console.log("downloadUrl", downloadUrl);
 
-        let addr = '';
-        if (process.env.SERVER_ADDR) {
-          addr = process.env.SERVER_ADDR;
-        } else {
-          addr = 'http://localhost:3030';
-        }
-
+        const userId = cookies.get("userId");
         apiService
-        .addPost(this.state.caption, downloadUrl, 'test')
+        .addPost(thisDialog.state.caption, downloadUrl, userId)
         .then(response => {
+          thisDialog.setState({ open: false });
           console.log(response)
         }).catch(err => {
           console.log(err.message);
         });
-
-        // let postData = {
-        //   "text": this.state.caption,
-        //   "image": downloadUrl,
-        //   "authorUserId": "test"
-        // }
-        // const headers = {
-        //   'Content-Type': 'application/json',
-        // }
-        // axios.post(addr + `/api/posts/`, postData, {headers: headers})
-        // .then(res => {
-        //   console.log(res);
-        // })
       });
     });
   }
