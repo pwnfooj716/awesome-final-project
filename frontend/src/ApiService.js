@@ -7,7 +7,6 @@ class ApiService {
 
   async login(tokenId, name) {
     try {
-      console.log(tokenId,name)
       const response = await axios.post(`${this.apiUrl}/login`, {
         idToken: tokenId,
         name: name
@@ -166,6 +165,21 @@ class ApiService {
   async getInitialTimeline(userId) {
     try {
       const response = await axios.get(`${this.apiUrl}/posts/getTimeline/${userId}`);
+      if (response.status !== 200) {
+        throw new Error(`Request failed ${response}`);
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async patchUser(userId, name, picture) {
+    try {
+      const response = await axios.patch(`${this.apiUrl}/users/${userId}`, {
+        name: name,
+        picture: picture
+      });
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
       }
