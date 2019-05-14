@@ -151,6 +151,50 @@ class ApiService {
     }
   }
 
+  async like(userId, targetId) {
+    try {
+      const response = await axios.post(`${this.apiUrl}/posts/${targetId}/like`, {
+        userId: userId,
+        targetId: targetId
+      });
+      if (response.status !== 200) {
+        throw new Error(`Request failed ${response}`);
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async unlike(userId, targetId) {
+    try {
+      const response = await axios.post(`${this.apiUrl}/posts/${targetId}/unlike`, {
+        userId: userId,
+        targetId: targetId
+      });
+      if (response.status !== 200) {
+        throw new Error(`Request failed ${response}`);
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async getLikeStatus(userId, targetId) {
+    try {
+      const response = await axios.get(`${this.apiUrl}/posts/${targetId}/${userId}/like`);
+      if (response.status !== 200) {
+        throw new Error(`Request failed ${response}`);
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
+
   async getPost(postId) {
     try {
       const response = await axios.get(`${this.apiUrl}/posts/${postId}`);
@@ -175,6 +219,8 @@ class ApiService {
     }
   }
 
+
+
   async getInitialTimeline(userId) {
     try {
       const response = await axios.get(`${this.apiUrl}/posts/getTimeline/${userId}`);
@@ -186,7 +232,19 @@ class ApiService {
       console.error(error);
     }
   }
-  
+
+  async getInitialTimeline(userId) {
+    try {
+      const response = await axios.get(`${this.apiUrl}/posts/getTimeline/${userId}`);
+      if (response.status !== 200) {
+        throw new Error(`Request failed ${response}`);
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 
   async getOtherUsers(userId) {
     try {
