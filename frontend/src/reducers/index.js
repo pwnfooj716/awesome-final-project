@@ -11,7 +11,9 @@ import {
   RECEIVE_FEEDS,
   REQUEST_USER_POSTS,
   RECEIVE_USER_POSTS,
-  REMOVE_OTHER_USERS
+  REMOVE_OTHER_USERS,
+  RECEIVE_FOLLOWER_LIST,
+  REQUEST_FOLLOWER_LIST
 } from "../actions";
 
 function userId(state = null, action) {
@@ -95,6 +97,28 @@ function followingList(
   }
 }
 
+function followerList(
+  state = {
+    isLoading: false,
+    items: []
+  },
+  action
+) {
+  switch (action.type) {
+    case REQUEST_FOLLOWER_LIST:
+      return Object.assign({}, state, {
+        isLoading: true
+      });
+    case RECEIVE_FOLLOWER_LIST:
+      return Object.assign({}, state, {
+        isLoading: false,
+        items: action.followerList
+      });
+    default:
+      return state;
+  }
+}
+
 function feeds(
   state = {
     isLoading: false,
@@ -145,7 +169,8 @@ const rootReducer = combineReducers({
   followingList,
   feeds,
   otherUsers,
-  userPost
+  userPost,
+  followerList
 });
 
 export default rootReducer;

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../styles/profile.css";
 import ChangeAvator from "../components/ChangeAvator";
 import { connect } from "react-redux";
-import { fetchUserProfileIfNeeded, fetchUserPostsIfNeeded, fetchFollowingListIfNeeded } from "../actions";
+import { fetchUserProfileIfNeeded, fetchUserPostsIfNeeded, fetchFollowingListIfNeeded,fetchFollowerListIfNeeded } from "../actions";
 import PropTypes from "prop-types";
 import { Redirect } from 'react-router';
 
@@ -34,6 +34,7 @@ class UserProfile extends Component {
     dispatch(fetchUserProfileIfNeeded());
     dispatch(fetchUserPostsIfNeeded());
     dispatch(fetchFollowingListIfNeeded());
+    dispatch(fetchFollowerListIfNeeded());
   }
   render() {
     // const photo = 'https://api-cdn.spott.tv/rest/v004/image/images/e91f9cad-a70c-4f75-9db4-6508c37cd3c0?width=587&height=599'
@@ -71,7 +72,7 @@ class UserProfile extends Component {
     //     photo: 'https://i.kinja-img.com/gawker-media/image/upload/s--Q_RyW1gk--/c_scale,f_auto,fl_progressive,q_80,w_800/endahrasa3dxot980mjf.png'
     //   }
     // ]
-    const { userPost, currentUser, followingList } = this.props;
+    const { userPost, currentUser, followingList, followerList } = this.props;
     try{
       const FollowerNumb = currentUser.items.followerNum;
       const FollowingNumb = currentUser.items.followingNum;
@@ -91,10 +92,17 @@ class UserProfile extends Component {
     //   );
 
     const followings = followingList.items;
+    const followers = followerList.items;
     const listFollowing = followings.map((following)=>
       <div>
         <img className="followerImg" scr = {following.picture} alt={following.name} />
         <center className="followerName">{following.name} </center>
+      </div>
+      );
+    const listFollowers = followers.map((follower)=>
+      <div>
+        <img className="followerImg" scr = {follower.picture} alt={follower.name} />
+        <center className="followerName">{follower.name} </center>
       </div>
       );
 
@@ -113,7 +121,7 @@ class UserProfile extends Component {
             </button>
           </div>
           <div className="modal-body">
-            listFollowers
+            {listFollowers}
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -244,12 +252,13 @@ UserProfile.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { currentUser, userPost, followingList } = state;
+  const { currentUser, userPost, followingList,followerList } = state;
 
   return {
     currentUser,
     userPost,
-    followingList
+    followingList,
+    followerList
   };
 }
 

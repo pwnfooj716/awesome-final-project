@@ -12,6 +12,8 @@ export const RECEIVE_FEEDS = "RECEIVE_FEEDS";
 export const REQUEST_USER_POSTS = "REQUEST_USER_POSTS";
 export const RECEIVE_USER_POSTS = "RECEIVE_USER_POSTS";
 export const REMOVE_OTHER_USERS = "REMOVE_OTHER_USERS";
+export const RECEIVE_FOLLOWER_LIST ="RECEIVE_FOLLOWER_LIST";
+export const REQUEST_FOLLOWER_LIST ="REQUEST_FOLLOWER_LIST";
 const NO_ACTION = "NO_ACTION";
 
 export function setUserId(userId) {
@@ -124,6 +126,41 @@ function receiveFollowingList(data) {
     return {
       type: RECEIVE_FOLLOWING_LIST,
       followingList: data
+    };
+  }
+  return {
+    type: NO_ACTION
+  };
+}
+
+export function fetchFollowerListIfNeeded() {
+  return (dispatch, getState) => {
+    if (getState().followerList.isLoading || !getState().userId) {
+      return {
+        type: NO_ACTION
+      };
+    }
+    dispatch(requestFollowerList());
+    return api
+      .getFollower(getState().userId, 0, -1)
+      .then(response => dispatch(receiveFollowerList(response)))
+      .catch(err => {
+        console.log(err.message);
+      });
+  };
+}
+
+function requestFollowerList() {
+  return {
+    type: REQUEST_FOLLOWER_LIST
+  };
+}
+
+function receiveFollowerList(data) {
+  if (data) {
+    return {
+      type: RECEIVE_FOLLOWER_LIST,
+      followerList: data
     };
   }
   return {
