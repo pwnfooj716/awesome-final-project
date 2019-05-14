@@ -95,14 +95,14 @@ class UserProfile extends Component {
     const followers = followerList.items;
     const listFollowing = followings.map((following)=>
       <div>
-        <img className="followerImg" scr = {following.picture} alt={following.name} />
-        <center className="followerName">{following.name} </center>
+        <img className="followerImg" scr = {following.userData.picture} alt={following.userData.name} />
+        <center className="followerName">{following.userData.name} </center>
       </div>
       );
     const listFollowers = followers.map((follower)=>
       <div>
-        <img className="followerImg" scr = {follower.picture} alt={follower.name} />
-        <center className="followerName">{follower.name} </center>
+        <img className="followerImg" scr = {follower.userData.picture} alt={follower.userData.name} />
+        <center className="followerName">{follower.userData.name} </center>
       </div>
       );
 
