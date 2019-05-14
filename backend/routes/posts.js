@@ -105,5 +105,6 @@ module.exports.getLikeStatus = async (request, response) => {
 
 module.exports.getUserPosts = async (request, response) => {
   let userId = request.params.userId;
-  return await postsData.getUserPost(userId);
+  let userPosts = await postsData.getUserPost(userId);
+  response.json(userPosts);
 }
