@@ -4,7 +4,7 @@ import firebase from "../config/firebaseConfig";
 import uuidv4 from "uuidv4"
 import apiService from "../ApiService";
 import Cookies from "universal-cookie";
-import { browserHistory } from 'react-router';
+
 
 const cookies = new Cookies();
 
