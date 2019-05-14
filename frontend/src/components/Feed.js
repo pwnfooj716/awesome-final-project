@@ -13,6 +13,8 @@ import red from "@material-ui/core/colors/red";
 import FavoriteIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import FavoriteFilledIcon from "@material-ui/icons/FavoriteBorderRounded";
 import api from "../ApiService";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const styles = theme => ({
   card: {
@@ -37,22 +39,24 @@ const styles = theme => ({
 });
 
 class Feed extends Component {
-  constructor(props) {
-    super(props);
-    this.handleLike.bind(this);
-    this.handleUnlike.bind(this);
-    this.checkLike.bind(this);
+  constructor(props){
+    super(props)
+    this.handleLike = this.handleLike.bind(this)
+    this.handleUnlike = this.handleUnlike.bind(this)
   }
   async handleLike() {
-    await api.like(this.props.userId, this.props.post.postId);
+    let uid = cookies.get("userId");
+    await api.like(uid, this.props.post.postId);
   }
 
   async handleUnlike() {
-    await api.like(this.props.userId, this.props.post.postId);
+    let uid = cookies.get("userId");
+    await api.like(uid, this.props.post.postId);
   }
 
   async checkLike() {
-    return await api.getLikeStatus(this.props.userId, this.props.post.postId);
+    let uid = cookies.get("userId");
+    return await api.getLikeStatus(uid, this.props.post.postId);
   }
 
   render() {
@@ -75,13 +79,13 @@ class Feed extends Component {
       );
 
     const liked = (
-      <IconButton color="inherit" onClick={this.handleLike}>
+      <IconButton color="inherit" onClick={() => this.handleUnlike()}>
         <FavoriteIcon />
       </IconButton>
     );
 
     const unliked = (
-      <IconButton aria-label="Add to favorites" onClick={this.handleUnlike}>
+      <IconButton aria-label="Add to favorites" onClick={() => this.handleLike()}>
         <FavoriteFilledIcon />
       </IconButton>
     );

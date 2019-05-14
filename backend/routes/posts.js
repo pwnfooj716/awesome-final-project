@@ -78,7 +78,6 @@ module.exports.getTimeline = async (request, response) => {
     let userPosts = await postsData.getUserPost(uid);
     allPosts = allPosts.concat(userPosts);
   }
-  console.log("timelinePosts", allPosts)
   allPosts.slice(startIndex, allPosts);
   response.json({userId: userId, timelinePosts: allPosts});
 }

@@ -155,8 +155,7 @@ class ApiService {
   async like(userId, targetId) {
     try {
       const response = await axios.post(`${this.apiUrl}/posts/${targetId}/like`, {
-        userId: userId,
-        targetId: targetId
+        userId
       });
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
@@ -170,8 +169,7 @@ class ApiService {
   async unlike(userId, targetId) {
     try {
       const response = await axios.post(`${this.apiUrl}/posts/${targetId}/unlike`, {
-        userId: userId,
-        targetId: targetId
+        userId
       });
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
@@ -208,8 +206,6 @@ class ApiService {
       console.error(error);
     }
   }
-
-
 
   async getPost(postId) {
     try {
