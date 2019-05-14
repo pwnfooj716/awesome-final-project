@@ -65,7 +65,7 @@ class ChangeAvator extends Component {
         .then(response => {
           console.log(response)
           // Parent componet using div modal. I can't find a way to close that modal.
-          thisPopup.props.handleRefresh();
+          thisPopup.props.handleRefresh(downloadUrl);
           console.log("refresh");
         }).catch(err => {
           console.log(err.message);

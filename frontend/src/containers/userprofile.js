@@ -61,6 +61,11 @@ class UserProfile extends Component {
   }
   }
 
+  handleRefresh() {
+    console.log('upload success!')
+    window.location.reload();
+  }
+
   updataName(text,userid){
         ApiService
         .updateUser(text,userid)
@@ -278,7 +283,7 @@ class UserProfile extends Component {
           </div>
 
           <div className="modal-body">
-            <ChangeAvator />
+            <ChangeAvator handleRefresh={this.handleRefresh}/>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
