@@ -104,8 +104,8 @@ module.exports.patchUser = async (request, response) => {
   let name = reqData.name;
   let picture = reqData.picture;
 
-  if (name) await userData.setUserName(userId, name);
-  if (picture) await userData.setUserPicture(userId, picture);
+  if (name && name != '') await userData.setUserName(userId, name);
+  if (picture && picture != '') await userData.setUserPicture(userId, picture);
 
   let userProfileData = await userData.getProfile(userId);
   userProfileData.followerNum = await followData.getFollowerNum(userId);

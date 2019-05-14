@@ -61,7 +61,7 @@ class ChangeAvator extends Component {
 
         const userId = cookies.get("userId");
         apiService
-        .patchUser(userId, downloadUrl)
+        .patchUser(userId, '', downloadUrl)
         .then(response => {
           console.log(response)
           // Parent componet using div modal. I can't find a way to close that modal.
