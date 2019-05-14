@@ -3,6 +3,8 @@ import "../styles/profile.css";
 import ChangeAvator from "../components/ChangeAvator";
 import { connect } from "react-redux";
 import { fetchUserProfileIfNeeded, fetchUserPostsIfNeeded, fetchFollowingListIfNeeded } from "../actions";
+import PropTypes from "prop-types";
+import { Redirect } from 'react-router';
 
 class UserProfile extends Component {
   constructor(props){
@@ -25,9 +27,10 @@ class UserProfile extends Component {
     })
   }
   componentWillMount(){
-    this.setUser(ApiService.getProfile("yzFYGvPN55WPc9IExUHWeOK8loA3"));
+
   }
   componentDidMount(){
+    const { dispatch } = this.props;
     dispatch(fetchUserProfileIfNeeded());
     dispatch(fetchUserPostsIfNeeded());
     dispatch(fetchFollowingListIfNeeded());
@@ -69,20 +72,23 @@ class UserProfile extends Component {
     //   }
     // ]
     const { userPost, currentUser, followingList } = this.props;
-    const FollowerNumb = currentUser.items.followerNum;
+    try{
+      const FollowerNumb = currentUser.items.followerNum;
     const postNumb = userPost.items.length;
-    const listPosts = userPost.items.map((post)=>
-      <div className="postBlock">
-        <img className="post" src={post.photo} alt={post.TextContent} onClick={()=>this.setPic(post.photo)} data-toggle="modal" data-target="#postModal" />
-        <center className="postContent" > {post.TextContent} </center>
-      </div>
-      );
-    const listFollowers = Followers.map((follower)=>
-      <div>
-        <img className="followerImg" src={follower.photo} alt={follower.name} />
-        <center className="followerName"> {follower.name} </center>
-      </div>
-      );
+    const photo = userPost.items.picture;
+    // const listPosts = userPost.items.map((post)=>
+    //   <div className="postBlock">
+    //     <img className="post" src={post.photo} alt={post.TextContent} onClick={()=>this.setPic(post.photo)} data-toggle="modal" data-target="#postModal" />
+    //     <center className="postContent" > {post.TextContent} </center>
+    //   </div>
+    //   );
+    // const listFollowers = Followers.map((follower)=>
+    //   <div>
+    //     <img className="followerImg" src={follower.photo} alt={follower.name} />
+    //     <center className="followerName"> {follower.name} </center>
+    //   </div>
+    //   );
+
 
     return (
       <div style={{ padding: "0 50px", marginTop: 64 }}>
@@ -99,7 +105,7 @@ class UserProfile extends Component {
             </button>
           </div>
           <div className="modal-body">
-            {listFollowers}
+            listFollowers
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -137,7 +143,7 @@ class UserProfile extends Component {
       </div>
       <div className="modal-body text-center mb-1">
 
-        <h4 className="mt-1 mb-2">{userName}</h4>
+        <h4 className="mt-1 mb-2">{currentUser.items.name}</h4>
 
         <div className="md-form ml-0 mr-0">
          <div>
@@ -182,21 +188,25 @@ class UserProfile extends Component {
         <header>
         <img className="userPic rounded-circle pointer" src={photo} alt="Smiley face" data-toggle="modal" data-target="#AvatarModal" />
         <div className="userInfo">
-        <h1 className="name">{userName}</h1>
+        <h1 className="name">{currentUser.items.name}</h1>
         <button className="editBtn" type="button" data-toggle="modal" data-target="#EditModal">Edit Profile</button>
-        <h2 className="email">{email}</h2>
+        <h2 className="email">{currentUser.items.email}</h2>
         <div className= "follow"> <b>{postNumb} </b> <strong>Posts</strong> </div>
-        <div className="follow pointer" data-toggle="modal" data-target="#followerModal"> <b>{FollowerNumb} </b> <strong>Following</strong></div>
+        <div className="follow pointer" data-toggle="modal" data-target="#followerModal"> <b>{FollowerNumb} </b> <strong>Followers</strong></div>
         </div>
         </header>
       </div>
       <div className="postbox">
         <center className="pTitle">My Posts</center>
-        <div>{listPosts}</div>
+        <div>listPosts</div>
       </div>
       </div>
 
     );
+    }
+    catch{
+      return(<Redirect to="/" />);
+    }
   }
 }
 
@@ -215,4 +225,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default withStyles(styles)(connect(mapStateToProps)(UserProfile));
+export default (connect(mapStateToProps)(UserProfile));
