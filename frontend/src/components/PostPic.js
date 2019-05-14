@@ -16,6 +16,8 @@ import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import uuidv4 from "uuidv4"
 import apiService from "../ApiService";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const styles = theme => ({
   postPopup: {
@@ -61,28 +63,30 @@ class postPicture extends Component {
     this.handleClose();
   };
 
-  handlePost = event=> {
+  handlePost = event => {
     const file = this.state.file;
     const storageRef = firebase.storage().ref();
     const imgRef = storageRef.child('images');
     const newImgRef = imgRef.child(uuidv4());
     const blob = new Blob([file]);
 
+    const caption = this.state.caption;
+    const stateThis = this;
+
     newImgRef.put(blob).then(function(snapshot) {
       snapshot.ref.getDownloadURL().then(downloadUrl=>{
         console.log("downloadUrl", downloadUrl);
 
-        let addr = '';
-        if (process.env.SERVER_ADDR) {
-          addr = process.env.SERVER_ADDR;
-        } else {
-          addr = 'http://localhost:3030';
-        }
+        const userId = cookies.get("userId");
 
         apiService
-        .addPost(this.state.caption, downloadUrl, 'test')
+        .addPost(caption, downloadUrl, userId)
         .then(response => {
-          console.log(response)
+          console.log(response, "post success.");
+          stateThis.setState({ 
+            open: false,
+            imgFile: ""
+          });
         }).catch(err => {
           console.log(err.message);
         });
@@ -103,6 +107,7 @@ class postPicture extends Component {
     });
   }
 
+  
   handleClose = () => {
     this.setState({ open: false });
   };
@@ -168,10 +173,10 @@ class postPicture extends Component {
             onChange={this.handleCaptionChange.bind(this)}
           />
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.handleClose.bind(this)} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.handlePost} color="primary" className={classes.button} variant="contained">
+            <Button onClick={this.handlePost.bind(this)} color="primary" className={classes.button} variant="contained">
               POST
             </Button>
           </DialogActions>
