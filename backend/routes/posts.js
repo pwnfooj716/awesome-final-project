@@ -15,6 +15,12 @@ module.exports.postPost = async (request, response) => {
   response.json(createdData);
 }
 
+module.exports.getUserPosts = async (request, response) => {
+  let userId = request.params.userId;
+  let posts = await postsData.getUserPost(userId);
+  response.json(posts);
+}
+
 module.exports.getPost = async (request, response) => {
   let postId = request.params.postId;
   let postData;
