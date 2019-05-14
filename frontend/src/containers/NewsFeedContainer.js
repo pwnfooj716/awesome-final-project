@@ -8,6 +8,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Empty from "../resources/empty.jpg";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { likePost, unlikePost, postFollowAction, unfollowUser } from "../actions";
 import {
   fetchUserProfileIfNeeded,
   fetchFeedsIfNeeded,
@@ -42,12 +43,12 @@ class NewsFeedContainer extends Component {
   }
   handleLike (id) {
     const { dispatch } = this.props;
-  //  dispatch(likePost(id));
-    //dispatch(postFollowAction());
+    dispatch(likePost(id));
+    dispatch(postFollowAction());
   };
   handleUnLike (id) {
     const { dispatch } = this.props;
-  //  dispatch(unfollowUser(id));
+    dispatch(unlikePost(id));
   };
 
   render() {
@@ -69,7 +70,7 @@ class NewsFeedContainer extends Component {
           {!currentUser.isLoading &&
             feeds.items.length !== 0 &&
             feeds.items.map(feed => {
-              return <NewFeed post={feed} />;
+              return <NewFeed handleLike={this.handleLike()} handleUnlike={this.handleUnLike()} post={feed} />;
             })}
           {currentUser.isLoading && <CircularProgress color="secondary" />}
           {!currentUser.isLoading && feeds.items.length === 0 && (

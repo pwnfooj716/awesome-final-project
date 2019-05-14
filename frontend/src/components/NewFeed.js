@@ -15,6 +15,7 @@ import red from "@material-ui/core/colors/red";
 import FavoriteIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import CommentIcon from "@material-ui/icons/ForumOutlined";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { getLikeStatus } from "../actions";
 
 const styles = theme => ({
   card: {
@@ -48,16 +49,46 @@ const styles = theme => ({
 });
 
 class NewFeed extends Component {
+  
   state = {
     expanded: false
+  };
+
+  handleLike () {
+    this.props.handleLike(this.props.feed.postId)
+  };
+
+  handleUnlike (){
+    this.props.handleUnlike(this.props.feed.postId)
   };
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
   };
 
+  checkLike (id) {
+    const { dispatch } = this.props;
+    const like = dispatch(getLikeStatus(id));
+    if(like){return true}
+    else{return false}
+  };
+
   render() {
     const { classes } = this.props;
+
+    const liked = (
+        <IconButton color="inherit" onClick={this.handleLogout}>
+         unlike
+        </IconButton>
+    );
+
+    const unliked = (
+        <IconButton aria-label="Add to favorites" onClick={this.handleLike}>
+          <FavoriteIcon />
+        </IconButton>
+    );
+
+   const likeButton = (this.checkLike(this.props.feed.postId))? liked : unliked ;
 
     return (
       <Card className={classes.card}>
@@ -125,9 +156,10 @@ class NewFeed extends Component {
           title="Paella dish"
         />
         <CardActions className={classes.actions} disableActionSpacing>
-          <IconButton aria-label="Add to favorites">
+          {/* <IconButton aria-label="Add to favorites">
             <FavoriteIcon />
-          </IconButton>
+          </IconButton> */}
+          {likeButton}
           <IconButton aria-label="Share">
             <CommentIcon />
           </IconButton>

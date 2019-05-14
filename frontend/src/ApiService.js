@@ -233,18 +233,6 @@ class ApiService {
     }
   }
 
-  async getInitialTimeline(userId) {
-    try {
-      const response = await axios.get(`${this.apiUrl}/posts/getTimeline/${userId}`);
-      if (response.status !== 200) {
-        throw new Error(`Request failed ${response}`);
-      }
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
 
   async getOtherUsers(userId) {
     try {

@@ -287,6 +287,14 @@ export function unlikePost(targetId) {
   };
 }
 
+export function getLikeStatus(targetId){
+  return (dispatch, getState) => {
+    return api.getLikeStatus(getState().userId, targetId).catch(err => {
+      console.log(err.message);
+    });
+  };
+}
+
 export function unfollowUser(targetId) {
   return (dispatch, getState) => {
     return api.unFollow(getState().userId, targetId).catch(err => {
