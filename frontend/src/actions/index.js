@@ -270,6 +270,22 @@ function removeOtherUsers(data) {
     type: NO_ACTION
   };
 }
+export function likePost(targetId){
+  return(dispatch,getState)=>{
+    return api
+    .like(getState().userId, targetId)
+    .catch(err=>{
+        console.log(err.message);
+    });
+  };
+}
+export function unlikePost(targetId) {
+  return (dispatch, getState) => {
+    return api.unlike(getState().userId, targetId).catch(err => {
+      console.log(err.message);
+    });
+  };
+}
 
 export function unfollowUser(targetId) {
   return (dispatch, getState) => {

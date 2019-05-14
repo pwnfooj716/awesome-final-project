@@ -40,6 +40,15 @@ class NewsFeedContainer extends Component {
     dispatch(fetchFeedsIfNeeded());
     dispatch(fetchFollowingListIfNeeded());
   }
+  handleLike (id) {
+    const { dispatch } = this.props;
+    dispatch(likePost(id));
+    //dispatch(postFollowAction());
+  };
+  handleUnLike (id) {
+    const { dispatch } = this.props;
+    dispatch(unfollowUser(id));
+  };
 
   render() {
     const { classes } = this.props;
