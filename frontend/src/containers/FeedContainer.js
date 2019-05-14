@@ -70,6 +70,9 @@ class NewsFeedContainer extends Component {
               let author = followingList.items.find(
                 following => (following.userData.userId = feed.authorUserId)
               );
+              if(!author){
+                return;
+              }
               return (
                   <Feed
                     post={feed}

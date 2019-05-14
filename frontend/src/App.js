@@ -6,6 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import Profile from "./containers/userprofile";
+// import ProfileContainer from "./containers/ProfileContainer";
 import Network from "./containers/SuggestionsContainer";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Grid } from "@material-ui/core";
