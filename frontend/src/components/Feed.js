@@ -62,8 +62,6 @@ class Feed extends Component {
   render() {
     const { classes } = this.props;
     const author = this.props.author;
-
-    console.log(author.picture);
     //let postDate = new Date(parseInt(feed.createTime, 10));
     const defaultAvatar = (
       <Avatar aria-label="Recipe" className={classes.avatar}>
