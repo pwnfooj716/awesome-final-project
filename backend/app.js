@@ -8,6 +8,11 @@ const admin = require('firebase-admin');
 const redis = require("redis");
 const client = redis.createClient();
 const bluebird = require("bluebird");
+const http = require("http");
+const server = http.createServer(app);
+const io = require("socket.io")(server, {
+  path: "/socket.io"
+});
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
@@ -19,6 +24,34 @@ client.on('connect', function() {
 client.on('error', function (err) {
   console.log('Something went wrong ' + err);
 });
+
+let sockets = {}
+io.on("connection", (socket) => {
+  console.log("New client connected")
+  socket.send({
+    from: "test0",
+    to: "test1",
+    message: "testing message"
+  })
+  socket.on("disconnect", () => {
+    console.log("Client disconnected")
+  })
+  socket.on("init", (userId) => {
+    sockets[userId] = socket
+  })
+  socket.on("message", (data, status) => {
+    console.log("Socket received message")
+    console.log(data)
+    // Check if recipient is online
+    if (!sockets[data.otherUser]) {
+      status("offline")
+    } else {
+      status("online")
+      // Relay the message to the correct recipient
+      sockets[data.otherUser].send(data)
+    }
+  })
+})
 
 app.use(cors());
 
@@ -49,6 +82,9 @@ app.use(bodyParser.json());
 
 app.use('/public', express.static('../frontend/public'));
 app.use('/api', routes)
+app.use("/socket.io", (req, res) => {
+  res.sendStatus(200)
+})
 
 // Catch 404 and forward to error handler
 // app.use(function (request, response, next) {
@@ -57,6 +93,7 @@ app.use('/api', routes)
 //   next(err)
 // })
 
-app.listen(3030, function () {
+// We need to use 'server' here instead of 'app' in order for socket.io to work, but it works exactly the same way
+server.listen(3030, function () {
   console.log('Server listening on port 3030!');
 })

@@ -101,7 +101,11 @@ module.exports.getLikeStatus = async (request, response) => {
   const postId = request.params.postId;
   const userId  = request.params.userId;
   let likeObj = await likeData.getLikeStatus(userId, postId);
-  response.json(likeObj);
+  if(likeObj){
+    response.json(true);
+  } else {
+    response.json(false);
+  }
 }
 
 module.exports.getUserPosts = async (request, response) => {

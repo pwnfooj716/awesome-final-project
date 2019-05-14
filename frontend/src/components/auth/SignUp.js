@@ -15,6 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import apiService from "../../ApiService";
 import Cookies from "universal-cookie";
+import { Redirect } from 'react-router';
 
 const cookies = new Cookies();
 
@@ -88,6 +89,7 @@ class SignUp extends Component {
         let minutes = 100;
         d.setTime(d.getTime() + minutes * 60 * 1000);
         let name = this.state.name;
+
         firebaseConfig
           .auth()
           .currentUser.getIdToken(false)
@@ -103,6 +105,7 @@ class SignUp extends Component {
                 });
                 cookies.set("email", response.email, { path: "/", expires: d });
                 cookies.set("name", response.name, { path: "/", expires: d });
+                console.log("creation success");
               })
               .catch(err => {
                 console.log(err.message);
@@ -129,6 +132,9 @@ class SignUp extends Component {
   };
 
   render() {
+    if(cookies.get("AuthCookie") && cookies.get("userId")){
+      return(<Redirect to="/home" />);
+    }
     const { classes } = this.props;
     return (
       <main className={classes.main}>
