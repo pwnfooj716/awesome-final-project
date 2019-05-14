@@ -71,7 +71,7 @@ class NewsFeedContainer extends Component {
             feeds.items.length > 0 &&
             feeds.items.map(feed => {
               let author = followingList.items.find(
-                following => (following.userData.userId = feed.authorUserId)
+                following => (following.userData.userId === feed.authorUserId)
               );
               if(!author){
                 return "";
