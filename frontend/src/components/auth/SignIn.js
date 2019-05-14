@@ -19,6 +19,7 @@ import Cookies from "universal-cookie";
 import green from "@material-ui/core/colors/green";
 import auth from "../../protected/auth";
 import apiService from "../../ApiService";
+import { Redirect } from 'react-router';
 
 const cookies = new Cookies();
 
@@ -129,6 +130,9 @@ class SignIn extends Component {
     this.login(this.state);
   };
   render() {
+    if(cookies.get("AuthCookie") && cookies.get("userId")){
+      return(<Redirect to="/home" />);
+    }
     const { classes } = this.props;
     return (
       <main className={classes.main}>

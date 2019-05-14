@@ -15,6 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import apiService from "../../ApiService";
 import Cookies from "universal-cookie";
+import { Redirect } from 'react-router';
 
 const cookies = new Cookies();
 
@@ -131,6 +132,9 @@ class SignUp extends Component {
   };
 
   render() {
+    if(cookies.get("AuthCookie") && cookies.get("userId")){
+      return(<Redirect to="/home" />);
+    }
     const { classes } = this.props;
     return (
       <main className={classes.main}>

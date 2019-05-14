@@ -186,7 +186,7 @@ class NavBar extends Component {
       <div className={classes.root}>
         <AppBar position="static" className={classes.nav}>
           <Toolbar>
-            <Link component={RouterLink} to="/home" className={classes.link}>
+            <Link component={RouterLink} to="/" className={classes.link}>
               <img src={logo} className={classes.title} alt={"logo"} />
             </Link>
             <div className={classes.grow} />
