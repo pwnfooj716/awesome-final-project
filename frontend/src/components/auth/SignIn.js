@@ -108,7 +108,7 @@ class SignIn extends Component {
           .then(response => {
             console.log(response);
             console.log("login success");
-            history.push("/network");
+            history.push("/home");
             cookies.set("userId", response.userId, { path: "/", expires: d });
             cookies.set("email", response.email, { path: "/", expires: d });
             cookies.set("name", response.name, { path: "/", expires: d });
