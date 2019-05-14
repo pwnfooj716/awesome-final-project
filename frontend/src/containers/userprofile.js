@@ -19,8 +19,17 @@ class UserProfile extends Component {
       postPic: this.props.postPic,
       avatar: this.props.avatar,
       userId: this.props.userId,
-      username: this.props.username
+      username: this.props.username,
+      user_avatar:this.props.user_avatar
     }
+  }
+  setAvatar(avatar){
+    if(this.state.user_avatar==undefined){
+    this.setState({
+      user_avatar: avatar
+    })
+    console.log("change to: " + this.state.user_avatar);
+  }
   }
   setPic(pic){
     this.setState({
@@ -133,15 +142,16 @@ class UserProfile extends Component {
     const followers = followerList.items;
     this.setUser(currentUser.items.name);
     this.setUserId(currentUser.items.userId);
+    this.setAvatar(currentUser.items.picture);
     const listFollowing = followings.map((following)=>
       <div>
-        <img className="followerImg" scr = {following.userData.picture} alt={following.userData.name} />
+        <img className="followerImg" src = {following.userData.picture} alt={following.userData.name} />
         <center className="followerName">{following.userData.name} </center>
       </div>
       );
     const listFollowers = followers.map((follower)=>
       <div>
-        <img className="followerImg" scr = {follower.userData.picture} alt={follower.userData.name} />
+        <img className="followerImg" src = {follower.userData.picture} alt={follower.userData.name} />
         <center className="followerName">{follower.userData.name} </center>
       </div>
       );
@@ -222,7 +232,7 @@ class UserProfile extends Component {
     <div className="modal-content">
 
       <div className="modal-header">
-        <img src={photo} alt="avatar" className="avatar rounded-circle img-responsive pointer" data-toggle="modal" data-target="#AvatarModal" />
+        <img src={this.state.user_avatar} alt="avatar" className="avatar rounded-circle img-responsive pointer" data-toggle="modal" data-target="#AvatarModal" />
       </div>
       <div className="modal-body text-center mb-1">
 
@@ -281,7 +291,7 @@ class UserProfile extends Component {
     </div>
 
         <header>
-        <img className="userPic rounded-circle pointer" src={photo} alt={"img of "+currentUser.items.name} data-toggle="modal" data-target="#AvatarModal" />
+        <img className="userPic rounded-circle pointer" src={this.state.user_avatar} alt={"img of "+currentUser.items.name} data-toggle="modal" data-target="#AvatarModal" />
         <div className="userInfo">
         
         <h1 className="name">{this.state.username}</h1>
