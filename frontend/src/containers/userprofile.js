@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import "../styles/profile.css";
 import ChangeAvator from "../components/ChangeAvator";
 import { connect } from "react-redux";
-import { fetchUserProfileIfNeeded, fetchUserPostsIfNeeded, fetchFollowingListIfNeeded,fetchFollowerListIfNeeded } from "../actions";
+import { fetchUserProfileIfNeeded, fetchUserPostsIfNeeded, fetchFollowingListIfNeeded,fetchFollowerListIfNeeded} from "../actions";
 import PropTypes from "prop-types";
 import { Redirect } from 'react-router';
+import ApiService from "../ApiService";
 
 class UserProfile extends Component {
   constructor(props){
@@ -22,12 +23,31 @@ class UserProfile extends Component {
     })
   }
   setUser(user){
+    if(this.state.username==undefined){
     this.setState({
       username: user
     })
+    console.log("change to: " + this.state.username);
+  }
+  }
+  setUser2(user){
+    
+    this.setState({
+      username: user
+    })
+    console.log("change to: " + this.state.username);
+  
+  }
+
+  updataName(text,userid){
+        ApiService
+        .updateUser(text,userid)
+        .catch(err=>{
+        console.log(err.message);
+    });
   }
   componentWillMount(){
-
+    
   }
   componentDidMount(){
     const { dispatch } = this.props;
@@ -35,6 +55,7 @@ class UserProfile extends Component {
     dispatch(fetchUserPostsIfNeeded());
     dispatch(fetchFollowingListIfNeeded());
     dispatch(fetchFollowerListIfNeeded());
+    
   }
   render() {
     // const photo = 'https://api-cdn.spott.tv/rest/v004/image/images/e91f9cad-a70c-4f75-9db4-6508c37cd3c0?width=587&height=599'
@@ -76,6 +97,7 @@ class UserProfile extends Component {
     try{
       const FollowerNumb = currentUser.items.followerNum;
       const FollowingNumb = currentUser.items.followingNum;
+      
     const postNumb = userPost.items.length;
     const photo = userPost.items.picture;
     // const listPosts = userPost.items.map((post)=>
@@ -93,6 +115,7 @@ class UserProfile extends Component {
 
     const followings = followingList.items;
     const followers = followerList.items;
+    this.setUser(currentUser.items.name);
     const listFollowing = followings.map((following)=>
       <div>
         <img className="followerImg" scr = {following.userData.picture} alt={following.userData.name} />
@@ -105,7 +128,7 @@ class UserProfile extends Component {
         <center className="followerName">{follower.userData.name} </center>
       </div>
       );
-
+    
     return (
       <div style={{ padding: "0 50px", marginTop: 64 }}>
         <div style={{ margin: '0 auto', width: '100%' }}>
@@ -193,7 +216,7 @@ class UserProfile extends Component {
 
         <div className="text-center mt-4">
           <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button className="btn btn-primary submit">Submit </button>
+          <button className="btn btn-primary submit" onClick={()=>this.updataName("the shy","Q7dj2BsyESh7LJVR1FeUSwkNWLt2")}>Submit </button>
         </div>
       </div>
 
@@ -223,7 +246,8 @@ class UserProfile extends Component {
         <header>
         <img className="userPic rounded-circle pointer" src={photo} alt={"img of "+currentUser.items.name} data-toggle="modal" data-target="#AvatarModal" />
         <div className="userInfo">
-        <h1 className="name">{currentUser.items.name}</h1>
+        
+        <h1 className="name">{this.state.username}</h1>
         <button className="editBtn" type="button" data-toggle="modal" data-target="#EditModal">Edit Profile</button>
         <h2 className="email">{currentUser.items.email}</h2>
         <div className= "follow"> <b>{postNumb} </b> <strong>Posts</strong> </div>
