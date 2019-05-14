@@ -74,6 +74,7 @@ class UserProfile extends Component {
     const { userPost, currentUser, followingList } = this.props;
     try{
       const FollowerNumb = currentUser.items.followerNum;
+      const FollowingNumb = currentUser.items.followingNum;
     const postNumb = userPost.items.length;
     const photo = userPost.items.picture;
     // const listPosts = userPost.items.map((post)=>
@@ -89,6 +90,13 @@ class UserProfile extends Component {
     //   </div>
     //   );
 
+    const followings = followingList.items;
+    const listFollowing = followings.map((following)=>
+      <div>
+        <img className="followerImg" scr = {following.picture} alt={following.name} />
+        <center className="followerName">{following.name} </center>
+      </div>
+      );
 
     return (
       <div style={{ padding: "0 50px", marginTop: 64 }}>
@@ -106,6 +114,25 @@ class UserProfile extends Component {
           </div>
           <div className="modal-body">
             listFollowers
+          </div>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div className="modal fade" id="followingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal-dialog" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="exampleModalLabel">Following:</h5>
+            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div className="modal-body">
+            {listFollowing}
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -193,6 +220,7 @@ class UserProfile extends Component {
         <h2 className="email">{currentUser.items.email}</h2>
         <div className= "follow"> <b>{postNumb} </b> <strong>Posts</strong> </div>
         <div className="follow pointer" data-toggle="modal" data-target="#followerModal"> <b>{FollowerNumb} </b> <strong>Followers</strong></div>
+        <div className="follow pointer" data-toggle="modal" data-target="#followingModal"> <b>{FollowingNumb} </b> <strong>Following</strong></div>
         </div>
         </header>
       </div>
