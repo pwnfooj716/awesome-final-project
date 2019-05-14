@@ -1,0 +1,486 @@
+{
+	"info": {
+		"_postman_id": "24b97de5-683a-4060-a2d3-888100051bda",
+		"name": "cs554-final",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"idToken\":\"asdf\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3030/api/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createPost",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"text\":\"asdf\",\n\t\"image\":\"http://img\",\n\t\"authorUserId\": \"123123\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3030/api/posts/",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"api",
+						"posts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deletePost",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3030/api/posts/d8b10a5b-961e-481f-b1e8-75d510a2e6e6",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"api",
+						"posts",
+						"d8b10a5b-961e-481f-b1e8-75d510a2e6e6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPost",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3030/api/posts/user/Q7dj2BsyESh7LJVR1FeUSwkNWLt2",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"api",
+						"posts",
+						"user",
+						"Q7dj2BsyESh7LJVR1FeUSwkNWLt2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "follow",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\":\"BufYjDlZLjWKAXpIMXbta6QgKUB3\",\n\t\"targetId\":\"Hx87MzPnfNaQPdlXVRNaFuk0WtG31\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3030/api/users/follow",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"api",
+						"users",
+						"follow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "unfollow",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\":\"BufYjDlZLjWKAXpIMXbta6QgKUB3\",\n\t\"targetId\":\"Hx87MzPnfNaQPdlXVRNaFuk0WtG31\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3030/api/users/unfollow",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"api",
+						"users",
+						"unfollow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Follower",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\":\"BufYjDlZLjWKAXpIMXbta6QgKUB3\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3030/api/users/fellower/?userId=BufYjDlZLjWKAXpIMXbta6QgKUB3",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"api",
+						"users",
+						"fellower",
+						""
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "BufYjDlZLjWKAXpIMXbta6QgKUB3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Profile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postComment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"postId\":\"1979ffd3-622a-4c29-9386-ce7ff9e6e87d\",\n\t\"text\":\"adsf\",\n\t\"authorId\":\"asdf\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3030/api/comments",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"api",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deletePost",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3030/api/comments/1/2\n\n1979ffd3-622a-4c29-9386-ce7ff9e6e87d",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"1979ffd3-622a-4c29-9386-ce7ff9e6e87d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get timeline",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patch user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c2877afc-54fa-47cc-9659-9044c8fc4e0e",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userId\":\"BufYjDlZLjWKAXpIMXbta6QgKUB3\",\n    \"name\":\"muhaha\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3030/api/users",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Like Post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3030/api/posts/3dadb065-e7c6-40bb-b266-2bb847cca403/like",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"api",
+						"posts",
+						"3dadb065-e7c6-40bb-b266-2bb847cca403",
+						"like"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unlike Post Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\":\"111\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3030/api/posts/3dadb065-e7c6-40bb-b266-2bb847cca403/unlike",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"api",
+						"posts",
+						"3dadb065-e7c6-40bb-b266-2bb847cca403",
+						"unlike"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get like status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Suggestion",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signin",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"coding.game@gmail.com\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3030/api/signin",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"api",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3030/api/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"api",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
