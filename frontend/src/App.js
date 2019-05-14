@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import NavBar from "./components/NavBar";
-import NewsFeedContainer from "./containers/NewsFeedContainer";
+import FeedContainer from "./containers/FeedContainer";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import SignIn from "./components/auth/SignIn";
@@ -44,7 +44,7 @@ class App extends Component {
           <Grid item xs={false} sm={1} md={2} />
           <Grid item xs={12} sm={10} md={8}>
             <Switch>
-              <ProtectedRoute exact path="/home" component={NewsFeedContainer} />
+              <ProtectedRoute exact path="/home" component={FeedContainer} />
               <ProtectedRoute path="/network" component={Network} />
               <ProtectedRoute path="/userprofile" component={Profile} />
               <Route path="/signin" component={SignIn} />

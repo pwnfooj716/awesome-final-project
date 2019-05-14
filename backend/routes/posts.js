@@ -66,7 +66,6 @@ module.exports.getTimeline = async (request, response) => {
   const userId = request.params.userId;
   let startIndex = request.params.startIndex;
   let limit = request.params.limit;
-  console.log("getting time line")
   if (!startIndex) startIndex = 0;
   if (!limit) limit = 20;
 
@@ -79,7 +78,8 @@ module.exports.getTimeline = async (request, response) => {
     let userPosts = await postsData.getUserPost(uid);
     allPosts = allPosts.concat(userPosts);
   }
-  allPosts.slice(startIndex, startIndex + limit);
+  console.log("timelinePosts", allPosts)
+  allPosts.slice(startIndex, allPosts);
   response.json({userId: userId, timelinePosts: allPosts});
 }
 

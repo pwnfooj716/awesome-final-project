@@ -42,14 +42,6 @@ const styles = theme => ({
 });
 
 class HomeUserInfo extends Component {
-  state = {
-    expanded: false
-  };
-
-  handleExpandClick = () => {
-    this.setState(state => ({ expanded: !state.expanded }));
-  };
-
   render() {
     const { classes } = this.props;
     const { currentUser } = this.props;
@@ -93,7 +85,7 @@ class HomeUserInfo extends Component {
                 <Avatar>
                   <Visibility />
                 </Avatar>
-                <ListItemText primary="Following" secondary={this.props.followingNum} />
+                <ListItemText primary="Following" secondary={this.props.folCount} />
               </ListItem>
             </List>
           </CardContent>

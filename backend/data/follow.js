@@ -78,7 +78,8 @@ module.exports.getFollowingList = async (userId, startIndex=0, limit=20) => {
       if (!doc.exists) return [];
       let dataObj = doc.data();
       let allFollower = Object.values(dataObj);
-      return getPageList(allFollower, startIndex, limit);
+      //return getPageList(allFollower, startIndex, limit);
+      return allFollower;
     });
   });
 }

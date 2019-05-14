@@ -1,6 +1,5 @@
 import { combineReducers } from "redux";
 import {
-  USER_ID,
   REQUEST_CURRENT_USER,
   RECEIVE_CURRENT_USER,
   REQUEST_OTHER_USERS,
@@ -13,7 +12,8 @@ import {
   RECEIVE_USER_POSTS,
   REMOVE_OTHER_USERS,
   RECEIVE_FOLLOWER_LIST,
-  REQUEST_FOLLOWER_LIST
+  REQUEST_FOLLOWER_LIST,
+  USER_ID
 } from "../actions";
 
 function userId(state = null, action) {
@@ -65,7 +65,9 @@ function otherUsers(
         items: action.otherUsers
       });
     case REMOVE_OTHER_USERS:
-      let updatedList = state.items.filter(item => item.userId !== action.otherUserID)
+      let updatedList = state.items.filter(
+        item => item.userId !== action.otherUserID
+      );
       return Object.assign({}, state, {
         isLoading: false,
         items: updatedList

@@ -41,16 +41,25 @@ module.exports.getFollowing = async (request, response) => {
   let userId = request.params.userId;
   let startIndex = request.params.startIndex;
   let limit = request.params.limit;
-  console.log(`inside followingList ${userId}`)
   if (limit > 100) limit = 100;
 
   let following = await followData.getFollowingList(userId, startIndex, limit);
+  let enrichedList = [];
   for (let i = 0; i < following.length; i++) {
-    let f = following[i];
-    let ud = await userData.getProfile(f.userId);
-    f.userData = ud;
+    try{
+      let f = following[i];
+      let ud = await userData.getProfile(f.userId);
+      if(ud === 404){
+        console.log(f.userId)
+        continue;
+      }
+      f.userData = ud;
+      enrichedList.push(f);
+    } catch (err){
+      console.log(err)
+    }
   }
-  response.json(following);
+  response.json(enrichedList);
 }
 
 module.exports.getSuggestions = async (request, response) => {
@@ -98,32 +107,6 @@ module.exports.getProfile = async (request, response) => {
   
   userProfileData.followerNum = await followData.getFollowerNum(userId);
   userProfileData.followingNum = await followData.getFollowingNum(userId);
-
-  // const redisFollowerKey = `${userId}@follower`;
-  // const redisFollowingKey = `${userId}@following`;
-
-  // let client = request.redis;
-  // let followerNum = await client.getAsync(redisFollowerKey);
-  // if (!followerNum) {
-  //   console.log(followData.getFollowerNum);
-  //   followerNum = await followData.getFollowerNum(userId);
-  //   await client.setAsync(
-  //     redisFollowerKey,
-  //     followerNum
-  //   );
-  // }
-  //userProfileData.followerNum = followerNum;
-
-  // let followingNum = await client.getAsync(redisFollowingKey);
-  // if (!followingNum) {
-  //   followingNum = await followData.getFollowingNum(userId);
-  //   await client.setAsync(
-  //     redisFollowingKey,
-  //     followingNum
-  //   );
-  // }
-  //userProfileData.followingNum = followingNum;
-
 
   response.json(userProfileData);
 }

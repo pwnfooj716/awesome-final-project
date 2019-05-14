@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import NewFeed from "../components/NewFeed";
 import HomeUserInfo from "../components/HomeUserInfo";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
-import Avatar from "@material-ui/core/Avatar";
 import Empty from "../resources/empty.jpg";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { likePost, unlikePost, postFollowAction, unfollowUser } from "../actions";
+import Avatar from "@material-ui/core/Avatar";
+import Feed from "../components/Feed";
 import {
+  refreshUserId,
   fetchUserProfileIfNeeded,
   fetchFeedsIfNeeded,
   fetchFollowingListIfNeeded
@@ -37,19 +37,11 @@ const styles = theme => ({
 class NewsFeedContainer extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
+    dispatch(refreshUserId());
+    dispatch(fetchFollowingListIfNeeded());
     dispatch(fetchUserProfileIfNeeded());
     dispatch(fetchFeedsIfNeeded());
-    dispatch(fetchFollowingListIfNeeded());
   }
-  handleLike (id) {
-    const { dispatch } = this.props;
-    dispatch(likePost(id));
-    dispatch(postFollowAction());
-  };
-  handleUnLike (id) {
-    const { dispatch } = this.props;
-    dispatch(unlikePost(id));
-  };
 
   render() {
     const { classes } = this.props;
@@ -68,14 +60,25 @@ class NewsFeedContainer extends Component {
           item={true}
         >
           {!currentUser.isLoading &&
-            feeds.items.length !== 0 &&
+            !followingList.isLoading &&
+            !feeds.isLoading &&
+            feeds.items.length > 0 &&
             feeds.items.map(feed => {
-              return <NewFeed handleLike={this.handleLike()} handleUnlike={this.handleUnLike()} post={feed} />;
+              let author = followingList.items.find(
+                following => (following.userData.userId = feed.authorUserId)
+              );
+              return (
+                <Feed post={feed} author={author.userData} userId={currentUser.userId}/>
+              );
             })}
-          {currentUser.isLoading && <CircularProgress color="secondary" />}
-          {!currentUser.isLoading && feeds.items.length === 0 && (
-            <Avatar className={classes.avatar} alt="Empty" src={Empty} />
-          )}
+          {(currentUser.isLoading ||
+            feeds.isLoading ||
+            followingList.isLoading) && <CircularProgress color="secondary" />}
+          {!currentUser.isLoading &&
+            currentUser.items &&
+            feeds.items.length === 0 && (
+              <Avatar className={classes.avatar} alt="Empty" src={Empty} />
+            )}
         </Grid>
         <Grid
           item
@@ -85,7 +88,11 @@ class NewsFeedContainer extends Component {
           lg={4}
           className={classes.userInfo}
         >
-          {!currentUser.isLoading && <HomeUserInfo followingNum={followingList.items.length} />}
+          {!currentUser.isLoading &&
+            currentUser.items &&
+            !followingList.isLoading && (
+              <HomeUserInfo folCount={followingList.items.length} />
+            )}
         </Grid>
       </Grid>
     );
@@ -96,17 +103,16 @@ NewsFeedContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   currentUser: PropTypes.object,
   feeds: PropTypes.object,
-  followingList: PropTypes.object,
   dispatch: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
-  const { currentUser, followingList, feeds } = state;
+  const { currentUser, feeds, followingList } = state;
 
   return {
     currentUser,
-    followingList,
-    feeds
+    feeds,
+    followingList
   };
 }
 

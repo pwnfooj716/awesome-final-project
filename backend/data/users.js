@@ -68,7 +68,6 @@ module.exports.getUsersList = async () => {
           userList.push(getUserPublicData(userData));
         }
       });
-      console.log("userList", userList)
       return userList;
     });
   }).catch((err) => {

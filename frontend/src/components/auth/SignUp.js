@@ -13,8 +13,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
-import Empty from "../../resources/empty.jpg";
-import { setUserId } from "../../actions";
 import apiService from "../../ApiService";
 import Cookies from "universal-cookie";
 
@@ -86,39 +84,30 @@ class SignUp extends Component {
       .auth()
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then(resp => {
-        // firebaseConfig
-        //   .firestore()
-        //   .collection("users")
-        //   .doc(resp.user.uid)
-        //   .set({
-        //     email: newUser.email,
-        //     name: newUser.name,
-        //     picture: Empty
-        //   });
         let d = new Date();
         let minutes = 100;
         d.setTime(d.getTime() + minutes * 60 * 1000);
-
         let name = this.state.name;
-
-        firebaseConfig.auth().currentUser
-        .getIdToken(false).then(function(idToken) {
-          console.log(idToken, name)
-          cookies.set("token", idToken, { path: "/", expires: d });
-          
-          apiService
-          .login(idToken, name)
-          .then(response => {
-            console.log(response);
-            console.log("signup success");
-            this.props.history.push("/network");
-            cookies.set("userId", response.userId, { path: "/", expires: d });
-            cookies.set("email", response.email, { path: "/", expires: d });
-            cookies.set("name", response.name, { path: "/", expires: d });
-          }).catch(err => {
-            console.log(err.message);
+        firebaseConfig
+          .auth()
+          .currentUser.getIdToken(false)
+          .then(function(idToken) {
+            cookies.set("token", idToken, { path: "/", expires: d });
+            apiService
+              .login(idToken, name)
+              .then(response => {
+                this.props.history.push("/network");
+                cookies.set("userId", response.userId, {
+                  path: "/",
+                  expires: d
+                });
+                cookies.set("email", response.email, { path: "/", expires: d });
+                cookies.set("name", response.name, { path: "/", expires: d });
+              })
+              .catch(err => {
+                console.log(err.message);
+              });
           });
-        });
       })
       .then(response => {
         this.props.history.push("/signin");

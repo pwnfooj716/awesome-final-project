@@ -15,10 +15,10 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import Home from "@material-ui/icons/Home";
 import Network from "@material-ui/icons/People";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import { connect } from "react-redux";
-import { setUserId } from "../actions";
 import Cookies from "universal-cookie";
-import auth from '../protected/auth';
+import auth from "../protected/auth";
+import { connect } from "react-redux";
+import { refreshUserId } from "../actions";
 const cookies = new Cookies();
 
 const styles = theme => ({
@@ -103,25 +103,14 @@ class NavBar extends Component {
   };
 
   handleLogout = () => {
-    const { dispatch } = this.props;
     auth.logout();
-    dispatch(setUserId(null));
+    cookies.remove("userId");
+    cookies.remove("email");
+    cookies.remove("name");
     cookies.remove("AuthCookie");
-  };
-
-  handleMobileMenuCloseL = () => {
-    console.log("asd");
-
-    cookies.remove("AuthCookie");
-    this.setState({ mobileMoreAnchorEl: null });
-  };
-
-  expCookie = () => {
-    // alert(cookies.get('AuthCookie'));
-
-    cookies.remove("AuthCookie");
-
-    // console.log("123");
+    const { dispatch } = this.props;
+    dispatch(refreshUserId());
+    this.forceUpdate()
   };
 
   render() {
@@ -132,10 +121,7 @@ class NavBar extends Component {
     const homeNav = (
       <Link component={RouterLink} to="/home" className={classes.link}>
         <IconButton color="inherit">
-          <Badge
-            badgeContent={0}
-            color="error"
-          >
+          <Badge badgeContent={0} color="error">
             <Home />
           </Badge>
         </IconButton>
@@ -226,9 +212,7 @@ NavBar.propTypes = {
 
 function mapStateToProps(state) {
   const { userId } = state;
-  return {
-    userId
-  };
+  return { userId };
 }
 
 export default withStyles(styles)(connect(mapStateToProps)(NavBar));

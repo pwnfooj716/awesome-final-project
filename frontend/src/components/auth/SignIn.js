@@ -17,8 +17,6 @@ import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Cookies from "universal-cookie";
 import green from "@material-ui/core/colors/green";
-import { connect } from "react-redux";
-import { setUserId, fetchUserProfileIfNeeded } from "../../actions";
 import auth from "../../protected/auth";
 import apiService from "../../ApiService";
 
@@ -84,15 +82,13 @@ class SignIn extends Component {
       password: ""
     };
   }
-  
+
   login = newUser => {
     let history = this.props.history;
-    
     firebaseConfig
       .auth()
       .signInWithEmailAndPassword(newUser.email, newUser.password)
       .then(resp => {
-        this.handleLogin(resp.user)
         const user = { user: resp.user.email, id: resp.user.uid };
         let d = new Date();
         let minutes = 100;
@@ -100,20 +96,15 @@ class SignIn extends Component {
         cookies.set("AuthCookie", user, { path: "/", expires: d });
 
         firebaseConfig.auth().currentUser.getIdToken(false).then(function(idToken) {
-          // Send token to your backend via HTTPS
-          console.log(idToken);
-          // Login to the server.
           cookies.set("token", idToken, { path: "/", expires: d });
           apiService
           .login(idToken)
           .then(response => {
             auth.login();
-            console.log(response);
-            console.log("login success");
-            history.push("/home");
             cookies.set("userId", response.userId, { path: "/", expires: d });
             cookies.set("email", response.email, { path: "/", expires: d });
             cookies.set("name", response.name, { path: "/", expires: d });
+            history.push("/home");
           }).catch(err => {
             console.log(err.message);
           });
@@ -134,11 +125,6 @@ class SignIn extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.login(this.state);
-  };
-  handleLogin = e => {
-    const { dispatch } = this.props;
-    dispatch(setUserId(e.uid));
-    dispatch(fetchUserProfileIfNeeded());
   };
   render() {
     const { classes } = this.props;
@@ -201,12 +187,7 @@ class SignIn extends Component {
 }
 
 SignIn.propTypes = {
-  classes: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired
+  classes: PropTypes.object.isRequired
 };
 
-function mapStateToProps(state) {
-  return {};
-}
-
-export default withStyles(styles)(connect(mapStateToProps)(SignIn));
+export default withStyles(styles)(SignIn);

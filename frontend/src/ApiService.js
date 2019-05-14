@@ -7,7 +7,6 @@ class ApiService {
 
   async login(tokenId, name) {
     try {
-      console.log(tokenId,name)
       const response = await axios.post(`${this.apiUrl}/login`, {
         idToken: tokenId,
         name: name
@@ -23,7 +22,9 @@ class ApiService {
 
   async getProfile(userId) {
     try {
-      const response = await axios.get(`${this.apiUrl}/users/profile/${userId}`);
+      const response = await axios.get(
+        `${this.apiUrl}/users/profile/${userId}`
+      );
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
       }
@@ -238,7 +239,9 @@ class ApiService {
 
   async getInitialTimeline(userId) {
     try {
-      const response = await axios.get(`${this.apiUrl}/posts/getTimeline/${userId}`);
+      const response = await axios.get(
+        `${this.apiUrl}/posts/getTimeline/${userId}`
+      );
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
       }
@@ -251,7 +254,9 @@ class ApiService {
 
   async getOtherUsers(userId) {
     try {
-      const response = await axios.get(`${this.apiUrl}/users/suggestions/${userId}`);
+      const response = await axios.get(
+        `${this.apiUrl}/users/suggestions/${userId}`
+      );
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
       }

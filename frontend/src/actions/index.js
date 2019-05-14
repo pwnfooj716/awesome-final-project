@@ -1,6 +1,6 @@
 import api from "../ApiService";
+import Cookies from "universal-cookie";
 
-export const USER_ID = "USER_ID";
 export const REQUEST_CURRENT_USER = "REQUEST_CURRENT_USER";
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 export const REQUEST_OTHER_USERS = "REQUEST_OTHER_USERS";
@@ -14,36 +14,48 @@ export const RECEIVE_USER_POSTS = "RECEIVE_USER_POSTS";
 export const REMOVE_OTHER_USERS = "REMOVE_OTHER_USERS";
 export const RECEIVE_FOLLOWER_LIST ="RECEIVE_FOLLOWER_LIST";
 export const REQUEST_FOLLOWER_LIST ="REQUEST_FOLLOWER_LIST";
-const NO_ACTION = "NO_ACTION";
+export const USER_ID = "USER_ID";
 
-export function setUserId(userId) {
+const cookies = new Cookies();
+
+export function refreshUserId() {
+  let uid = cookies.get("userId");
+  uid = uid ? uid : null;
+  return (dispatch, getState) => {
+    console.log(`acton${uid}${getState().userId}`)
+    if (!getState().userId || uid !== getState().userId) {
+      dispatch(setUserId(uid));
+    }
+  };
+}
+
+function setUserId(data) {
   return {
     type: USER_ID,
-    userId
+    userId: data
   };
 }
 
 export function fetchUserProfileIfNeeded() {
   return (dispatch, getState) => {
+    let uid = cookies.get("userId");
     if (
-      getState().currentUser.isLoading ||
-      getState().currentUser.items ||
-      getState().currentUser.items === getState().userId ||
-      !getState().userId
+      uid &&
+      (!getState().currentUser.items ||
+        getState().currentUser.items.userId !== uid) &&
+      !getState().currentUser.isLoading
     ) {
-      return {
-        type: NO_ACTION
-      };
+      dispatch(requestProfile());
+      return api
+        .getProfile(uid)
+        .then(response => dispatch(receiveProfile(response)))
+        .catch(err => {
+          console.log(err.message);
+        });
     }
-    dispatch(requestProfile());
-    return api
-      .getProfile(getState().userId)
-      .then(response => dispatch(receiveProfile(response)))
-      .catch(err => {
-        console.log(err.message);
-      });
   };
 }
+
 
 function requestProfile() {
   return {
@@ -58,25 +70,20 @@ function receiveProfile(data) {
       currentUser: data
     };
   }
-  return {
-    type: NO_ACTION
-  };
 }
 
 export function fetchFeedsIfNeeded() {
   return (dispatch, getState) => {
-    if (getState().feeds.isLoading || !getState().userId) {
-      return {
-        type: NO_ACTION
-      };
+    let uid = cookies.get("userId");
+    if (uid && !getState().feeds.isLoading) {
+      dispatch(requestFeeds());
+      return api
+        .getInitialTimeline(uid)
+        .then(response => dispatch(receiveFeeds(response)))
+        .catch(err => {
+          console.log(err.message);
+        });
     }
-    dispatch(requestFeeds());
-    return api
-      .getInitialTimeline(getState().userId)
-      .then(response => dispatch(receiveFeeds(response)))
-      .catch(err => {
-        console.log(err.message);
-      });
   };
 }
 
@@ -93,25 +100,19 @@ function receiveFeeds(data) {
       feeds: data.timelinePosts
     };
   }
-  return {
-    type: NO_ACTION
-  };
 }
 
 export function fetchFollowingListIfNeeded() {
   return (dispatch, getState) => {
-    if (getState().followingList.isLoading || !getState().userId) {
-      return {
-        type: NO_ACTION
-      };
+    let uid = cookies.get("userId");
+    if (uid && !getState().followingList.isLoading) {
+      dispatch(requestFollowingList());
+      return api.getFollowing(uid)
+        .then(response => dispatch(receiveFollowingList(response)))
+        .catch(err => {
+          console.log(err.message);
+        });
     }
-    dispatch(requestFollowingList());
-    return api
-      .getFollowing(getState().userId, 0, -1)
-      .then(response => dispatch(receiveFollowingList(response)))
-      .catch(err => {
-        console.log(err.message);
-      });
   };
 }
 
@@ -123,21 +124,18 @@ function requestFollowingList() {
 
 function receiveFollowingList(data) {
   if (data) {
+    console.log(data)
     return {
       type: RECEIVE_FOLLOWING_LIST,
       followingList: data
     };
   }
-  return {
-    type: NO_ACTION
-  };
 }
 
 export function fetchFollowerListIfNeeded() {
   return (dispatch, getState) => {
     if (getState().followerList.isLoading || !getState().userId) {
       return {
-        type: NO_ACTION
       };
     }
     dispatch(requestFollowerList());
@@ -163,25 +161,18 @@ function receiveFollowerList(data) {
       followerList: data
     };
   }
-  return {
-    type: NO_ACTION
-  };
 }
 
 export function fetchOtherUsersIfNeeded() {
   return (dispatch, getState) => {
-    if (
-      getState().otherUsers.isLoading ||
-      getState().otherUsers.items.length !== 0 ||
-      !getState().userId
-    ) {
+    let uid = cookies.get("userId");
+    if (getState().otherUsers.isLoading || !uid) {
       return {
-        type: NO_ACTION
       };
     }
     dispatch(requestOtherUsers());
     return api
-      .getOtherUsers(getState().userId)
+      .getOtherUsers(uid)
       .then(response => dispatch(receiveOtherUsers(response)))
       .catch(err => {
         console.log(err.message);
@@ -202,21 +193,18 @@ function receiveOtherUsers(data) {
       otherUsers: data
     };
   }
-  return {
-    type: NO_ACTION
-  };
 }
 
 export function fetchUserPostsIfNeeded() {
   return (dispatch, getState) => {
-    if (getState().userPost.isLoading || !getState().userId) {
+    let uid = cookies.get("userId");
+    if (getState().userPost.isLoading || !uid) {
       return {
-        type: NO_ACTION
       };
     }
     dispatch(requestPosts());
     return api
-      .getUserPosts(getState().userId)
+      .getUserPosts(uid)
       .then(response => dispatch(receivePosts(response)))
       .catch(err => {
         console.log(err.message);
@@ -237,18 +225,14 @@ function receivePosts(data) {
       userPost: data
     };
   }
-  return {
-    type: NO_ACTION
-  };
 }
 
 export function followUser(targetId) {
   return (dispatch, getState) => {
-    return api
-      .follow(getState().userId, targetId)
-      .catch(err => {
-        console.log(err.message);
-      });
+    let uid = cookies.get("userId");
+    return api.follow(uid, targetId).catch(err => {
+      console.log(err.message);
+    });
   };
 }
 
@@ -266,9 +250,6 @@ function removeOtherUsers(data) {
       otherUserID: data
     };
   }
-  return {
-    type: NO_ACTION
-  };
 }
 export function likePost(targetId){
   return(dispatch,getState)=>{
@@ -297,7 +278,8 @@ export function getLikeStatus(targetId){
 
 export function unfollowUser(targetId) {
   return (dispatch, getState) => {
-    return api.unFollow(getState().userId, targetId).catch(err => {
+    let uid = cookies.get("userId");
+    return api.unFollow(uid, targetId).catch(err => {
       console.log(err.message);
     });
   };
