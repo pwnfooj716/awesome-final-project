@@ -14,7 +14,7 @@ import TextField from '@material-ui/core/TextField';
 import firebase from "../config/firebaseConfig";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import uuidv4 from "uuidv4"
+import uuidv4 from "uuidv4";
 import apiService from "../ApiService";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();

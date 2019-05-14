@@ -139,6 +139,18 @@ class ApiService {
     }
   }
 
+  async getUserPosts(userId) {
+    try {
+      const response = await axios.get(`${this.apiUrl}/posts/user/${userId}`);
+      if (response.status !== 200) {
+        throw new Error(`Request failed ${response}`);
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async getPost(postId) {
     try {
       const response = await axios.get(`${this.apiUrl}/posts/${postId}`);

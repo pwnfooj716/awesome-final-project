@@ -179,7 +179,7 @@ export function fetchUserPostsIfNeeded() {
     }
     dispatch(requestPosts());
     return api
-      .getProfile(getState().userId)
+      .getUserPosts(getState().userId)
       .then(response => dispatch(receivePosts(response)))
       .catch(err => {
         console.log(err.message);
