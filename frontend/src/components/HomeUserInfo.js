@@ -43,8 +43,8 @@ const styles = theme => ({
   },
   avatar: {
     margin: 10,
-    width: 60,
-    height: 60
+    width: 100,
+    height: 100
   }
 });
 
@@ -72,7 +72,6 @@ class HomeUserInfo extends Component {
             title={currentUser.items.name}
           />
         </Card>
-        <br />
         <Card className={classes.infoCard}>
           <CardContent>
             <List>

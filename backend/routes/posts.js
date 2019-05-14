@@ -18,6 +18,7 @@ module.exports.postPost = async (request, response) => {
 module.exports.getUserPosts = async (request, response) => {
   let userId = request.params.userId;
   let posts = await postsData.getUserPost(userId);
+  console.log(`get Posts---${userId}---${posts}`)
   response.json(posts);
 }
 

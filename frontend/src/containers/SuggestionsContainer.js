@@ -104,6 +104,7 @@ class SuggestionsContainer extends Component {
           <Tabs
             value={value}
             onChange={this.handleChange}
+            variant="fullWidth"
             indicatorColor="secondary"
             textColor="secondary"
             className={classes.tab}
