@@ -16,7 +16,86 @@ import {
   REQUEST_FOLLOWER_LIST
 } from "../actions";
 
+function userId(state = null, action) {
+  switch (action.type) {
+    case USER_ID:
+      return action.userId;
+    default:
+      return state;
+  }
+}
 
+function currentUser(
+  state = {
+    isLoading: false,
+    items: null
+  },
+  action
+) {
+  switch (action.type) {
+    case REQUEST_CURRENT_USER:
+      return Object.assign({}, state, {
+        isLoading: true
+      });
+    case RECEIVE_CURRENT_USER:
+      return Object.assign({}, state, {
+        isLoading: false,
+        items: action.currentUser
+      });
+    default:
+      return state;
+  }
+}
+
+function otherUsers(
+  state = {
+    isLoading: false,
+    items: []
+  },
+  action
+) {
+  switch (action.type) {
+    case REQUEST_OTHER_USERS:
+      return Object.assign({}, state, {
+        isLoading: true
+      });
+    case RECEIVE_OTHER_USERS:
+      return Object.assign({}, state, {
+        isLoading: false,
+        items: action.otherUsers
+      });
+    case REMOVE_OTHER_USERS:
+      let updatedList = state.items.filter(item => item.userId !== action.otherUserID)
+      return Object.assign({}, state, {
+        isLoading: false,
+        items: updatedList
+      });
+    default:
+      return state;
+  }
+}
+
+function followingList(
+  state = {
+    isLoading: false,
+    items: []
+  },
+  action
+) {
+  switch (action.type) {
+    case REQUEST_FOLLOWING_LIST:
+      return Object.assign({}, state, {
+        isLoading: true
+      });
+    case RECEIVE_FOLLOWING_LIST:
+      return Object.assign({}, state, {
+        isLoading: false,
+        items: action.followingList
+      });
+    default:
+      return state;
+  }
+}
 
 function followerList(
   state = {
@@ -90,7 +169,8 @@ const rootReducer = combineReducers({
   followingList,
   feeds,
   otherUsers,
-  userPost
+  userPost,
+  followerList
 });
 
 export default rootReducer;
