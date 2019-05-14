@@ -81,6 +81,10 @@ class UserProfile extends Component {
     dispatch(fetchFollowerListIfNeeded());
     
   }
+    handleRefresh = () => {
+    console.log("parent refresh");
+    window.location.reload();
+  };
   render() {
     // const photo = 'https://api-cdn.spott.tv/rest/v004/image/images/e91f9cad-a70c-4f75-9db4-6508c37cd3c0?width=587&height=599'
     // const userName = 'Harvey Specter'
@@ -119,23 +123,11 @@ class UserProfile extends Component {
     // ]
     const { userPost, currentUser, followingList, followerList } = this.props;
     try{
-      const FollowerNumb = currentUser.items.followerNum;
-      const FollowingNumb = currentUser.items.followingNum;
+      const FollowerNumb = followerList.items.length;
+      const FollowingNumb = followingList.items.length;
       
     const postNumb = userPost.items.length;
     const photo = userPost.items.picture;
-    // const listPosts = userPost.items.map((post)=>
-    //   <div className="postBlock">
-    //     <img className="post" src={post.photo} alt={post.TextContent} onClick={()=>this.setPic(post.photo)} data-toggle="modal" data-target="#postModal" />
-    //     <center className="postContent" > {post.TextContent} </center>
-    //   </div>
-    //   );
-    // const listFollowers = Followers.map((follower)=>
-    //   <div>
-    //     <img className="followerImg" src={follower.photo} alt={follower.name} />
-    //     <center className="followerName"> {follower.name} </center>
-    //   </div>
-    //   );
 
     const followings = followingList.items;
     const followers = followerList.items;
@@ -151,6 +143,14 @@ class UserProfile extends Component {
       <div>
         <img className="followerImg" scr = {follower.userData.picture} alt={follower.userData.name} />
         <center className="followerName">{follower.userData.name} </center>
+      </div>
+      );
+    
+    const userPosts = userPost.items;
+    const listPosts = userPosts.map((post)=>
+      <div className="postBlock">
+        <img className="post" src={post.postImage} alt={post.postTextContent} onClick={()=>this.setPic(post.postImage)} data-toggle="modal" data-target="#postModal" />
+        <center className="postTextContent" > {post.postTextContent} </center>
       </div>
       );
     
@@ -269,6 +269,7 @@ class UserProfile extends Component {
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+
           <div className="modal-body">
             <ChangeAvator />
           </div>
@@ -294,7 +295,7 @@ class UserProfile extends Component {
       </div>
       <div className="postbox">
         <center className="pTitle">My Posts</center>
-        <div>listPosts</div>
+        <div>{listPosts}</div>
       </div>
       </div>
 
