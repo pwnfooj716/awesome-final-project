@@ -37,13 +37,60 @@ class UserProfile extends Component {
     dispatch(fetchFollowerListIfNeeded());
   }
   render() {
-
+    // const photo = 'https://api-cdn.spott.tv/rest/v004/image/images/e91f9cad-a70c-4f75-9db4-6508c37cd3c0?width=587&height=599'
+    // const userName = 'Harvey Specter'
+    // const email = 'test@email.com'
+    // const posts = [
+    //   {
+    //     id: '1',
+    //     photo: 'https://i2.wp.com/www.followmeaway.com/wp-content/uploads/2018/08/nyc-photography-top-of-the-rock-sunset.jpg?resize=700%2C394&ssl=1',
+    //     TextContent: 'great view from NYC'
+    //   },
+    //   {
+    //     id: '2',
+    //     photo: 'https://pbs.twimg.com/media/DxJGLvIV4AA96hn.jpg',
+    //     TextContent: 'games'
+    //   },
+    //   {
+    //     id: '3',
+    //     photo: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Tesla_Model_3_parked%2C_front_driver_side.jpg',
+    //     TextContent: 'my car'
+    //   },
+    //   {
+    //     id:'4',
+    //     photo: 'https://enzospizzaco.com/images/award-winning-pizza-catering-no-video.jpg',
+    //     TextContent: 'my favorite pizza'
+    //   }
+    // ]
+    // const Followers = [
+    //   {
+    //     name: 'BatMan',
+    //     photo: 'https://imgix-media.wbdndc.net/cms/filer_public_thumbnails/filer_public/22/75/2275b2f7-431d-49a9-b4b0-2d0c79e3e7e3/batman-profile-293d6d-bm_cv17_ns-1-v1-1500x2244-masthead.jpg__387x579_q85_crop_subsampling-2_upscale.jpg'
+    //   },
+    //   {
+    //     name: 'SuperMan',
+    //     photo: 'https://i.kinja-img.com/gawker-media/image/upload/s--Q_RyW1gk--/c_scale,f_auto,fl_progressive,q_80,w_800/endahrasa3dxot980mjf.png'
+    //   }
+    // ]
     const { userPost, currentUser, followingList, followerList } = this.props;
     try{
       const FollowerNumb = currentUser.items.followerNum;
       const FollowingNumb = currentUser.items.followingNum;
     const postNumb = userPost.items.length;
     const photo = userPost.items.picture;
+    // const listPosts = userPost.items.map((post)=>
+    //   <div className="postBlock">
+    //     <img className="post" src={post.photo} alt={post.TextContent} onClick={()=>this.setPic(post.photo)} data-toggle="modal" data-target="#postModal" />
+    //     <center className="postContent" > {post.TextContent} </center>
+    //   </div>
+    //   );
+    // const listFollowers = Followers.map((follower)=>
+    //   <div>
+    //     <img className="followerImg" src={follower.photo} alt={follower.name} />
+    //     <center className="followerName"> {follower.name} </center>
+    //   </div>
+    //   );
+
     const followings = followingList.items;
     const followers = followerList.items;
     const listFollowing = followings.map((following)=>
