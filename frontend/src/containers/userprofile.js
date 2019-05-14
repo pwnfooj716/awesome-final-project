@@ -16,6 +16,7 @@ class UserProfile extends Component {
       email: this.props.email,
       username: this.props.username
     }
+    console.log(props);
   }
   setPic(pic){
     this.setState({
@@ -57,6 +58,10 @@ class UserProfile extends Component {
     dispatch(fetchFollowerListIfNeeded());
     
   }
+  handleRefresh = () => {
+    console.log("parent refresh");
+    window.location.reload();
+  };
   render() {
     // const photo = 'https://api-cdn.spott.tv/rest/v004/image/images/e91f9cad-a70c-4f75-9db4-6508c37cd3c0?width=587&height=599'
     // const userName = 'Harvey Specter'
@@ -233,15 +238,13 @@ class UserProfile extends Component {
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div className="modal-body">
-            <ChangeAvator />
-          </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+          <div class="modal-body">
+            <ChangeAvator handleRefresh={this.handleRefresh}/>
           </div>
         </div>
       </div>
     </div>
+
 
         <header>
         <img className="userPic rounded-circle pointer" src={photo} alt={"img of "+currentUser.items.name} data-toggle="modal" data-target="#AvatarModal" />

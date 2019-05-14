@@ -3,6 +3,7 @@ const admin = require('firebase-admin');
 const firebaseCollections = require('../config/firebaseDBRef')
 const userCollection = firebaseCollections.users
 const moment = require('moment');
+const uuidv4 = require('uuid/v4');
 
 module.exports.isUserExist = async (userId) => {
   return userCollection().then((col) => {
@@ -25,6 +26,9 @@ module.exports.createUser = async (userObj, authToken) => {
   let picture = "";
   if (userObj.picture) {
     picture = userObj.picture;
+  }
+  if (!userObj.name) {
+    userObj.name = uuidv4();
   }
   var dataObj = {
     userId: userId,

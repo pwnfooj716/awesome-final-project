@@ -265,6 +265,21 @@ class ApiService {
       console.error(error);
     }
   }
+
+  async patchUser(userId, name, picture) {
+    try {
+      const response = await axios.patch(`${this.apiUrl}/users/${userId}`, {
+        name: name,
+        picture: picture
+      });
+      if (response.status !== 200) {
+        throw new Error(`Request failed ${response}`);
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
 export default new ApiService();
