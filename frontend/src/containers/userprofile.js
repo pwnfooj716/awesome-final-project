@@ -73,11 +73,12 @@ class UserProfile extends Component {
     this.setState({
       [e.target.id]: e.target.value
     });
-  };
+  }
   handleSubmit = e => {
     e.preventDefault();
     this.updataName(this.state.username,this.state.userId);
-  };
+    alert("update success!");
+  }
 
   componentWillMount(){
     
@@ -90,10 +91,8 @@ class UserProfile extends Component {
     dispatch(fetchFollowerListIfNeeded());
     
   }
-    handleRefresh = () => {
-    console.log("parent refresh");
-    window.location.reload();
-  };
+
+
   render() {
     // const photo = 'https://api-cdn.spott.tv/rest/v004/image/images/e91f9cad-a70c-4f75-9db4-6508c37cd3c0?width=587&height=599'
     // const userName = 'Harvey Specter'
@@ -257,7 +256,7 @@ class UserProfile extends Component {
               variant="contained"
               color="primary"
               className="btn btn-primary submit EditModalInput"
-               data-dismiss="modal"
+              
             >
               submit
             </Button>
