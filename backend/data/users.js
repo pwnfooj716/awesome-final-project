@@ -22,6 +22,10 @@ module.exports.createUser = async (userObj, authToken) => {
   if (userObj.email) {
     email = userObj.email;
   }
+  let picture = "";
+  if (userObj.picture) {
+    picture = userObj.picture;
+  }
   var dataObj = {
     userId: userId,
     name: userObj.name,
@@ -29,10 +33,12 @@ module.exports.createUser = async (userObj, authToken) => {
     emailVerified: userObj.email_verified,
     createTime: admin.firestore.Timestamp.fromMillis(moment().format('x')),
     firebase: userObj.firebase,
-    picture: userObj.picture,
+    picture: picture,
     authToken: authToken,
     authTokenExpireTime: admin.firestore.Timestamp.fromMillis(moment().add(1,'months').format('x'))
   };
+
+  console.log(dataObj);
   
   return userCollection().then((col) => {
     return col.doc(userId).set(dataObj).then(() => {

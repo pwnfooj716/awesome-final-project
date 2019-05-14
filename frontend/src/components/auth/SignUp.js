@@ -13,6 +13,12 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
+import Empty from "../../resources/empty.jpg";
+import { setUserId } from "../../actions";
+import apiService from "../../ApiService";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 const styles = theme => ({
   main: {
@@ -80,14 +86,39 @@ class SignUp extends Component {
       .auth()
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then(resp => {
-        firebaseConfig
-          .firestore()
-          .collection("users")
-          .doc(resp.user.uid)
-          .set({
-            email: newUser.email,
-            name: newUser.name
+        // firebaseConfig
+        //   .firestore()
+        //   .collection("users")
+        //   .doc(resp.user.uid)
+        //   .set({
+        //     email: newUser.email,
+        //     name: newUser.name,
+        //     picture: Empty
+        //   });
+        let d = new Date();
+        let minutes = 100;
+        d.setTime(d.getTime() + minutes * 60 * 1000);
+
+        let name = this.state.name;
+
+        firebaseConfig.auth().currentUser
+        .getIdToken(false).then(function(idToken) {
+          console.log(idToken, name)
+          cookies.set("token", idToken, { path: "/", expires: d });
+          
+          apiService
+          .login(idToken, name)
+          .then(response => {
+            console.log(response);
+            console.log("signup success");
+            this.props.history.push("/network");
+            cookies.set("userId", response.userId, { path: "/", expires: d });
+            cookies.set("email", response.email, { path: "/", expires: d });
+            cookies.set("name", response.name, { path: "/", expires: d });
+          }).catch(err => {
+            console.log(err.message);
           });
+        });
       })
       .then(response => {
         this.props.history.push("/signin");
@@ -98,6 +129,7 @@ class SignUp extends Component {
   };
 
   handleChange = e => {
+    console.log(e.target.id, e.target.value);
     this.setState({
       [e.target.id]: e.target.value
     });
@@ -126,6 +158,7 @@ class SignUp extends Component {
                 id="email"
                 name="email"
                 autoComplete="email"
+                value={this.state.email}
                 onChange={this.handleChange}
                 autoFocus
               />
@@ -136,6 +169,7 @@ class SignUp extends Component {
                 name="password"
                 type="password"
                 id="password"
+                value={this.state.password}
                 autoComplete="current-password"
                 onChange={this.handleChange}
               />
@@ -146,6 +180,7 @@ class SignUp extends Component {
                 id="name"
                 name="name"
                 autoComplete="name"
+                value={this.state.name}
                 onChange={this.handleChange}
                 autoFocus
               />

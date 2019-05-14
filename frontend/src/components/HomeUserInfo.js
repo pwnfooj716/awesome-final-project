@@ -12,9 +12,9 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Visibility from "@material-ui/icons/VisibilityOutlined";
 import People from "@material-ui/icons/PeopleOutlineOutlined";
-import AddPost from "./AddPost";
 import { connect } from "react-redux";
 import Empty from "../resources/empty.jpg";
+import PostPic from "./PostPic";
 
 const styles = theme => ({
   root: {
@@ -73,7 +73,7 @@ class HomeUserInfo extends Component {
         <br />
         <Card className={classes.infoCard}>
           <CardActions className={classes.actions} disableActionSpacing>
-            <AddPost />
+            <PostPic />
           </CardActions>
         </Card>
         <br />

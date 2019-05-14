@@ -5,10 +5,12 @@ class ApiService {
     this.apiUrl = "http://localhost:3030/api";
   }
 
-  async login(tokenId) {
+  async login(tokenId, name) {
     try {
+      console.log(tokenId,name)
       const response = await axios.post(`${this.apiUrl}/login`, {
-        tokenId: tokenId
+        idToken: tokenId,
+        name: name
       });
       if (response.status !== 200) {
         throw new Error(`Request failed ${response}`);
