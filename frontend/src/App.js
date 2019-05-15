@@ -6,7 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import Profile from "./containers/userprofile";
-// import ProfileContainer from "./containers/ProfileContainer";
+import ProfileContainer from "./containers/ProfileContainer";
 import Network from "./containers/SuggestionsContainer";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Grid } from "@material-ui/core";
@@ -47,7 +47,8 @@ class App extends Component {
             <Switch>
               <ProtectedRoute exact path="/home" component={FeedContainer} />
               <ProtectedRoute path="/network" component={Network} />
-              <ProtectedRoute path="/userprofile" component={Profile} />
+              <ProtectedRoute path="/userprofile" component={ProfileContainer} />
+              {/* <ProtectedRoute path="/userprofile" component={Profile} /> */}
               <Route path="/signin" component={SignIn} />
               <Route exact path="/" component={SignUp} />
               <Route path="*" component={()=>'404 Page Not Found'} />
