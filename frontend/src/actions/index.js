@@ -21,7 +21,6 @@ export function refreshUserId() {
   let uid = cookies.get("userId");
   uid = uid ? uid : null;
   return (dispatch, getState) => {
-    console.log(`acton${uid}${getState().userId}`);
     if (!getState().userId || uid !== getState().userId) {
       dispatch(setUserId(uid));
     }
@@ -123,7 +122,6 @@ function requestFollowingList() {
 
 function receiveFollowingList(data) {
   if (data) {
-    console.log(data);
     return {
       type: RECEIVE_FOLLOWING_LIST,
       followingList: data

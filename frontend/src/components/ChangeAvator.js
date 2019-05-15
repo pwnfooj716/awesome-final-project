@@ -12,7 +12,6 @@ class ChangeAvator extends Component {
 
   constructor(props){
     super(props);
-    console.log(props, props.handleRefresh, "change avatar");
     this.state = {
       input: this.props.image,
       open: false
@@ -57,16 +56,11 @@ class ChangeAvator extends Component {
 
     newImgRef.put(blob).then(function(snapshot) {
       snapshot.ref.getDownloadURL().then(downloadUrl=>{
-        console.log("downloadUrl", downloadUrl);
-
         const userId = cookies.get("userId");
         apiService
         .patchUser(userId, '', downloadUrl)
         .then(response => {
-          console.log(response)
-          // Parent componet using div modal. I can't find a way to close that modal.
           thisPopup.props.handleRefresh(downloadUrl);
-          console.log("refresh");
         }).catch(err => {
           console.log(err.message);
         });

@@ -14,7 +14,6 @@ import ApiService from "../ApiService";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
 import ChangeAvator from "../components/ChangeAvator";
 import IconButton from "@material-ui/core/IconButton";
 import InfoIcon from "@material-ui/icons/Info";
@@ -50,9 +49,9 @@ const styles = theme => ({
     margin: 10
   },
   bigAvatar: {
-    margin: 10,
-    width: 150,
-    height: 150
+    margin: 0,
+    width: 300,
+    height: 300
   },
   icon: {
     color: "rgba(255, 255, 255, 0.54)",
@@ -227,7 +226,7 @@ class ProfileContainer extends Component {
             <div
               className="modal fade"
               id="followerModal"
-              tabindex="-1"
+              tabIndex="-1"
               role="dialog"
               aria-labelledby="exampleModalLabel"
               aria-hidden="true"
@@ -264,7 +263,7 @@ class ProfileContainer extends Component {
             <div
               className="modal fade"
               id="followingModal"
-              tabindex="-1"
+              tabIndex="-1"
               role="dialog"
               aria-labelledby="exampleModalLabel"
               aria-hidden="true"
@@ -416,7 +415,7 @@ class ProfileContainer extends Component {
                     </h5>
                     <button
                       type="button"
-                      class="close"
+                      className="close"
                       data-dismiss="modal"
                       aria-label="Close"
                     >
