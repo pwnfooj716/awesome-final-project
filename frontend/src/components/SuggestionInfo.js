@@ -38,6 +38,9 @@ const styles = theme => ({
   },
   avatar: {
     backgroundColor: red[500]
+  },
+  button: {
+    outline: "none !important"
   }
 });
 
@@ -57,7 +60,7 @@ class SuggestionInfo extends Component {
           title={this.props.user.name}
           subheader={this.props.user.email}
           action={
-            <IconButton aria-label="Follow" onClick={this.handleFollow.bind(this)}> 
+            <IconButton className={classes.button} aria-label="Follow" onClick={this.handleFollow.bind(this)}> 
               <Add />
             </IconButton>
           }

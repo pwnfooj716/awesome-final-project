@@ -52,12 +52,16 @@ const styles = theme => ({
     width: "100%"
   },
   icon: {
-    color: "rgba(255, 255, 255, 0.54)"
+    color: "rgba(255, 255, 255, 0.54)",
+    outline: "none !important"
   },
   avatar: {
     margin: theme.spacing.unit,
     width: 150,
     height: 150
+  },
+  button: {
+    outline: "none !important"
   }
 });
 
@@ -110,9 +114,9 @@ class SuggestionsContainer extends Component {
             className={classes.tab}
             centered
           >
-            <Tab label="Suggestions" icon={<Add />} />
-            <Tab label="Following" icon={<FavoriteIcon />} />
-            <Tab label="Followers" icon={<PersonPinIcon />} />
+            <Tab className={classes.button} label="Suggestions" icon={<Add />} />
+            <Tab className={classes.button} label="Following" icon={<FavoriteIcon />} />
+            <Tab className={classes.button} label="Followers" icon={<PersonPinIcon />} />
           </Tabs>
         </AppBar>
         {value === 0 && (

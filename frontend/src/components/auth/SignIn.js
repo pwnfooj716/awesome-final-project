@@ -56,6 +56,7 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3,
     color: "white",
     backgroundColor: "#283e4a",
+    outline: "none !important",
     height: "45px",
     "&:hover": {
       color: "white",

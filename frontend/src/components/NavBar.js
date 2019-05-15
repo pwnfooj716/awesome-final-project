@@ -6,7 +6,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import logo from "../resources/logo.png";
-import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { withStyles } from "@material-ui/core/styles";
@@ -58,9 +57,6 @@ const styles = theme => ({
       }
     }
   },
-  fab: {
-    margin: theme.spacing.unit,
-  },
   nav: {
     backgroundColor: "inherit",
     "box-shadow": "none",
@@ -90,6 +86,9 @@ const styles = theme => ({
     [theme.breakpoints.up("md")]: {
       display: "none"
     }
+  },
+  button: {
+    outline: "none !important"
   }
 });
 
@@ -114,7 +113,7 @@ class NavBar extends Component {
     cookies.remove("AuthCookie");
     const { dispatch } = this.props;
     dispatch(refreshUserId());
-    this.forceUpdate()
+    this.forceUpdate();
   };
 
   render() {
@@ -124,17 +123,15 @@ class NavBar extends Component {
 
     const homeNav = (
       <Link component={RouterLink} to="/home" className={classes.link}>
-        <IconButton color="inherit">
-          <Badge badgeContent={0} color="error">
-            <Home />
-          </Badge>
+        <IconButton className={classes.button} color="inherit">
+          <Home />
         </IconButton>
       </Link>
     );
 
     const networkNav = (
       <Link component={RouterLink} to="/network" className={classes.link}>
-        <IconButton color="inherit">
+        <IconButton className={classes.button} color="inherit">
           <Network />
         </IconButton>
       </Link>
@@ -142,7 +139,7 @@ class NavBar extends Component {
 
     const profileNav = (
       <Link component={RouterLink} to="/userprofile" className={classes.link}>
-        <IconButton color="inherit">
+        <IconButton className={classes.button} color="inherit">
           <AccountCircle />
         </IconButton>
       </Link>
@@ -150,7 +147,11 @@ class NavBar extends Component {
 
     const logoutNav = (
       <Link component={RouterLink} to="/signin" className={classes.link}>
-        <IconButton color="inherit" onClick={this.handleLogout}>
+        <IconButton
+          className={classes.button}
+          color="inherit"
+          onClick={this.handleLogout}
+        >
           <PowerOff />
         </IconButton>
       </Link>
@@ -197,6 +198,7 @@ class NavBar extends Component {
                 aria-haspopup="true"
                 onClick={this.handleMobileMenuOpen}
                 color="inherit"
+                className={classes.button}
               >
                 <MoreIcon />
               </IconButton>

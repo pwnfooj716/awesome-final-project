@@ -39,6 +39,9 @@ const styles = theme => ({
   },
   error: {
     backgroundColor: theme.palette.error.dark
+  },
+  button: {
+    outline: "none !important"
   }
 });
 
@@ -160,7 +163,7 @@ class postPicture extends Component {
             key="close"
             aria-label="Close"
             color="inherit"
-            className={classes.close}
+            className={classes.button}
             onClick={this.handleNotifClose}
           >
             <CloseIcon />
@@ -190,7 +193,7 @@ class postPicture extends Component {
     }
     return (
       <div>
-        <Fab size="medium" color="secondary" aria-label="Edit" className={classes.fab} onClick={this.handleClickOpen}>
+        <Fab size="medium" color="secondary" aria-label="Edit" className={classes.button} onClick={this.handleClickOpen}>
         <AddAPhoto />
       </Fab>
         <Dialog
@@ -201,13 +204,13 @@ class postPicture extends Component {
           aria-labelledby="draggable-dialog-title"
         >
           <DialogTitle id="draggable-dialog-title">
-            <IconButton aria-label="">
+            <IconButton className={classes.button} aria-label="">
               <AddToPhoto color="secondary" />
             </IconButton>
             New Post
           </DialogTitle>
           {preview}
-          <Button color="primary">
+          <Button className={classes.button} color="primary">
             <input type="file" onChange={this.handleFileSelected.bind(this)} />
           </Button>
           <TextField
@@ -224,7 +227,7 @@ class postPicture extends Component {
             onChange={this.handleCaptionChange.bind(this)}
           />
           <DialogActions>
-            <Button onClick={this.handleClose.bind(this)} color="primary">
+            <Button className={classes.button} onClick={this.handleClose.bind(this)} color="primary">
               Cancel
             </Button>
             <Button

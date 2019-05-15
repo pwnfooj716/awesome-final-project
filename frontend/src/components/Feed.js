@@ -24,6 +24,7 @@ const styles = theme => ({
     backgroundColor: "#f7f7f7",
   },
   media: {
+    height: 0,
     paddingTop: "56.25%" // 16:9
   },
   actions: {
@@ -34,6 +35,9 @@ const styles = theme => ({
     width: 60,
     height: 60,
     backgroundColor: red[500]
+  },
+  button: {
+    outline: "none !important"
   }
 });
 
@@ -111,7 +115,7 @@ class Feed extends Component {
           title={author.name}
           subheader={postDate.toLocaleDateString('en-US', this.props.dateOptions)}
           action={
-            <IconButton aria-label="Action" onClick={() => this.handleAction()}>
+            <IconButton className={classes.button} aria-label="Action" onClick={() => this.handleAction()}>
             {button}
           </IconButton>
           }
@@ -121,7 +125,6 @@ class Feed extends Component {
             {this.props.post.postTextContent}
           </Typography>
         </CardContent>
-        
       </Card>
     );
   }

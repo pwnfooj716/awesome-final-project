@@ -53,6 +53,7 @@ const styles = theme => ({
     color: "white",
     backgroundColor: "#283e4a",
     height: "45px",
+    outline: "none !important",
     "&:hover": {
       color: "white",
       backgroundColor: "#283e4a",

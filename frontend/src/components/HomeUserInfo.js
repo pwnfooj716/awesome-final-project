@@ -13,7 +13,7 @@ import Visibility from "@material-ui/icons/VisibilityOutlined";
 import People from "@material-ui/icons/PeopleOutlineOutlined";
 import { connect } from "react-redux";
 import Empty from "../resources/empty.jpg";
-import indigo from '@material-ui/core/colors/indigo';
+import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
 
 const styles = theme => ({
@@ -34,12 +34,12 @@ const styles = theme => ({
   foAvatar: {
     margin: 10,
     color: '#fff',
-    backgroundColor: green[500],
+    backgroundColor: green[900],
   },
   fwAvatar: {
     margin: 10,
     color: '#fff',
-    backgroundColor: indigo[500],
+    backgroundColor: red[500],
   },
   avatar: {
     margin: 10,
