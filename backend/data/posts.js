@@ -34,13 +34,11 @@ module.exports.getPost = async (postId) => {
   console.log(postId, "postId del")
   return postsCollection().then((col) => {
     return col.doc(postId).get().then((doc) => {
-      if (!doc.exists) {
-        console.log('No such document!', doc.data());
-        return doc.data();
-      } else {
-        console.log('Post data:', doc.data());
+      if (doc.exists) {
         return doc.data();
       }
+      console.log('No such document!', doc.data());
+      return null;
     })
   }).catch((err) => {
     console.log('Error getting documents', err);

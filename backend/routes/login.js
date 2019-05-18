@@ -20,23 +20,16 @@ module.exports.postLogin = async (request, response) => {
   admin.auth().verifyIdToken(reqData.idToken)
     .then(async function(decodedToken) {
     var userId = decodedToken.user_id;
-    // ...
     if (reqData.name) {
       decodedToken.name = reqData.name;
     }
-    console.log(decodedToken, "decodedToken")
-
-    // let res = await usersData.getUsers();
-    //console.log(res, 'ss')
     let isUserExist = await usersData.isUserExist(userId);
     if (!isUserExist) {
       await usersData.createUser(decodedToken, reqData.idToken);
     }
     let userData = await usersData.getProfile(userId);
-  
     response.json(userData);
   }).catch(function(error) {
-    // Handle error
     console.log(error)
     response.status(500).json({ error: 'Internal error' })
   });
@@ -44,7 +37,6 @@ module.exports.postLogin = async (request, response) => {
 
 module.exports.postSignIn = async (request, response) => {
   const {email, password} = request.body;
-  console.log(email, password, "login");
   let userData = await usersData.getUserByEmail(email);
   response.json(userData);
 }

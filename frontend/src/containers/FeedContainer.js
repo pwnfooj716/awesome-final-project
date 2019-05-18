@@ -38,7 +38,7 @@ const styles = theme => ({
   }
 });
 
-class NewsFeedContainer extends Component {
+class FeedContainer extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(refreshUserId());
@@ -77,7 +77,7 @@ class NewsFeedContainer extends Component {
                 return "";
               }
               return (
-                  <Feed
+                  <Feed key={feed.postId}
                     post={feed}
                     author={author.userData}
                     userId={currentUser.userId}
@@ -113,7 +113,7 @@ class NewsFeedContainer extends Component {
   }
 }
 
-NewsFeedContainer.propTypes = {
+FeedContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   currentUser: PropTypes.object,
   feeds: PropTypes.object,
@@ -131,4 +131,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default withStyles(styles)(connect(mapStateToProps)(NewsFeedContainer));
+export default withStyles(styles)(connect(mapStateToProps)(FeedContainer));

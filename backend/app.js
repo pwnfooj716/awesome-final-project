@@ -10,6 +10,7 @@ const client = redis.createClient();
 const bluebird = require("bluebird");
 const http = require("http");
 const server = http.createServer(app);
+require('dotenv').config();
 const io = require("socket.io")(server, {
   path: "/socket.io"
 });

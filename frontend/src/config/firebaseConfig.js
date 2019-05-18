@@ -14,7 +14,6 @@ var config ={
   appId: process.env.REACT_APP_APPID
 }
 firebase.initializeApp(config);
-// firebase.firestore().settings({ timestampsInSnapshots: true });
 
 export default firebase 
 

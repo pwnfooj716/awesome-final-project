@@ -1,21 +1,24 @@
 /* eslint-disable no-console */
-const admin = require('firebase-admin');
-const firebaseCollections = require('../config/firebaseDBRef')
-const userCollection = firebaseCollections.users
-const moment = require('moment');
-const uuidv4 = require('uuid/v4');
+const admin = require("firebase-admin");
+const firebaseCollections = require("../config/firebaseDBRef");
+const userCollection = firebaseCollections.users;
+const moment = require("moment");
+const uuidv4 = require("uuid/v4");
 
-module.exports.isUserExist = async (userId) => {
-  return userCollection().then((col) => {
-    return col.doc(userId).get().then((snapshot) => {
-      if (snapshot.exists) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+module.exports.isUserExist = async userId => {
+  return userCollection().then(col => {
+    return col
+      .doc(userId)
+      .get()
+      .then(snapshot => {
+        if (snapshot.exists) {
+          return true;
+        } else {
+          return false;
+        }
+      });
   });
-}
+};
 
 module.exports.createUser = async (userObj, authToken) => {
   let userId = userObj.user_id;
@@ -23,11 +26,11 @@ module.exports.createUser = async (userObj, authToken) => {
   if (userObj.email) {
     email = userObj.email;
   }
-  // Default image. http://chittagongit.com/icon/avatar-icon-png-8.html , CC0 Public Domain Licence
-  let picture = "https://firebasestorage.googleapis.com/v0/b/cs554-awesome-final.appspot.com/o/assets%2Favatar-icon-png-8.jpg?alt=media&token=49c1c6f4-37bc-4626-93a5-e2344f8e033a";
+  let picture =
+    "https://firebasestorage.googleapis.com/v0/b/cs554-awesome-final.appspot.com/o/images%2Fb4f382c5-ebb3-4b7f-a3a8-382ce8183e64?alt=media&token=eea9f889-c9bd-4728-af91-0d0009976f95";
   if (userObj.picture) {
     picture = userObj.picture;
-  } 
+  }
   if (!userObj.name) {
     userObj.name = uuidv4();
   }
@@ -36,22 +39,27 @@ module.exports.createUser = async (userObj, authToken) => {
     name: userObj.name,
     email: email,
     emailVerified: userObj.email_verified,
-    createTime: admin.firestore.Timestamp.fromMillis(moment().format('x')),
+    createTime: admin.firestore.Timestamp.fromMillis(moment().format("x")),
     firebase: userObj.firebase,
     picture: picture,
     authToken: authToken,
-    authTokenExpireTime: admin.firestore.Timestamp.fromMillis(moment().add(1,'months').format('x'))
+    authTokenExpireTime: admin.firestore.Timestamp.fromMillis(
+      moment()
+        .add(1, "months")
+        .format("x")
+    )
   };
 
-  console.log(dataObj);
-  
-  return userCollection().then((col) => {
-    return col.doc(userId).set(dataObj).then(() => {
-      console.log(dataObj, `Create user success. ${userId}`);
-      return dataObj;
-    })
-  })
-}
+  return userCollection().then(col => {
+    return col
+      .doc(userId)
+      .set(dataObj)
+      .then(() => {
+        console.log(dataObj, `Create user success. ${userId}`);
+        return dataObj;
+      });
+  });
+};
 
 function getUserPublicData(userDBObj) {
   let userData = {};
@@ -62,64 +70,73 @@ function getUserPublicData(userDBObj) {
   return userData;
 }
 
-module.exports.getUsersList = async () => { 
-  return userCollection().then((col) => {
-    return col.get().then((snapshot) => {
-      let userList = [];
-      snapshot.forEach((doc) => {
-        // console.log(doc.id, '=>', doc.data());
-        if (doc.exists && Object.getOwnPropertyNames(doc).length !== 0) {
-          let userData = doc.data();
-          userList.push(getUserPublicData(userData));
-        }
+module.exports.getUsersList = async () => {
+  return userCollection()
+    .then(col => {
+      return col.get().then(snapshot => {
+        let userList = [];
+        snapshot.forEach(doc => {
+          if (doc.exists && Object.getOwnPropertyNames(doc).length !== 0) {
+            let userData = doc.data();
+            userList.push(getUserPublicData(userData));
+          }
+        });
+        return userList;
       });
-      return userList;
+    })
+    .catch(err => {
+      console.log("Error getting documents", err);
+      return false;
     });
-  }).catch((err) => {
-    console.log('Error getting documents', err);
-    return false;
-  });
-}
+};
 
-module.exports.getProfile = async (userId) => {
-  return userCollection().then((col) => {
-    return col.doc(userId).get().then((doc) => {
-      if (doc.exists) {
-        return doc.data();
-      } else {
-        return 404;
-      }
+module.exports.getProfile = async userId => {
+  return userCollection()
+    .then(col => {
+      return col
+        .doc(userId)
+        .get()
+        .then(doc => {
+          if (doc.exists) {
+            return doc.data();
+          } else {
+            return 404;
+          }
+        });
+    })
+    .catch(err => {
+      console.log("Error getting documents", err);
+      return 404;
     });
-  }).catch((err) => {
-    console.log('Error getting documents', err);
-    return 404;
-  });
-}
+};
 
-module.exports.getUserByEmail = async (email) => {
-  return userCollection().then((col) => {
-    return col.where('email', '==', email).get().then(function(snap) {
-      let resData = null;
-      snap.forEach(function(doc) {
-        resData = doc.data();
+module.exports.getUserByEmail = async email => {
+  return userCollection().then(col => {
+    return col
+      .where("email", "==", email)
+      .get()
+      .then(function(snap) {
+        let resData = null;
+        snap.forEach(function(doc) {
+          resData = doc.data();
+        });
+        return resData;
       });
-      return resData;
-    });
   });
-}
+};
 
 module.exports.setUserName = async (userId, name) => {
-  return userCollection().then((col) => {
+  return userCollection().then(col => {
     return col.doc(userId).update({
       name: name
     });
   });
-}
+};
 
 module.exports.setUserPicture = async (userId, picture) => {
-  return userCollection().then((col) => {
+  return userCollection().then(col => {
     return col.doc(userId).update({
       picture: picture
     });
   });
-}
+};

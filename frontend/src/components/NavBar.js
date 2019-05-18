@@ -158,7 +158,7 @@ class NavBar extends Component {
     );
 
     const renderMobileMenu = (
-      <Menu
+      <Menu key={"menuItems"}
         anchorEl={mobileMoreAnchorEl}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
