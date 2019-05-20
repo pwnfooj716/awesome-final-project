@@ -11,23 +11,31 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  ListItemAvatar
+  ListItemAvatar,
+  Divider,
+  Typography
 } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import Visibility from "@material-ui/icons/VisibilityOutlined";
+import Visibility from "@material-ui/icons/GradeRounded";
 import People from "@material-ui/icons/PeopleOutlineOutlined";
 import { connect } from "react-redux";
 import Empty from "../resources/empty.jpg";
 import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
+import CloseIcon from "@material-ui/icons/Close";
 
 const styles = theme => ({
   root: {
     position: "fixed",
     top: "90px",
     width: "270px"
+  },
+  listRoot: {
+    width: "100%",
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper
   },
   userCard: {
     width: "100%",
@@ -81,12 +89,46 @@ const styles = theme => ({
     }
   },
   avatar: {
+    margin: 0,
+    width: 50,
+    height: 50
+  },
+  profileAvatar: {
     margin: 10,
     width: 100,
     height: 100
   },
   listHeader: {
-    backgroundColor: "#f7f7f7"
+    backgroundColor: "#f7f7f7",
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    margin: 0
+  },
+  listFooter: {
+    backgroundColor: "#f7f7f7",
+    borderTop: `1px solid ${theme.palette.divider}`,
+    margin: 0
+  },
+  closeButton: {
+    position: "absolute",
+    right: theme.spacing.unit,
+    top: theme.spacing.unit,
+    color: theme.palette.grey[500],
+    outline: "none !important"
+  },
+  modal: {
+    minHeight: "40vh",
+    maxHeight: "80vh",
+    minWidth: "40%",
+    maxWidth: "40%"
+  },
+  border: {
+    backgroundColor: "#283e4a"
+  },
+  content: {
+    padding: 0,
+    "&:last-child": {
+      paddingBottom: 0
+    }
   }
 });
 
@@ -177,38 +219,54 @@ class HomeUserInfo extends Component {
       );
     const followerModal = (
       <Dialog
+        classes={{ paper: classes.modal }}
         onClose={this.handleClose}
         aria-labelledby="Follower List"
         open={this.state.openFollower}
         onBackdropClick={this.handleClose}
         onEscapeKeyDown={this.handleClose}
       >
-        <DialogTitle
-          id={"FollowerModal"}
-          onClose={this.handleClose}
-          className={classes.listHeader}
-        >
-          Follower List
+        <DialogTitle id={"FollowerModal"} className={classes.listHeader}>
+          <Typography variant="h6">Follower List</Typography>
+          <IconButton
+            aria-label="Close"
+            className={classes.closeButton}
+            onClick={this.handleClose}
+          >
+            <CloseIcon />
+          </IconButton>
         </DialogTitle>
         <DialogContent>{listFollowers}</DialogContent>
+        <DialogTitle
+          id={"FollowerModalFooter"}
+          className={classes.listFooter}
+        />
       </Dialog>
     );
     const followingModal = (
       <Dialog
+        classes={{ paper: classes.modal }}
         onClose={this.handleClose}
         aria-labelledby="Following List"
         open={this.state.openFollowing}
         onBackdropClick={this.handleClose}
         onEscapeKeyDown={this.handleClose}
       >
-        <DialogTitle
-          id={"FollowingModal"}
-          onClose={this.handleClose}
-          className={classes.listHeader}
-        >
-          Following List
+        <DialogTitle id={"FollowingModal"} className={classes.listHeader}>
+          <Typography variant="h6">Following List</Typography>
+          <IconButton
+            aria-label="Close"
+            className={classes.closeButton}
+            onClick={this.handleClose}
+          >
+            <CloseIcon />
+          </IconButton>
         </DialogTitle>
         <DialogContent>{listFollowing}</DialogContent>
+        <DialogTitle
+          id={"FollowingModalFooter"}
+          className={classes.listFooter}
+        />
       </Dialog>
     );
     return (
@@ -224,12 +282,13 @@ class HomeUserInfo extends Component {
         >
           <Card className={classes.userCard}>
             <CardHeader
-              avatar={<Avatar src={imgSrc} className={classes.avatar} />}
+              avatar={<Avatar src={imgSrc} className={classes.profileAvatar} />}
               title={currentUser.items.name}
             />
           </Card>
           <Card className={classes.infoCard}>
-            <CardContent>
+            <CardContent className={classes.border} />
+            <CardContent className={classes.content}>
               <List>
                 <ListItem>
                   <IconButton
@@ -244,6 +303,7 @@ class HomeUserInfo extends Component {
                     secondary={followerList.items.length}
                   />
                 </ListItem>
+                <Divider />
                 <ListItem>
                   <IconButton
                     className={classes.fwAvatar}
@@ -259,6 +319,7 @@ class HomeUserInfo extends Component {
                 </ListItem>
               </List>
             </CardContent>
+            <CardContent className={classes.border} />
           </Card>
         </Grid>
       </div>

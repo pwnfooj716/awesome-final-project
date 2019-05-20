@@ -34,7 +34,7 @@ const styles = theme => ({
   },
   media: {
     height: 0,
-    paddingTop: "56.25%" // 16:9
+    paddingTop: "56.25%"
   },
   actions: {
     display: "flex"
@@ -50,6 +50,12 @@ const styles = theme => ({
   },
   actionArea: {
     outline: "none !important"
+  },
+  modal: {
+    minHeight: "50vh",
+    maxHeight: "90vh",
+    minWidth: "40%",
+    maxWidth: "80%"
   }
 });
 
@@ -151,13 +157,14 @@ class Feed extends Component {
 
     const modal = (
       <Dialog
+        classes={{ paper: classes.modal }}
         onClose={this.handleClose}
         aria-labelledby="More Info"
         open={this.state.open}
         onBackdropClick={this.handleClose}
         onEscapeKeyDown={this.handleClose}
       >
-        <DialogTitle id={this.props.post.postId} onClose={this.handleClose}>
+        <DialogTitle id={this.props.post.postId}>
           {header}
         </DialogTitle>
         <DialogContent>
