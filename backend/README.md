@@ -1,5 +1,9 @@
 # Awesome Final Project - Backend.
 
+##Init
+-Needs redis server up and running
+-Execute npm run start inside the backend folder to start the backend server
+
 ## 1. Login
 
 Login using Firebase auth. And we will only support Google account.
@@ -22,13 +26,11 @@ authentication after most works done.
 Please refer API usage from:
 backend/routes/index.js
 
-Any problem and issues please ask Chengzhi Yang.
-
-
 ## 4. Server side dependency
 
 To properly run the backend app. You need setup an environment variable 
 like below, the "key" file I have sent to the Slack channel:
+-The .env file sets up the env variable. (Ensure firebase_config_back_end.JSON is present in the root folder)
 
 ```
 // !! Don't upload or put the key into the project folder or Git it.
